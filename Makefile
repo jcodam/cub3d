@@ -6,22 +6,25 @@
 #    By: jbax <jbax@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/07/11 17:29:34 by jbax          ########   odam.nl          #
+#    Updated: 2023/07/12 17:34:39 by jbax          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-VPATH= expander : executor : files : lexer : headers : parser
+VPATH= expander : executor : files : lexer : headers : nextline
 
 NAME= cub3D
 
-SRC= 
-SRC+= 
+SRC= main.c color.c
+SRC+=  
+SRC+= get_next_line.c get_next_line_utils.c
 
 OBF_DIR= OBF
 
 OBF= $(SRC:%.c=$(OBF_DIR)/%.o)
 
 HEADER= 
+
+HEADER+= get_next_line.h color.h
 
 lib=libft/libft.a
 
@@ -42,7 +45,7 @@ all:
 	@$(MAKE) $(NAME) -j
 
 $(NAME): $(OBF_DIR) $(OBF)
-	$(CC) $(CFLAGS) $@ $(OBF) $(RLINE) 
+	$(CC) $(CFLAGS) $@ $(OBF) $(RLINE) $(lib)
 
 $(OBF_DIR)/%o: %c $(HEADER) $(lib)
 	$(CC) -c $(CFLAGS) $@ $< -I ~/.brew/opt/readline/include/ -I $(lib)

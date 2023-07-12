@@ -1,0 +1,10 @@
+parser/input;
+arg1 = .cub map
+
+
+map rules;
+0 = empty 1 = wall (N S E W ) = player pos and diraction
+map closed by wall
+in map no empty lines
+map is last
+check if al is there 4 texture ceiling floor and a falid map
