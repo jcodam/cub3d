@@ -6,7 +6,7 @@
 #    By: jbax <jbax@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/07/12 17:34:39 by jbax          ########   odam.nl          #
+#    Updated: 2023/07/13 17:31:30 by jbax          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ VPATH= expander : executor : files : lexer : headers : nextline
 
 NAME= cub3D
 
-SRC= main.c color.c
+SRC= main.c color.c map.c
 SRC+=  
 SRC+= get_next_line.c get_next_line_utils.c
 
@@ -24,14 +24,14 @@ OBF= $(SRC:%.c=$(OBF_DIR)/%.o)
 
 HEADER= 
 
-HEADER+= get_next_line.h color.h
+HEADER+= get_next_line.h color.h map.h
 
 lib=libft/libft.a
 
 CC= gcc
 
 CFLAGS= -g -Wall -Wextra -Werror
-# CFLAGS+= $(SAN)
+CFLAGS+= $(SAN)
 # CFLAGS+= --coverage
 CFLAGS+= -o
 

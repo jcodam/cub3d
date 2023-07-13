@@ -3,11 +3,11 @@ SO ./path_to_the_south_texture
 WE ./path_to_the_west_texture
 EA ./path_to_the_east_texture
 
-F 220,100,0 
+F 220,100,0
 
 floor color
 
-C 225,30,0  
+C 225,30,0
 
 ceiling color
 		1111111111111111111111111
