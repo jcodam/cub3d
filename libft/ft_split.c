@@ -6,7 +6,7 @@
 /*   By: jbax <marvin@codam.nl>                       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/08 13:06:25 by jbax          #+#    #+#                 */
-/*   Updated: 2022/02/25 16:55:20 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/14 18:03:03 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static char	**ft_splitter(int limiter, int *len, char const *s, char c)
 	if (dest == NULL)
 		return (NULL);
 	while (i < limiter)
-	{	
+	{
 		dest[i] = (char *)malloc(len[i] * sizeof(char));
 		if (ft_checkmalloc(((void **)dest), i) == 0)
 			return (NULL);

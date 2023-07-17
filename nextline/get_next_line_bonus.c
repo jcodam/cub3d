@@ -6,11 +6,15 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/25 12:50:56 by jbax          #+#    #+#                 */
-/*   Updated: 2022/04/15 12:59:07 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/14 18:04:37 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <limits.h>
 
 static char	*buf_process(int fd, char **buf, char *dest, int *pi)
 {
@@ -24,8 +28,7 @@ static char	*buf_process(int fd, char **buf, char *dest, int *pi)
 		ret = read(fd, *buf, BUFFER_SIZE);
 		if (ret < 1)
 		{
-			ft_zero_free(*buf);
-			*buf = NULL;
+			ft_zero_free(buf);
 			return (dest);
 		}
 		dest = join(*buf, temp, pi, ret);
@@ -34,8 +37,7 @@ static char	*buf_process(int fd, char **buf, char *dest, int *pi)
 			return (NULL);
 		if (ret != BUFFER_SIZE && *pi == -1)
 		{
-			*pi = ft_zero_free(*buf);
-			*buf = NULL;
+			*pi = ft_zero_free(buf);
 		}
 		temp = dest;
 	}
@@ -55,7 +57,7 @@ static char	*buf_check(char *buf, int *pi)
 	if (buf[j] == '\n')
 		dest = join(&buf[j + 1], "\0", pi, i);
 	else
-		dest = ft_calloc(1);
+		dest = ft_calloc_gnl(1);
 	if (!dest)
 		return (NULL);
 	if (*pi >= 0 && buf[*pi] == '\0')
@@ -100,7 +102,7 @@ char	*get_dest(char **buf, int fd)
 	if (BUFFER_SIZE == 0)
 		return (0);
 	if (!*buf)
-		*buf = ft_calloc(BUFFER_SIZE + 1);
+		*buf = ft_calloc_gnl(BUFFER_SIZE + 1);
 	if (!*buf)
 		return (NULL);
 	dest = aloc_dest(fd, buf);

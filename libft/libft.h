@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 17:16:08 by jbax          #+#    #+#                 */
-/*   Updated: 2023/05/15 15:52:27 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/07/17 19:11:28 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,4 +244,19 @@ void	ft_lstinsert(t_list **head, t_list *new, int index);
 void	ft_lstadd_ascii(t_list **head, t_list *new);
 /* makes a new list from the char array */
 t_list	*ft_lstnew_ascii(char **arr);
+
+/* replaces all matching chars of set in src to target*/
+void	ft_strrep(char *src, char *set, char target);
+/* checks if src consist only out of chars in set 
+	returns 1 if true 
+	returns 0 if false */
+int		ft_strinset(char *src, char *set);
+/* search for first match with set and returns the index of match
+	returns -1 if false */
+int		ft_strchr_set(char *src, char *set);
+/* checks if string is empty ie only tabs spaces or nextlines 
+	1 if true 
+	0 if false */
+int		ft_strempty(char *src);
+
 #endif

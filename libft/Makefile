@@ -12,6 +12,8 @@ ft_strchr.o ft_strrchr.o ft_strlen.o ft_strnstr.o ft_memcmp.o ft_memchr.o ft_bze
 ft_calloc.o ft_isalpha.o ft_isalnum.o ft_isdigit.o ft_isascii.o ft_isprint.o ft_strtrim.o ft_strmapi.o ft_substr.o ft_strjoin.o ft_itoa.o ft_split.o \
 ft_striteri.o ft_arrextra.o ft_arrextra2.o ft_iswhite_space.o ft_strjoin3.o ft_strjoinx.o ft_atoi_l.o
 
+OBJ1 += ft_extra_string.o
+
 BONES_OBJ = $(BONES_OBJ1:.o=.c)
 
 BONES_OBJ1 = ft_lstnew.o ft_lstadd_front.o ft_lstsize.o ft_lstlast.o ft_lstadd_back.o ft_lstdelone.o ft_lstclear.o ft_lstiter.o ft_lstmap.o \

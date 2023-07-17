@@ -6,7 +6,7 @@
 #    By: jbax <jbax@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/07/13 17:31:30 by jbax          ########   odam.nl          #
+#    Updated: 2023/07/17 17:21:05 by jbax          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ VPATH= expander : executor : files : lexer : headers : nextline
 
 NAME= cub3D
 
-SRC= main.c color.c map.c
+SRC= main.c color.c map.c map_checks.c map_errors.c
 SRC+=  
 SRC+= get_next_line.c get_next_line_utils.c
 
@@ -66,7 +66,7 @@ fclean:
 f: fclean
 
 r:$(NAME)
-	./$(NAME)
+	./$(NAME) map/example.cub
 re:
 	@$(MAKE) fclean
 	@$(MAKE) all

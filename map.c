@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 16:27:50 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/13 17:34:17 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/17 19:24:18 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,39 @@
 // #include "nextline/get_next_line.h"
 char	*get_next_line(int fd);
 
+static char	**get_map(char **temp, int fd)
+{
+	char	**arr;
+
+	arr = 0;
+	while (*temp && **temp)
+	{
+		arr = ft_arradd_index(arr, *temp, ft_arrlen_c(arr));
+		if (!arr)
+			map_exit("error\nmalloc error\n");
+		*temp = get_next_line(fd);
+	}
+	return (arr);
+}
+
+static void	get_elements(t_map *map, char *temp)
+{
+	if (!ft_strncmp(temp, "NO ", 3))
+		map->path_no = ft_substr(temp, 3, ft_strlen(temp) - 2);
+	if (!ft_strncmp(temp, "SO ", 3))
+		map->path_so = ft_substr(temp, 3, ft_strlen(temp) - 2);
+	if (!ft_strncmp(temp, "WE ", 3))
+		map->path_we = ft_substr(temp, 3, ft_strlen(temp) - 2);
+	if (!ft_strncmp(temp, "EA ", 3))
+		map->path_ea = ft_substr(temp, 3, ft_strlen(temp) - 2);
+	if (!ft_strncmp(temp, "F ", 2))
+	{
+		map->color_floor = ft_substr(temp, 2, ft_strlen(temp) - 1);
+	}
+	if (!ft_strncmp(temp, "C ", 2))
+		map->color_ceiling = ft_substr(temp, 2, ft_strlen(temp) - 1);
+}
+
 int	fill_map(t_map *map, char const *path)
 {
 	int		fd;
@@ -24,13 +57,14 @@ int	fill_map(t_map *map, char const *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 2)
 		return (0);
-	temp = 0;
 	temp = get_next_line(fd);
 	while (temp)
 	{
-		if (!ft_strncmp(temp, "NO", 2))
-			map->path_no = ft_substr(temp, 3, ft_strlen(temp) - 2);
-		free(temp);
+		get_elements(map, temp);
+		if (ft_strinset(temp, "10NWES \n") && !ft_strempty(temp))
+			map->map_arr = get_map(&temp, fd);
+		if (temp)
+			free(temp);
 		temp = get_next_line(fd);
 	}
 	close(fd);
@@ -51,34 +85,31 @@ t_map	*mk_map(void)
 	map->path_no = 0;
 	map->path_so = 0;
 	map->path_we = 0;
+	map->player.start_direction = EMPTY;
+	map->player.map_x = 0;
+	map->player.map_y = 0;
 	return (map);
 }
 
-t_map	*del_map(t_map *map)
+int	write_map(t_map *map, int fd)
 {
 	if (!map)
 		return (0);
 	if (map->color_ceiling)
-		free(map->color_ceiling);
+		ft_putendl_fd(map->color_ceiling, fd);
 	if (map->color_floor)
-		free(map->color_floor);
+		ft_putendl_fd(map->color_floor, fd);
+	if (map->path_ea)
+		ft_putendl_fd(map->path_ea, fd);
+	if (map->path_no)
+		ft_putendl_fd(map->path_no, fd);
+	if (map->path_so)
+		ft_putendl_fd(map->path_so, fd);
+	if (map->path_we)
+		ft_putendl_fd(map->path_we, fd);
 	if (map->map_arr)
 	{
-		while (*map->map_arr)
-		{
-			free(*map->map_arr);
-			map->map_arr++;
-		}
-		free(map->map_arr);
+		ft_putarrs_fd(map->map_arr, fd);
 	}
-	if (map->path_ea)
-		free(map->path_ea);
-	if (map->path_no)
-		free(map->path_no);
-	if (map->path_so)
-		free(map->path_so);
-	if (map->path_we)
-		free(map->path_we);
-	free(map);
 	return (0);
 }

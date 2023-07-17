@@ -6,13 +6,17 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/25 13:46:45 by jbax          #+#    #+#                 */
-/*   Updated: 2022/04/15 12:52:28 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/14 18:05:37 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <limits.h>
 
-void	*ft_calloc(size_t size1)
+void	*ft_calloc_gnl(size_t size1)
 {
 	long unsigned int	i;
 	char				*star;
@@ -45,10 +49,11 @@ void	ft_str_copy(char *dest, char *src, size_t len)
 	}
 }
 
-int	ft_zero_free(char *buf)
+int	ft_zero_free(char **buf)
 {
-	buf[0] = '\0';
-	free(buf);
+	*buf[0] = '\0';
+	free(*buf);
+	*buf = 0;
 	return (-4);
 }
 
