@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/17 19:00:20 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/28 16:41:13 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	test(char *addr)
 
 	fg_putstr_rgb_fd(addr, "45;255;45", 1);
 	write(1, "\n", 1);
+	// _cub(addr);
 	map = mk_map();
 	fill_map(map, addr);
 	temp = map->color_floor;
