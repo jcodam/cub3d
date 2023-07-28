@@ -7,4 +7,4 @@ map rules;
 map closed by wall
 in map no empty lines
 map is last
-check if al is there 4 texture ceiling floor and a falid map
+check if al is there 4 texture ceiling floor and a failed map

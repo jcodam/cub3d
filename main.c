@@ -6,13 +6,106 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/17 19:00:20 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/28 18:13:20 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "color.h"
 #include "libft/libft.h"
 #include "map.h"
+#include "defines.h"
+
+int	get_map_height(char **map_arr)
+{
+	int	i;
+
+	i = 0;
+	while (map_arr[i])
+		i++;
+	return (i);
+}
+
+size_t	get_map_width(char **map_arr)
+{
+	size_t	len;
+	int		i;
+
+	len = 0;
+	i = 0;
+	while (map_arr[i])
+	{
+		if ((ft_strlen(map_arr[i]) > len))
+			len = ft_strlen(map_arr[i]);
+		i++;
+	}
+	return (len);
+}
+
+t_tile	*init_tile(size_t i, size_t j, t_map *map)
+{
+	t_tile	*tile;
+
+	tile = malloc(sizeof(t_tile));
+	if (!tile)
+		exit (0);
+	tile->x = j;
+	tile->y = i;
+	tile->x_coor = 0;
+	tile->y_coor = 0;
+	tile->not_map = 0;
+	tile->width = TILE_WIDTH;
+	tile->depth = TILE_DEPTH;
+	tile->height = TILE_HEIGHT;
+	tile->is_player = 0;
+	if (!ft_strchr("ONSW10", map->map_arr[i][j]))
+		tile->not_map = 1;
+	if (ft_strchr("ONSW", map->map_arr[i][j]))
+		tile->is_player = 1;
+	if (map->map_arr[i][j] == '0' || tile->is_player)
+		tile->is_open = 1;
+	else
+		tile->is_open = 0;
+	map->height = get_map_height(map->map_arr);
+	map->width = get_map_width(map->map_arr);
+	return (tile);
+}
+
+int	make_tiles(t_map *map)
+{
+	size_t	i;
+	size_t	j;
+	t_tile	***tiles;
+
+	i = 0;
+	j = 0;
+	if (!map)
+		return (0);
+	tiles = malloc(sizeof(t_tile **) * (get_map_height(map->map_arr) + 1));
+	tiles[get_map_height(map->map_arr)] = NULL;
+	if (!tiles)
+		return (0);
+	while (tiles[i])
+	{
+		tiles[i] = malloc(sizeof(t_tile *) * ft_strlen(map->map_arr[i]));
+		if (!tiles[i])
+			return (0);
+		i++;
+	}
+	i = 0;
+	while (tiles[i])
+	{
+		while (j < (ft_strlen(map->map_arr[i]) - 1))
+		{
+			tiles[i][j] = init_tile(i, j, map);
+			j++;
+		}
+		tiles[i][j] = NULL;
+		j = 0;
+		i++;
+	}
+	map->tiles = tiles;
+	return (1);
+}
 
 void	test(char *addr)
 {
@@ -23,6 +116,8 @@ void	test(char *addr)
 	write(1, "\n", 1);
 	map = mk_map();
 	fill_map(map, addr);
+	if (!make_tiles(map))
+		exit (1);
 	temp = map->color_floor;
 	map->color_floor = ft_strtrim(temp, "\n");
 	free(temp);
@@ -33,11 +128,10 @@ void	test(char *addr)
 	ft_strrep(map->color_floor, ",.-", ';');
 	fg_set_rgb_fd(map->color_ceiling, 1);
 	fg_set_rgb_fd(map->color_floor, 1);
-	if (map)
-	{
-		write_map(map, 1);
-	}
 	check_map(map);
+	if (map)
+		write_map(map, 1);
+	draw_map(map);
 	map = del_map(map);
 }
 

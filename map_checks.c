@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:36:35 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/17 19:15:02 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/20 16:04:45 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	check_valid_char(t_map *map, int x, int y, int *p_count)
 		return (1);
 	if (map->map_arr[y][x] == ' ')
 		return (1);
-	if (map->map_arr[y][x] == 'N' || map->map_arr[y][x] == 'E' || 
+	if (map->map_arr[y][x] == 'N' || map->map_arr[y][x] == 'E' ||
 			map->map_arr[y][x] == 'W' || map->map_arr[y][x] == 'S')
 	{
 		*p_count += 1;

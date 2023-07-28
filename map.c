@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 16:27:50 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/17 19:24:18 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/27 19:32:56 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_map	*mk_map(void)
 	map->player.start_direction = EMPTY;
 	map->player.map_x = 0;
 	map->player.map_y = 0;
+	map->tiles = NULL;
+	map->minimap = malloc(sizeof(t_minimap *));
 	return (map);
 }
 

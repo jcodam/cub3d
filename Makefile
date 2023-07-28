@@ -6,7 +6,7 @@
 #    By: jbax <jbax@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/07/17 17:21:05 by jbax          ########   odam.nl          #
+#    Updated: 2023/07/21 19:13:13 by avon-ben      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ VPATH= expander : executor : files : lexer : headers : nextline
 
 NAME= cub3D
 
-SRC= main.c color.c map.c map_checks.c map_errors.c
+SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c
 SRC+=  
 SRC+= get_next_line.c get_next_line_utils.c
 
@@ -22,11 +22,15 @@ OBF_DIR= OBF
 
 OBF= $(SRC:%.c=$(OBF_DIR)/%.o)
 
-HEADER= 
+HEADER= ./mlx/include
 
-HEADER+= get_next_line.h color.h map.h
+HEADER+= get_next_line.h color.h map.h defines.h 
 
 lib=libft/libft.a
+
+MLX=mlx/build/libmlx42.a
+MLXINC= -Iinclude -lglfw3 \
+		-framework Cocoa -framework OpenGL -framework IOKit
 
 CC= gcc
 
@@ -44,14 +48,17 @@ OO= -O3
 all:
 	@$(MAKE) $(NAME) -j
 
-$(NAME): $(OBF_DIR) $(OBF)
-	$(CC) $(CFLAGS) $@ $(OBF) $(RLINE) $(lib)
+$(NAME): $(OBF_DIR) $(OBF) 
+	$(CC) $(CFLAGS) $@ $(OBF) $(RLINE) $(lib) $(MLX) $(MLXINC)
 
 $(OBF_DIR)/%o: %c $(HEADER) $(lib)
 	$(CC) -c $(CFLAGS) $@ $< -I ~/.brew/opt/readline/include/ -I $(lib)
 
 $(lib):
 	$(MAKE) -C libft bonus
+
+# $(MLX):
+# 	@ $(MAKE) -C $(MLXDIR)
 
 $(OBF_DIR):
 	mkdir $(OBF_DIR)
