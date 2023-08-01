@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/28 16:37:28 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/01 14:13:48 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ enum	e_map
 	P_NORTH=10,
 	P_SOUTH,
 	P_WEST,
-	P_EAST
+	P_EAST,
+	FLOOR,
+	CEILING
 };
 
 /*try's to fill te struct with all his data */
@@ -51,11 +53,19 @@ t_map	*mk_map(void);
 t_map	*del_map(t_map *map);
 /* write's all map data */
 int		write_map(t_map *map, int fd);
-/* chack's if map has walls where player can go and chars */
+/* check's if map has walls where player can go and chars */
 void	check_map(t_map *map);
 /* writes string and exit function*/
 void	map_exit(char *str);
 /* checks if file has .cub */
 void	_cub(char *arg);
+/* return 0 if map is full 2 if only map is missing */
+int		check_map_full(t_map *map);
+/* checks the color string. checks
+	if only numbers
+	only 3 numbers
+	number under 255 the max rgb value
+	and changes multiple separators to only one */
+char	*color_syntax(char *str);
 
 #endif

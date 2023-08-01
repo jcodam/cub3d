@@ -6,7 +6,7 @@
 #    By: jbax <jbax@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/07/17 17:21:05 by jbax          ########   odam.nl          #
+#    Updated: 2023/08/01 16:51:22 by jbax          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,10 @@ fclean:
 f: fclean
 
 r:$(NAME)
+	# ./$(NAME) map/example.cu
+	# ./$(NAME) map/example.cub.txt
+	# ./$(NAME) map/example.c
+	# ./$(NAME) map/example.cub.cub
 	./$(NAME) map/example.cub
 re:
 	@$(MAKE) fclean
@@ -74,4 +78,4 @@ re:
 norm: $(SRC) $(HEADER)
 	norminette $^
 
-.PHONY: all re fclean clean f norm
+.PHONY: all re fclean clean f norm r

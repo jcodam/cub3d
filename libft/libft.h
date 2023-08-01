@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 17:16:08 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/17 19:11:28 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/31 17:39:13 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,5 +258,7 @@ int		ft_strchr_set(char *src, char *set);
 	1 if true 
 	0 if false */
 int		ft_strempty(char *src);
+/* returns the index of the first non whitespace or null */
+int	ft_skip_whitespace(char *str);
 
 #endif
