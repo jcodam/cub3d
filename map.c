@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 16:27:50 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/27 19:32:56 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/02 14:38:40 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	**get_map(char **temp, int fd)
 	char	**arr;
 
 	arr = 0;
-	while (*temp && **temp)
+	while (*temp && **temp && !ft_strempty(*temp))
 	{
 		arr = ft_arradd_index(arr, *temp, ft_arrlen_c(arr));
 		if (!arr)
@@ -33,20 +33,24 @@ static char	**get_map(char **temp, int fd)
 
 static void	get_elements(t_map *map, char *temp)
 {
-	if (!ft_strncmp(temp, "NO ", 3))
-		map->path_no = ft_substr(temp, 3, ft_strlen(temp) - 2);
-	if (!ft_strncmp(temp, "SO ", 3))
-		map->path_so = ft_substr(temp, 3, ft_strlen(temp) - 2);
-	if (!ft_strncmp(temp, "WE ", 3))
-		map->path_we = ft_substr(temp, 3, ft_strlen(temp) - 2);
-	if (!ft_strncmp(temp, "EA ", 3))
-		map->path_ea = ft_substr(temp, 3, ft_strlen(temp) - 2);
-	if (!ft_strncmp(temp, "F ", 2))
-	{
-		map->color_floor = ft_substr(temp, 2, ft_strlen(temp) - 1);
-	}
-	if (!ft_strncmp(temp, "C ", 2))
-		map->color_ceiling = ft_substr(temp, 2, ft_strlen(temp) - 1);
+	if (!map->path_no && !ft_strncmp(temp, "NO ", 3))
+		map->path_no = ft_substr(temp, 2 + ft_skip_whitespace(temp + 2),
+				ft_strlen(temp + 2 + ft_skip_whitespace(temp + 2)));
+	if (!map->path_so && !ft_strncmp(temp, "SO ", 3))
+		map->path_so = ft_substr(temp, 2 + ft_skip_whitespace(temp + 2),
+				ft_strlen(temp + 2 + ft_skip_whitespace(temp + 2)));
+	if (!map->path_we && !ft_strncmp(temp, "WE ", 3))
+		map->path_we = ft_substr(temp, 2 + ft_skip_whitespace(temp + 2),
+				ft_strlen(temp + 2 + ft_skip_whitespace(temp + 2)));
+	if (!map->path_ea && !ft_strncmp(temp, "EA ", 3))
+		map->path_ea = ft_substr(temp, 2 + ft_skip_whitespace(temp + 2),
+				ft_strlen(temp + 2 + ft_skip_whitespace(temp + 2)));
+	if (!map->color_floor && !ft_strncmp(temp, "F ", 2))
+		map->color_floor = ft_substr(temp, 1 + ft_skip_whitespace(temp + 1),
+				ft_strlen(temp + 1 + ft_skip_whitespace(temp + 1)));
+	if (!map->color_ceiling && !ft_strncmp(temp, "C ", 2))
+		map->color_ceiling = ft_substr(temp, 1 + ft_skip_whitespace(temp + 1),
+				ft_strlen(temp + 1 + ft_skip_whitespace(temp + 1)));
 }
 
 int	fill_map(t_map *map, char const *path)
@@ -61,12 +65,15 @@ int	fill_map(t_map *map, char const *path)
 	while (temp)
 	{
 		get_elements(map, temp);
-		if (ft_strinset(temp, "10NWES \n") && !ft_strempty(temp))
+		if (check_map_full(map) == 2 && ft_strinset(temp, "10NWES \n")
+			&& !ft_strempty(temp))
 			map->map_arr = get_map(&temp, fd);
 		if (temp)
 			free(temp);
 		temp = get_next_line(fd);
 	}
+	if (check_map_full(map))
+		map_exit("error\ncouldn't fill map. necessary data are missing\n");
 	close(fd);
 	return (1);
 }
@@ -112,6 +119,8 @@ int	write_map(t_map *map, int fd)
 	if (map->map_arr)
 	{
 		ft_putarrs_fd(map->map_arr, fd);
+		ft_putnbr_fd(ft_arrlen_c(map->map_arr), 1);
+		write(1, "\n", 1);
 	}
 	return (0);
 }

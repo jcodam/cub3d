@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:36:35 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/28 18:22:40 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/02 14:38:34 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,39 @@ static int	walk_route(char **route, int x, int y)
 	return (0);
 }
 
+// int	surround_wall(char **route)
+// {
+// 	unsigned int	x;
+// 	unsigned int	y;
+
+// 	x = 0;
+// 	y = 0;
+// 	while (route && route[y])
+// 	{
+// 		while (route[y][x])
+// 		{
+// 			// putchar(route[y][x]);
+// 			if (ft_strchr(" \n", route[y][x]))
+// 			{
+// 				if (y > 0 && ft_strlen(route[y - 1]) >= x 
+// 					&& !ft_strchr(" \n1\0", route[y - 1][x]))
+// 					return (1);
+// 				if (x > 0 && !ft_strchr(" \n1\0", route[y][x - 1]))
+// 					return (1);
+// 				if (!ft_strchr(" \n1\0", route[y][x + 1]))
+// 					return (1);
+// 				if (route[y + 1] && ft_strlen(route[y + 1]) >= x 
+// 					&& !ft_strchr(" \n1\0", route[y + 1][x]))
+// 					return (1);
+// 			}
+// 			x++;
+// 		}
+// 		y++;
+// 		x = 0;
+// 	}
+// 	return (0);
+// }
+
 static void	map_route(t_map *map)
 {
 	char	**test_route;
@@ -95,9 +128,11 @@ static void	map_route(t_map *map)
 	test_route = ft_arrdup_c(map->map_arr, ft_arrlen_c(map->map_arr));
 	if (!test_route)
 		map_exit("Error\nmalloc failed\n");
+	// if (surround_wall(test_route))
+	// 	map_exit("Error\nthe map is not surrounded by 1s\n");
 	if (walk_route(test_route, map->player.map_x, map->player.map_y))
 		map_exit("Error\ncan exit the map\n");
-	ft_putarrs_fd(test_route, 1);
+	// ft_putarrs_fd(test_route, 1);
 	ft_arrclear_c(test_route, ft_arrlen_c(test_route));
 }
 	// if (cep->map_p != cep->map_c)

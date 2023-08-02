@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/17 18:11:17 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/17 19:09:18 by jbax          ########   odam.nl         */
+/*   Updated: 2023/07/31 17:37:35 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,16 @@ int	ft_strchr_set(char *src, char *set)
 		index++;
 	}
 	return (-1);
+}
+
+int	ft_skip_whitespace(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] && ft_iswhite_space(str[i]))
+		i++;
+	return (i);
 }
