@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/28 17:56:39 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/02 14:18:06 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ typedef struct s_player
 {
 	int		map_x;
 	int		map_y;
+	double	x_coor;
+	double	y_coor;
+	int		rotation;
 	int		start_direction;
-	double	current_direction;
 }	t_player;
 
 typedef struct s_tile
@@ -73,17 +75,24 @@ enum	e_map
 	P_EAST
 };
 
+/*try's to fill te struct with all his data */
 int		fill_map(t_map *map, char const *path);
+/* make's the struct with malloc*/
 t_map	*mk_map(void);
+/* delete's all the malloc't data in map returns 0*/
 t_map	*del_map(t_map *map);
+/* write's all map data */
 int		write_map(t_map *map, int fd);
-
+/* chack's if map has walls where player can go and chars */
 void	check_map(t_map *map);
+/* writes string and exit function*/
 void	map_exit(char *str);
+/* checks if file has .cub */
 void	_cub(char *arg);
 
 int32_t	draw_map(t_map *map);
-void	make_minimap(t_map *map, mlx_t *mlx);
-int		check_mlx_error(mlx_t *mlx);
+void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
+int		check_mlx_error(mlx_t *mlx, t_map *map);
+void	shade_box(t_map *map);
 
 #endif

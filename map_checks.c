@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/15 14:36:35 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/20 16:04:45 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/07/28 18:22:40 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,52 @@ static int	check_valid_char(t_map *map, int x, int y, int *p_count)
 	return (0);
 }
 
+// static int	walk_route(char **route, int x, int y)
+// {
+// 	int	test_outcome;
+
+// 	test_outcome = 0;
+// 	if (!route[y][x] || !route[y + 1] || y == 0 || x == 0)
+// 		return (1);
+// 	if (route[y][x] == ' ' || route[y][x] == '\n')
+// 		return (1);
+// 	if (ft_strlen(route[y + 1]) < (unsigned)x || 
+//		ft_strlen(route[y - 1]) < (unsigned)x)
+// 		return (1);
+// 	route[y][x] = '2';
+// 	if (route[y - 1][x] != '1' && route[y - 1][x] != '2')
+// 		test_outcome = walk_route(route, x, y - 1);
+// 	if (route[y][x - 1] != '1' && route[y][x - 1] != '2')
+// 		test_outcome = walk_route(route, x - 1, y);
+// 	if (route[y][x + 1] != '1' && route[y][x + 1] != '2')
+// 		test_outcome = walk_route(route, x + 1, y);
+// 	if (route[y + 1][x] != '1' && route[y + 1][x] != '2')
+// 		test_outcome = walk_route(route, x, y + 1);
+// 	return (test_outcome);
+// }
 static int	walk_route(char **route, int x, int y)
 {
-	int	test_outcome;
-
-	test_outcome = 0;
+	if (!route[y] || !route[y][x] || y < 0 || x < 0)
+		return (1);
 	if (route[y][x] == ' ' || route[y][x] == '\n')
 		return (1);
-	route[y][x] = '1';
-	if (route[y - 1][x] != '1')
-		test_outcome = walk_route(route, x, y - 1);
-	if (route[y][x - 1] != '1')
-		test_outcome = walk_route(route, x - 1, y);
-	if (route[y][x + 1] != '1')
-		test_outcome = walk_route(route, x + 1, y);
-	if (route[y + 1][x] != '1')
-		test_outcome = walk_route(route, x, y + 1);
-	return (test_outcome);
+	if (route[y][x] == '1' || route[y][x] == '2')
+		return (0);
+	if (!route[y + 1] || !route[y][x] || !y || x <= 0)
+		return (1);
+	if (ft_strlen(route[y + 1]) < (unsigned)x
+		|| ft_strlen(route[y - 1]) < (unsigned)x)
+		return (1);
+	route[y][x] = '2';
+	if (walk_route(route, x, y - 1))
+		return (1);
+	if (walk_route(route, x - 1, y))
+		return (1);
+	if (walk_route(route, x, y + 1))
+		return (1);
+	if (walk_route(route, x + 1, y))
+		return (1);
+	return (0);
 }
 
 static void	map_route(t_map *map)
@@ -67,7 +96,8 @@ static void	map_route(t_map *map)
 	if (!test_route)
 		map_exit("Error\nmalloc failed\n");
 	if (walk_route(test_route, map->player.map_x, map->player.map_y))
-		map_exit("Error\ncan't exit the map\n");
+		map_exit("Error\ncan exit the map\n");
+	ft_putarrs_fd(test_route, 1);
 	ft_arrclear_c(test_route, ft_arrlen_c(test_route));
 }
 	// if (cep->map_p != cep->map_c)

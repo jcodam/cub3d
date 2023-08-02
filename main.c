@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/07/28 18:13:20 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/02 14:04:39 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 	tile->x_coor = 0;
 	tile->y_coor = 0;
 	tile->not_map = 0;
-	tile->width = TILE_WIDTH;
-	tile->depth = TILE_DEPTH;
+	tile->width = TILE_RAD * 2;
+	tile->depth = TILE_RAD * 2;
 	tile->height = TILE_HEIGHT;
 	tile->is_player = 0;
 	if (!ft_strchr("ONSW10", map->map_arr[i][j]))
@@ -114,6 +114,7 @@ void	test(char *addr)
 
 	fg_putstr_rgb_fd(addr, "45;255;45", 1);
 	write(1, "\n", 1);
+	// _cub(addr);
 	map = mk_map();
 	fill_map(map, addr);
 	if (!make_tiles(map))
