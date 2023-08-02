@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/02 14:34:15 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/02 18:13:23 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,38 @@ static void	minimap_wrap_print(double x, double y, t_map *map, int32_t colour)
 		put_pixel_wrap(map->minimap->img, (int)x, (int)y, colour);
 }
 
+double	c_to_mini(t_map *map, int i, int j, char x_or_y)
+{
+	if (x_or_y == 'x')
+		return (map->tiles[i][j]->rel_x + MIN_X_MINIMAP + ((MAX_X_MINIMAP - MIN_X_MINIMAP) / 2));
+	else
+		return (map->tiles[i][j]->rel_y + MIN_Y_MINIMAP + ((MAX_Y_MINIMAP - MIN_Y_MINIMAP) / 2));
+}
+
+size_t	mini_x(size_t x)
+{
+	return (x + MIN_X_MINIMAP + ((MAX_X_MINIMAP - MIN_X_MINIMAP) / 2));
+}
+
+size_t	mini_y(size_t y)
+{
+	return (y + MIN_Y_MINIMAP + ((MAX_Y_MINIMAP - MIN_Y_MINIMAP) / 2));
+}
+
 void	expand_walls(t_map *map, int i, int j)
 {
-	double	x;
+	size_t	x;
 	double	y;
 	double	start_x;
 	double	start_y;
 
-	x = (map->tiles[i][j]->x_coor - (map->tiles[i][j]->width / 2));
-	y = (map->tiles[i][j]->y_coor - (map->tiles[i][j]->height / 2));
+	x = c_to_mini(map, i, j, 'x') - TILE_RAD;
+	y = c_to_mini(map, i, j, 'y') - TILE_RAD;
 	start_x = x;
 	start_y = y;
-	while (x < (start_x + map->tiles[i][j]->width))
+	while (x < (start_x + (TILE_RAD * 2)))
 	{
-		while (y < (start_y + map->tiles[i][j]->height))
+		while (y < (start_y + (TILE_RAD * 2)))
 		{
 			minimap_wrap_print(x, y, map, ft_pixel(255, 0, 0, 255));
 			y++;
@@ -87,30 +105,23 @@ static void	draw_minimap(t_map *map)
 	}
 }
 
-void	convert_coordinates(t_map *map)
+void mk_rel_vals(t_map *map)
 {
+	size_t	p_x;
+	size_t	p_y;
 	int		i;
 	int		j;
-	//double	w_int;
-	//double	h_int;
-	int		interval;
 
 	i = 0;
 	j = 0;
-	interval = 10;
+	p_x = map->player.x_coor;
+	p_y = map->player.y_coor;
 	while (map->tiles[i])
 	{
 		while (map->tiles[i][j])
 		{
-			map->tiles[i][j]->x_coor = MIN_X_MINIMAP + \
-			((map->tiles[i][j]->x + 1) * interval);
-			map->tiles[i][j]->y_coor = MIN_Y_MINIMAP + \
-			((map->tiles[i][j]->y + 1) * interval);
-			if (map->tiles[i][j]->is_player)
-			{
-				map->player.x_coor = map->tiles[i][j]->x_coor;
-				map->player.y_coor = map->tiles[i][j]->y_coor;	
-			}
+			map->tiles[i][j]->rel_x = p_x - map->tiles[i][j]->x_coor;
+			map->tiles[i][j]->rel_y = p_y - map->tiles[i][j]->y_coor;
 			j++;
 		}
 		j = 0;
@@ -118,22 +129,51 @@ void	convert_coordinates(t_map *map)
 	}
 }
 
-// void	ft_hook(void *param)
-// {
-// 	mlx_t	*mlx;
+static void	init_direction(t_player player)
+{
+	if (player.start_direction == 10)
+		player.rotation = 0;
+	if (player.start_direction == 11)
+		player.rotation = 90;
+	if (player.start_direction == 12)
+		player.rotation = 180;
+	if (player.start_direction == 13)
+		player.rotation = 270;
+}
 
-// 	mlx = param;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-// 		mlx_close_window(mlx);
-// 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-// 		image->instances[0].y -= 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-// 		image->instances[0].y += 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-// 		image->instances[0].x -= 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-// 		image->instances[0].x += 5;
-// }
+static void	init_player(t_map *map)
+{
+	map->player.x_coor = map->player.start_x;
+	map->player.y_coor = map->player.start_y;
+	init_direction(map->player);
+}
+
+void	convert_coordinates(t_map *map)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (map->tiles[i])
+	{
+		while (map->tiles[i][j])
+		{
+			map->tiles[i][j]->x_coor = ((TILE_RAD / 2) + (i * TILE_RAD));
+			map->tiles[i][j]->y_coor = ((TILE_RAD / 2) + (j * TILE_RAD));
+			if (map->tiles[i][j]->is_player)
+			{
+				init_player(map);
+				map->player.start_x = map->tiles[i][j]->x_coor;
+				map->player.start_x = map->tiles[i][j]->y_coor;
+			}
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	mk_rel_vals(map);
+}
 
 void	shade_box(t_map *map)
 {
@@ -180,90 +220,54 @@ static void	draw_box(t_map *map)
 	}
 }
 
-void	init_direction(t_player player)
-{
-	if (player.start_direction == 10)
-		player.rotation = 0;
-	if (player.start_direction == 11)
-		player.rotation = 90;
-	if (player.start_direction == 12)
-		player.rotation = 180;
-	if (player.start_direction == 13)
-		player.rotation = 270;
-}
-
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img)
 {
-	size_t		height;
-	size_t		width;
 	int			i;
 	t_minimap	*minimap;
 
 	minimap = malloc(sizeof(t_minimap));
 	i = 0;
-	height = 0;
-	width = 0;
 	minimap->mlx = mlx;
 	minimap->img = img;
 	map->minimap = minimap;
-	while (map->map_arr[i])
-	{
-		if (ft_strlen(map->map_arr[i]) > width)
-			width = ft_strlen(map->map_arr[i]);
-		height++;
-		i++;
-	}
-	width--;
 	draw_box(map);
 	convert_coordinates(map);
 	draw_minimap(map);
 	init_direction(map->player);
 }
 
-// void draw_angle(t_map *map, int x, int y, int rotation)
-// {
-// 	if (rotation >= 0 && rotation < 90)
-
-// 	if (rotation >= 90 && rotation < 180
-
-// 	if (rotation
-// }
-
-
 void ft_draw_player(void *param)
 {
 	t_map	*map;
-	int		x;
-	int		y;
-	int		start_x;
-	int		start_y;
+	size_t	x;
+	size_t	y;
+	size_t	start_x;
+	size_t	start_y;
 
 	map = param;
-	x = (map->player.map_x + ((MIN_X_MINIMAP + MAX_X_MINIMAP) / 2));
-	y = (map->player.map_y + ((MIN_Y_MINIMAP + MAX_Y_MINIMAP) / 2));
-	start_x = x;
-	start_y = y;
-	x -= 2;
-	y -= 2;
+	x = mini_x(map->player.x_coor);
+	y = mini_y(map->player.y_coor);
+	start_x = x - PLAYER_RAD;
+	start_y = y - PLAYER_RAD;
 	draw_box(map);
 	draw_minimap(map);
-	while (x < (start_x + 4))
+	while (x <= (start_x + (PLAYER_RAD * 2)))
 	{
-		while (y < (start_y + 4))
+		while (y <= (start_y + (PLAYER_RAD * 2)))
 		{
 			minimap_wrap_print((double)x, (double)y, map, \
 			ft_pixel(255, 0, 0, 255));
 			y++;
 		}
-		y = (start_y - 2);
+		y = start_y;
 		x++;
 	}
-	//draw_angle(map, start_x, start_y, map->player.rotation);
 }
 
 int in_range_xy(t_map *map, int i, int j, double check_val, char x_y)
-{ 
-	double ref;
+{
+	double	ref;
+
 	if (x_y == 'x')
 	{
 		ref = map->tiles[i][j]->x_coor;
@@ -317,27 +321,29 @@ void	ft_move_player(void *param)
 	printf("player x: %d, player y: %d\n", x, y);
 	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_UP) && !in_wall(x, (y -1), map))
 	{
-		map->player.map_y--;
+		//map->player.map_y--;
 		map->player.y_coor--;
 	}
 	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_DOWN) && !in_wall(x, y + 1, map))
 	{
-		map->player.map_y++;
+		//map->player.map_y++;
 		map->player.y_coor++;
 	}
 	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_LEFT) && !in_wall((x -1), y, map))
 	{
-		if (map->player.rotation == 0)
-			map->player.rotation = 359;
-		else
-			map->player.rotation--;
+		map->player.x_coor--;
+		// if (map->player.rotation == 0)
+		// 	map->player.rotation = 359;
+		// else
+		// 	map->player.rotation--;
 	}
-	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_RIGHT)) //&& !in_wall(x + 1, y, map))
+	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_RIGHT) && !in_wall(x + 1, y, map))
 	{
-		if (map->player.rotation == 359)
-			map->player.rotation = 0;
-		else
-			map->player.rotation++;
+		map->player.x_coor++;
+		// if (map->player.rotation == 359)
+		// 	map->player.rotation = 0;
+		// else
+		// 	map->player.rotation++;
 	}
 }
 

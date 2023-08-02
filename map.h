@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/02 14:39:04 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/02 17:16:09 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ typedef struct s_player
 {
 	int		map_x;
 	int		map_y;
+	double	start_x;
+	double	start_y;
 	double	x_coor;
 	double	y_coor;
 	int		rotation;
@@ -31,6 +33,8 @@ typedef struct s_tile
 	size_t		y;
 	double		x_coor;
 	double		y_coor;
+	size_t		rel_x;
+	size_t		rel_y;
 	bool		is_open;
 	int			width;
 	int			depth;
@@ -43,9 +47,6 @@ typedef struct s_minimap
 {
 	mlx_image_t	*img;
 	mlx_t		*mlx;
-	// int		x_range;
-	// int		y_range;
-	// t_wall	*map_converted;
 }	t_minimap;
 
 typedef struct s_map
