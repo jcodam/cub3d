@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/18 17:40:36 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/01 14:15:05 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/03 15:01:09 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,21 @@ void	map_exit(char *str)
 	exit(0);
 }
 
-void	_cub(char *arg)
+int	_cub(char *arg)
 {
 	int		i;
 	char	*str;
 
 	i = 0;
 	str = ".cub";
-	while (arg[i] != '.' && arg[i])
-		i++;
-	while (arg[i] == *str && arg[i] && *str)
-	{
-		str++;
-		i++;
-	}
-	if (arg[i] || *str)
+	str = ft_strnstr(arg, ".cub", ft_strlen(arg));
+	if (!str)
 		map_exit("Error\nno .cub file given as input\n");
+	if (!str[4])
+		return (1);
+	if (_cub(str + 4))
+		return (1);
+	return (0);
 }
 
 char	*color_syntax(char *str)
