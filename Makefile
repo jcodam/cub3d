@@ -60,6 +60,9 @@ $(lib):
 # $(MLX):
 # 	@ $(MAKE) -C $(MLXDIR)
 
+tt:
+	bash get_mlx.sh
+
 $(OBF_DIR):
 	mkdir $(OBF_DIR)
 
