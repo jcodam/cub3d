@@ -10,29 +10,32 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-// #include "map.h"
-// #include "defines.h"
+#include "map.h"
+#include "defines.h"
+#include "math.h"
 
 // // float	distance(float ax, float ay, float bx, float by, float ang)
 // // {
 // // 	return (cos(degToRad(ang)) * (bx - ax) - sin(degToRad(ang)) * (by - ay));
 // // }
 
-check_up_down_vert(t_map *map, int side, int disV, float invTan)
+void	check_up_down_vert(t_map *map,float Tan)
 {
 	if (cos(degToRad(map->player.rotation)) > 0.001)
 	{
 		map->rays->ray_x = (((int)map->player.x_coor >> 6) << 6) + 64;
-		map->rays->ray_y = (map->player.x_coor - map->rays->ray_x) * invTan + map->player.y_coor;
+		map->rays->ray_y = (map->player.x_coor - map->rays->ray_x) * Tan \
+		+ map->player.y_coor;
 		map->rays->offset_x = 64;
-		map->rays->offset_y = -map->rays->offset_x * invTan;
+		map->rays->offset_y = -map->rays->offset_x * Tan;
 	}
 	else if (cos(degToRad(map->player.rotation)) < -0.001)
 	{
 		map->rays->ray_x = (((int)map->player.x_coor >> 6) << 6) - 0.0001;
-		map->rays->ray_y = (map->player.x_coor - map->rays->ray_x) * invTan + map->player.y_coor;
+		map->rays->ray_y = (map->player.x_coor - map->rays->ray_x) * Tan \
+		+ map->player.y_coor;
 		map->rays->offset_x = -64;
-		map->rays->offset_y = -map->rays->offset_x * invTan;
+		map->rays->offset_y = -map->rays->offset_x * Tan;
 	}
 	else
 	{
@@ -42,49 +45,47 @@ check_up_down_vert(t_map *map, int side, int disV, float invTan)
 	}
 }
 
-void make_vector_map(t_map *map)
+void	make_vector_vert(t_map *map)
 {
+	int	map_x;
+	int	map_y;
+
 	while (map->rays->dof < 8)
 	{
-	mx = (int)(map->rays->ray_x) >> 6;
-	my = (int)(ray_y) >> 6;
-	mp = my * mapX + mx;
-		if (mp > 0 && mp < mapX * mapY && map[mp] == 1)
+	map_x = (int)(map->rays->ray_x) >> 6;
+	map_y = (int)(map->rays->ray_y) >> 6;
+		if (map_x > 0 && map_y > 0 && map_x < map->width && map_y < map->height \
+		&& !map->tiles[map_x][map_y]->is_open)
 		{
-			dof = 8;
-			disV = cos(degToRad(r_rot)) * (ray_x - map->player.x_coor) \
-			- sin(degToRad(r_rot)) * (ray_y - map->player.y_coor);
+			map->rays->dof = 8;
+			map->rays->dist_V = cos(degToRad(map->player.rotation)) * \
+			(map->rays->ray_x - map->player.x_coor) - \
+			sin(degToRad(map->player.rotation)) * (map->rays->ray_y - \
+			map->player.y_coor);
 		}
 		else
 		{
-			rx += xo;
-			ry += yo;
-			dof += 1;
+			map->rays->ray_x += map->rays->offset_x;
+			map->rays->ray_y += map->rays->offset_x;
+			map->rays->dof += 1;
 		}
 	}
-	vx = map->rays->ray_x; 
-	vy = ray_y;
-
-	
-// }
-
+	map->rays->vector_x = map->rays->ray_x;
+	map->rays->vector_y = map->rays->ray_y;
+}
 
 void draw_rays(t_map *map)
 {
-	float	invTan;
 	int		raynum;
-	int		offset_x;
-	int		offset_y;
 	int		side;
-	int		disV;
+	float	Tan;
 
 	raynum = 0;
-	// check Tan vs invTan	
-	invTan - -1 / tan(map->player.rotation);
+	// check Tan vs invTan
+	Tan = tan(degToRad(map->player.rotation));
 	map->rays->dof = 0;
 	side = 0;
-	disV = 100000;
-	check_up_down_vert(map, side, disV, invTan);
+	map->rays->dist_V = 100000;
+	check_up_down_vert(map, Tan);
 	make_vector_vert(map);
-	
 }

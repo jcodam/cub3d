@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/15 15:29:05 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/15 18:47:55 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,6 @@ typedef struct s_tile
 	bool		not_map;
 }	t_tile;
 
-// typedef struct s_minimap
-// {
-// 	mlx_image_t	*img;
-// 	mlx_t		*mlx;
-// }	t_minimap;
-
 typedef struct s_map
 {
 	char		*path_no;
@@ -78,7 +72,6 @@ typedef struct s_map
 	char		**map_arr;
 	t_player	player;
 	t_tile		***tiles;
-	// t_minimap	*minimap;
 	t_rays		*rays;
 	mlx_image_t	*img;
 	mlx_t		*mlx;
@@ -123,6 +116,7 @@ int		check_map_full(t_map *map);
 char	*color_syntax(char *str);
 
 // minimap.c
+float 	degToRad(int a);
 int32_t	draw_map(t_map *map);
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
 int		check_mlx_error(mlx_t *mlx, t_map *map);
