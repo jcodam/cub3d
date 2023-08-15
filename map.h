@@ -112,7 +112,7 @@ void	check_map(t_map *map);
 /* writes string and exit function*/
 void	map_exit(char *str);
 /* checks if file has .cub */
-void	_cub(char *arg);
+int		_cub(char *arg);
 /* return 0 if map is full 2 if only map is missing */
 int		check_map_full(t_map *map);
 /* checks the color string. checks
