@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 16:27:50 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/02 14:38:40 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/15 15:29:29 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	fill_map(t_map *map, char const *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 2)
-		return (0);
+		map_exit("error\ncan't open the .cub, check address\n");
 	temp = get_next_line(fd);
 	while (temp)
 	{
@@ -96,7 +96,7 @@ t_map	*mk_map(void)
 	map->player.map_x = 0;
 	map->player.map_y = 0;
 	map->tiles = NULL;
-	map->minimap = malloc(sizeof(t_minimap *));
+	//map->minimap = malloc(sizeof(t_minimap *));
 	return (map);
 }
 

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:32:11 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/02 17:55:08 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/13 20:11:44 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # define MAX_X_MINIMAP 800
 # define MIN_Y_MINIMAP 600
 # define MAX_Y_MINIMAP 899
-# define TILE_RAD 10
+# define TILE_RAD 32
 # define TILE_HEIGHT 10
-# define PLAYER_RAD 3
+# define PLAYER_RAD 6
+# define PI 3.14159265359
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/02 18:13:23 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/15 15:28:54 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,69 +20,11 @@
 #include "defines.h"
 #include "math.h"
 
-//static	mlx_image_t* image;
-
 // -----------------------------------------------------------------------------
 
-static void	put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color)
+float degToRad(int a) 
 {
-	if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
-	{
-		mlx_put_pixel(image, x, y, color);
-	}
-}
-
-int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-{
-	return (r << 24 | g << 16 | b << 8 | a);
-}
-
-static void	minimap_wrap_print(double x, double y, t_map *map, int32_t colour)
-{
-	if ((int)x < MAX_X_MINIMAP && (int)x > MIN_X_MINIMAP && \
-	(int)y < MAX_Y_MINIMAP && (int)y > MIN_Y_MINIMAP)
-		put_pixel_wrap(map->minimap->img, (int)x, (int)y, colour);
-}
-
-double	c_to_mini(t_map *map, int i, int j, char x_or_y)
-{
-	if (x_or_y == 'x')
-		return (map->tiles[i][j]->rel_x + MIN_X_MINIMAP + ((MAX_X_MINIMAP - MIN_X_MINIMAP) / 2));
-	else
-		return (map->tiles[i][j]->rel_y + MIN_Y_MINIMAP + ((MAX_Y_MINIMAP - MIN_Y_MINIMAP) / 2));
-}
-
-size_t	mini_x(size_t x)
-{
-	return (x + MIN_X_MINIMAP + ((MAX_X_MINIMAP - MIN_X_MINIMAP) / 2));
-}
-
-size_t	mini_y(size_t y)
-{
-	return (y + MIN_Y_MINIMAP + ((MAX_Y_MINIMAP - MIN_Y_MINIMAP) / 2));
-}
-
-void	expand_walls(t_map *map, int i, int j)
-{
-	size_t	x;
-	double	y;
-	double	start_x;
-	double	start_y;
-
-	x = c_to_mini(map, i, j, 'x') - TILE_RAD;
-	y = c_to_mini(map, i, j, 'y') - TILE_RAD;
-	start_x = x;
-	start_y = y;
-	while (x < (start_x + (TILE_RAD * 2)))
-	{
-		while (y < (start_y + (TILE_RAD * 2)))
-		{
-			minimap_wrap_print(x, y, map, ft_pixel(255, 0, 0, 255));
-			y++;
-		}
-		y = start_y;
-		x++;
-	}
+	return (a * M_PI / 180.0);
 }
 
 static void	draw_minimap(t_map *map)
@@ -105,10 +47,10 @@ static void	draw_minimap(t_map *map)
 	}
 }
 
-void mk_rel_vals(t_map *map)
+void	mk_rel_vals(t_map *map)
 {
-	size_t	p_x;
-	size_t	p_y;
+	float	p_x;
+	float	p_y;
 	int		i;
 	int		j;
 
@@ -120,8 +62,8 @@ void mk_rel_vals(t_map *map)
 	{
 		while (map->tiles[i][j])
 		{
-			map->tiles[i][j]->rel_x = p_x - map->tiles[i][j]->x_coor;
-			map->tiles[i][j]->rel_y = p_y - map->tiles[i][j]->y_coor;
+			map->tiles[i][j]->rel_x = map->tiles[i][j]->x_coor - p_x;
+			map->tiles[i][j]->rel_y = map->tiles[i][j]->y_coor - p_y;
 			j++;
 		}
 		j = 0;
@@ -129,161 +71,111 @@ void mk_rel_vals(t_map *map)
 	}
 }
 
-static void	init_direction(t_player player)
+void	init_direction(t_map *map)
 {
-	if (player.start_direction == 10)
-		player.rotation = 0;
-	if (player.start_direction == 11)
-		player.rotation = 90;
-	if (player.start_direction == 12)
-		player.rotation = 180;
-	if (player.start_direction == 13)
-		player.rotation = 270;
-}
-
-static void	init_player(t_map *map)
-{
-	map->player.x_coor = map->player.start_x;
-	map->player.y_coor = map->player.start_y;
-	init_direction(map->player);
-}
-
-void	convert_coordinates(t_map *map)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (map->tiles[i])
-	{
-		while (map->tiles[i][j])
-		{
-			map->tiles[i][j]->x_coor = ((TILE_RAD / 2) + (i * TILE_RAD));
-			map->tiles[i][j]->y_coor = ((TILE_RAD / 2) + (j * TILE_RAD));
-			if (map->tiles[i][j]->is_player)
-			{
-				init_player(map);
-				map->player.start_x = map->tiles[i][j]->x_coor;
-				map->player.start_x = map->tiles[i][j]->y_coor;
-			}
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	mk_rel_vals(map);
-}
-
-void	shade_box(t_map *map)
-{
-	int	x;
-	int	y;
-
-	x = MIN_X_MINIMAP;
-	y = MIN_Y_MINIMAP;
-	while (x < MAX_X_MINIMAP)
-	{
-		while (y < MAX_Y_MINIMAP)
-		{
-			put_pixel_wrap(map->minimap->img, x, y, \
-			ft_pixel(255, 255, 255, 255));
-			y++;
-		}
-		y = MIN_Y_MINIMAP;
-		x++;
-	}
-}
-
-static void	draw_box(t_map *map)
-{
-	int	x;
-	int	y;
-
-	shade_box(map);
-	x = (MIN_X_MINIMAP);
-	y = (MIN_Y_MINIMAP);
-	while (y < MAX_Y_MINIMAP)
-	{
-		put_pixel_wrap(map->minimap->img, x, y, 0xFFFFFFFF);
-		put_pixel_wrap(map->minimap->img, (x + (MAX_X_MINIMAP - \
-		MIN_X_MINIMAP)), y, 200);
-		y++;
-	}
-	y = (MIN_Y_MINIMAP);
-	while (x < MAX_X_MINIMAP)
-	{
-		put_pixel_wrap(map->minimap->img, x, y, 0xFFFFFFFF);
-		put_pixel_wrap(map->minimap->img, x, (y + (MAX_Y_MINIMAP - \
-		MIN_Y_MINIMAP)), 200);
-		x++;
-	}
+	if (map->player.start_direction == 11)
+		map->player.rotation = 90;
+	else if (map->player.start_direction == 12)
+		map->player.rotation = 180;
+	else if (map->player.start_direction == 13)
+		map->player.rotation = 0;
+	else
+		map->player.rotation = 270;
+	map->player.x_angle = cos(degToRad(map->player.rotation));
+	map->player.y_angle = -sin(degToRad(map->player.rotation));
 }
 
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img)
 {
-	int			i;
-	t_minimap	*minimap;
+	t_rays		*rays;
 
-	minimap = malloc(sizeof(t_minimap));
-	i = 0;
-	minimap->mlx = mlx;
-	minimap->img = img;
-	map->minimap = minimap;
+	rays = malloc(sizeof(t_rays));
+	map->rays = rays;
+	map->mlx = mlx;
+	map->img = img;
 	draw_box(map);
 	convert_coordinates(map);
-	draw_minimap(map);
-	init_direction(map->player);
 }
 
-void ft_draw_player(void *param)
+void	draw_direction(t_map *map)
+{
+	int			i;
+	double		x;
+	double		y;
+
+	x = get_mmap_centre_x() + PLAYER_RAD;
+	y = get_mmap_centre_y() + PLAYER_RAD;
+	i = 0;
+	//while (pix_not_wall(map, x + map->player.x_angle, y + map->player.y_angle))
+	while(i < 20)
+	{
+		x += map->player.x_angle;
+		y += map->player.y_angle;
+		put_pixel_wrap(map->img, (uint32_t)x, (uint32_t)y, \
+		ft_pixel(0, 255, 0, 100));
+		i++;
+	}
+}
+
+void	ft_draw_player(void *param)
 {
 	t_map	*map;
-	size_t	x;
-	size_t	y;
-	size_t	start_x;
-	size_t	start_y;
+	float	x;
+	float	y;
+	float	start_x;
+	float	start_y;
 
 	map = param;
-	x = mini_x(map->player.x_coor);
-	y = mini_y(map->player.y_coor);
-	start_x = x - PLAYER_RAD;
-	start_y = y - PLAYER_RAD;
+	x = get_mmap_centre_x();
+	y = get_mmap_centre_y();
+	start_x = x;
+	start_y = y;
 	draw_box(map);
 	draw_minimap(map);
-	while (x <= (start_x + (PLAYER_RAD * 2)))
+	while (x < (start_x + (PLAYER_RAD * 2)))
 	{
-		while (y <= (start_y + (PLAYER_RAD * 2)))
+		while (y < (start_y + (PLAYER_RAD * 2)))
 		{
-			minimap_wrap_print((double)x, (double)y, map, \
-			ft_pixel(255, 0, 0, 255));
+			minimap_wrap_print(x, y, map, \
+			ft_pixel(0, 255, 0, 255));
 			y++;
 		}
 		y = start_y;
 		x++;
 	}
+	draw_direction(map);
+	//draw_rays(map);
 }
 
-int in_range_xy(t_map *map, int i, int j, double check_val, char x_y)
+// int	in_range_xy(t_map *map, int i, int j, double check_val, char x_y)
+// {
+// 	float	ref;
+
+// 	if (x_y == 'x')
+// 	{
+// 		ref = (float)map->tiles[i][j]->x_coor;
+// 		if (ref > (check_val - TILE_RAD) && (ref < (check_val + TILE_RAD)))
+// 			return (1);
+// 	}
+// 	else if (x_y == 'y')
+// 	{
+// 		ref = (float)map->tiles[i][j]->y_coor;
+// 		if (ref > (check_val - TILE_RAD) && (ref < (check_val + TILE_RAD)))
+// 			return (1);
+// 	}
+// 	return (0);
+// }
+
+int FixAng(int a)
 {
-	double	ref;
-
-	if (x_y == 'x')
-	{
-		ref = map->tiles[i][j]->x_coor;
-		if (ref > (check_val - TILE_RAD) && ref < (check_val + TILE_RAD))
-			return (1);
-	}
-	else if (x_y == 'y')
-	{
-		ref = map->tiles[i][j]->y_coor;
-		if (ref > (check_val - TILE_RAD) && ref < (check_val + TILE_RAD))
-			return (1);
-	}
-	return (0);
+	if (a > 359)
+		a -= 360;
+	if (a < 0)
+		a += 360;
+	return (a);
 }
 
-static int in_wall(int p_x, int p_y, t_map *map)
+int	is_wall(t_map *map)
 {
 	int	i;
 	int	j;
@@ -294,12 +186,13 @@ static int in_wall(int p_x, int p_y, t_map *map)
 	{
 		while (map->tiles[i][j])
 		{
-			printf("map tile [%d][%d], x_coor: %f, y_coor: %f\n", i, j, map->tiles[i][j]->x_coor, map->tiles[i][j]->y_coor);
-			if (in_range_xy(map, i, j, (double)p_x, 'x' && !map->tiles[i][j]->is_open) \
-			&& in_range_xy(map, i, j, (double)p_y, 'y') && !map->tiles[i][j]->is_open)
+			if (!map->tiles[i][j]->is_open)
 			{
-				printf("player x: %f, player y: %f\ntile x: %f, tile y: %f\n\n", (double)p_x, (double)p_y, map->tiles[i][j]->x_coor, map->tiles[i][j]->y_coor);
-				return (1);
+				if ((map->tiles[i][j]->x_coor - TILE_RAD - 5) < (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->x_coor + TILE_RAD + 5) > (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->y_coor - TILE_RAD - 5) < (map->player.y_coor + (map->player.y_angle * 2)) \
+				&& (map->tiles[i][j]->y_coor + TILE_RAD + 5) > (map->player.y_coor + (map->player.y_angle * 2)))
+					return (1);
 			}
 			j++;
 		}
@@ -312,39 +205,33 @@ static int in_wall(int p_x, int p_y, t_map *map)
 void	ft_move_player(void *param)
 {
 	t_map	*map;
-	int		x;
-	int		y;
 
 	map = param;
-	x = map->player.x_coor;
-	y = map->player.y_coor;
-	printf("player x: %d, player y: %d\n", x, y);
-	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_UP) && !in_wall(x, (y -1), map))
+	if (mlx_is_key_down(map->mlx, MLX_KEY_UP) && !is_wall(map))
 	{
-		//map->player.map_y--;
-		map->player.y_coor--;
+		map->player.x_coor += (map->player.x_angle * 2);
+		map->player.y_coor += (map->player.y_angle * 2);
+		mk_rel_vals(map);
 	}
-	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_DOWN) && !in_wall(x, y + 1, map))
+	if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN) && !is_wall(map))
 	{
-		//map->player.map_y++;
-		map->player.y_coor++;
+		map->player.x_coor -= (map->player.x_angle * 2);
+		map->player.y_coor -= (map->player.y_angle * 2);
+		mk_rel_vals(map);
 	}
-	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_LEFT) && !in_wall((x -1), y, map))
+	if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
 	{
-		map->player.x_coor--;
-		// if (map->player.rotation == 0)
-		// 	map->player.rotation = 359;
-		// else
-		// 	map->player.rotation--;
+		map->player.rotation = FixAng(map->player.rotation + 2);
+		map->player.x_angle = cos(degToRad(map->player.rotation));
+		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
-	if (mlx_is_key_down(map->minimap->mlx, MLX_KEY_RIGHT) && !in_wall(x + 1, y, map))
+	if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
 	{
-		map->player.x_coor++;
-		// if (map->player.rotation == 359)
-		// 	map->player.rotation = 0;
-		// else
-		// 	map->player.rotation++;
+		map->player.rotation = FixAng(map->player.rotation - 2);
+		map->player.x_angle = cos(degToRad(map->player.rotation));
+		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
+	ft_draw_player(map);
 }
 
 static void player_movement(mlx_t *mlx, t_map *map)
@@ -353,12 +240,26 @@ static void player_movement(mlx_t *mlx, t_map *map)
 	mlx_loop_hook(mlx, ft_draw_player, map);
 }
 
+double get_start_dir(t_map *map)
+{
+	if (map->player.start_direction == 11)
+		return (90);
+	else if (map->player.start_direction == 12)
+		return (180);
+	else if (map->player.start_direction == 13)
+		return (270);
+	else
+		return (360);
+}
+
 int32_t	draw_map(t_map *map)
 {
 	mlx_t		*mlx;
 	int			i;
 	mlx_image_t	*image;
+	int a;
 
+	a = 1;
 	i = MIN_X_MINIMAP;
 	mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 	if (!mlx)
@@ -367,7 +268,8 @@ int32_t	draw_map(t_map *map)
 		return (EXIT_FAILURE);
 	}
 	image = mlx_new_image(mlx, WIDTH, HEIGHT);
-	if (!map->minimap->img)
+	map->img = image;
+	if (!map->img)
 	{
 		mlx_close_window(mlx);
 		puts(mlx_strerror(mlx_errno));

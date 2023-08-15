@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/02 14:38:16 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/10 18:27:04 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	get_map_height(char **map_arr)
 {
 	int	i;
 
+	if (!map_arr)
+		map_exit("test");
 	i = 0;
 	while (map_arr[i])
 		i++;
@@ -86,7 +88,7 @@ int	make_tiles(t_map *map)
 		return (0);
 	while (tiles[i])
 	{
-		tiles[i] = malloc(sizeof(t_tile *) * ft_strlen(map->map_arr[i]));
+		tiles[i] = malloc(sizeof(t_tile *) * (ft_strlen(map->map_arr[i]) + 1));
 		if (!tiles[i])
 			return (0);
 		i++;
@@ -94,12 +96,12 @@ int	make_tiles(t_map *map)
 	i = 0;
 	while (tiles[i])
 	{
-		while (j < (ft_strlen(map->map_arr[i]) - 1))
+		while (j < (ft_strlen(map->map_arr[i])))
 		{
 			tiles[i][j] = init_tile(i, j, map);
 			j++;
 		}
-		tiles[i][j] = NULL;
+		tiles[i][ft_strlen(map->map_arr[i])] = NULL;
 		j = 0;
 		i++;
 	}
@@ -132,6 +134,8 @@ void	test(char *addr)
 	fg_set_rgb_fd(map->color_ceiling, 1);
 	fg_set_rgb_fd(map->color_floor, 1);
 	check_map(map);
+	if (!map->map_arr)
+		map_exit("errr");
 	if (map)
 		write_map(map, 1);
 	draw_map(map);
