@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/15 18:47:48 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/21 17:20:26 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 // -----------------------------------------------------------------------------
 
-float degToRad(int a)
+float	degToRad(int a)
 {
 	return (a * M_PI / 180.0);
 }
@@ -72,15 +72,15 @@ void	mk_rel_vals(t_map *map)
 }
 
 void	init_direction(t_map *map)
-{
+{	
 	if (map->player.start_direction == 11)
-		map->player.rotation = 90;
+		map->player.rotation = 270;
 	else if (map->player.start_direction == 12)
 		map->player.rotation = 180;
 	else if (map->player.start_direction == 13)
 		map->player.rotation = 0;
 	else
-		map->player.rotation = 270;
+		map->player.rotation = 90;
 	map->player.x_angle = cos(degToRad(map->player.rotation));
 	map->player.y_angle = -sin(degToRad(map->player.rotation));
 }
@@ -107,7 +107,7 @@ void	draw_direction(t_map *map)
 	y = get_mmap_centre_y() + PLAYER_RAD;
 	i = 0;
 	//while (pix_not_wall(map, x + map->player.x_angle, y + map->player.y_angle))
-	while(i < 20)
+	while (i < 20)
 	{
 		x += map->player.x_angle;
 		y += map->player.y_angle;
@@ -132,9 +132,9 @@ void	ft_draw_player(void *param)
 	start_y = y;
 	draw_box(map);
 	draw_minimap(map);
-	while (x < (start_x + (PLAYER_RAD * 2)))
+	while (x <= (start_x + (PLAYER_RAD * 2)))
 	{
-		while (y < (start_y + (PLAYER_RAD * 2)))
+		while (y <= (start_y + (PLAYER_RAD * 2)))
 		{
 			minimap_wrap_print(x, y, map, \
 			ft_pixel(0, 255, 0, 255));
@@ -144,27 +144,8 @@ void	ft_draw_player(void *param)
 		x++;
 	}
 	draw_direction(map);
-	//draw_rays(map);
+	draw_rays(map);
 }
-
-// int	in_range_xy(t_map *map, int i, int j, double check_val, char x_y)
-// {
-// 	float	ref;
-
-// 	if (x_y == 'x')
-// 	{
-// 		ref = (float)map->tiles[i][j]->x_coor;
-// 		if (ref > (check_val - TILE_RAD) && (ref < (check_val + TILE_RAD)))
-// 			return (1);
-// 	}
-// 	else if (x_y == 'y')
-// 	{
-// 		ref = (float)map->tiles[i][j]->y_coor;
-// 		if (ref > (check_val - TILE_RAD) && (ref < (check_val + TILE_RAD)))
-// 			return (1);
-// 	}
-// 	return (0);
-// }
 
 int FixAng(int a)
 {
@@ -188,10 +169,10 @@ int	is_wall(t_map *map)
 		{
 			if (!map->tiles[i][j]->is_open)
 			{
-				if ((map->tiles[i][j]->x_coor - TILE_RAD - 5) < (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->x_coor + TILE_RAD + 5) > (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->y_coor - TILE_RAD - 5) < (map->player.y_coor + (map->player.y_angle * 2)) \
-				&& (map->tiles[i][j]->y_coor + TILE_RAD + 5) > (map->player.y_coor + (map->player.y_angle * 2)))
+				if ((map->tiles[i][j]->x_coor - TILE_RAD) < (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->x_coor + TILE_RAD) > (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->y_coor - TILE_RAD) < (map->player.y_coor + (map->player.y_angle * 2)) \
+				&& (map->tiles[i][j]->y_coor + TILE_RAD) > (map->player.y_coor + (map->player.y_angle * 2)))
 					return (1);
 			}
 			j++;
@@ -240,24 +221,12 @@ static void player_movement(mlx_t *mlx, t_map *map)
 	mlx_loop_hook(mlx, ft_draw_player, map);
 }
 
-double get_start_dir(t_map *map)
-{
-	if (map->player.start_direction == 11)
-		return (90);
-	else if (map->player.start_direction == 12)
-		return (180);
-	else if (map->player.start_direction == 13)
-		return (270);
-	else
-		return (360);
-}
-
 int32_t	draw_map(t_map *map)
 {
 	mlx_t		*mlx;
 	int			i;
 	mlx_image_t	*image;
-	int a;
+	int			a;
 
 	a = 1;
 	i = MIN_X_MINIMAP;

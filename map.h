@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/15 18:47:55 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/21 18:51:00 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ typedef struct s_rays
 	int		my;
 	float	ray_x;
 	float	ray_y;
-	float	vector_x;
-	float	vector_y;
+	//float	vector_x;
+	//float	vector_y;
 	float	offset_x;
 	float	offset_y;
 	float	dist_V;
 	float	dist_H;
 	int		dof;
-
-
 }	t_rays;
 
 typedef struct s_player
@@ -53,12 +51,12 @@ typedef struct s_tile
 	float		y_coor;
 	float		rel_x;
 	float		rel_y;
-	bool		is_open;
+	int			is_open;
 	int			width;
 	int			depth;
 	int			height;
-	bool		is_player;
-	bool		not_map;
+	int			is_player;
+	int			not_map;
 }	t_tile;
 
 typedef struct s_map
@@ -126,6 +124,7 @@ void	minimap_wrap_print(float x, float y, t_map *map, int32_t colour);
 void	put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	mk_rel_vals(t_map *map);
+//void 	get_start_dir(t_map *map);
 void	init_direction(t_map *map);
 
 // temp_tools.c
@@ -145,5 +144,8 @@ void	expand_walls(t_map *map, int i, int j);
 void	convert_coordinates(t_map *map);
 void	shade_box(t_map *map);
 void	draw_box(t_map *map);
+
+// rays.c
+void	draw_rays(t_map *map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 20:00:54 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/15 15:38:27 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/16 21:51:03 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	convert_coordinates(t_map *map)
 	{
 		while (map->tiles[i][j])
 		{
-			map->tiles[i][j]->x_coor = (TILE_RAD + (j * (TILE_RAD * 2)));
-			map->tiles[i][j]->y_coor = (TILE_RAD + (i * (TILE_RAD * 2)));
+			map->tiles[i][j]->x_coor = ((j * (TILE_RAD * 2)));
+			map->tiles[i][j]->y_coor = ((i * (TILE_RAD * 2)));
 			if (map->tiles[i][j]->is_player)
 			{
 				map->player.x_coor = map->tiles[i][j]->x_coor;
