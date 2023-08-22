@@ -16,6 +16,91 @@
 #include "stdio.h"
 #include <stdlib.h>
 
+//---------------------------Draw Rays and Walls--------------------------------
+
+void draw_line_new(t_map *map, float px, float py, float rx, float ry)
+{
+	float x_int;
+	float y_int;
+	float start_x;
+	float start_y;
+
+	start_x = px;
+	start_y = py; 
+	x_int = rx - px;
+	y_int = ry - py;
+	while ((int)px != (int)rx && (int)px != (int)py)
+	{
+		put_pixel_wrap(map->img, px, py, ft_pixel(255, 0, 100, 150));
+		px += (x_int / 100);
+		py += (y_int / 100);
+	}
+}
+
+
+
+// float distance(ax,ay,bx,by,ang){ return cos(degToRad(ang))*(bx-ax)-sin(degToRad(ang))*(by-ay);}
+// //int FixAng(int a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
+
+// void drawRays2D(t_map *map)
+// {
+//  //glColor3f(0,1,1); glBegin(GL_QUADS); glVertex2i(526,  0); glVertex2i(1006,  0); glVertex2i(1006,160); glVertex2i(526,160); glEnd();	
+//  //glColor3f(0,0,1); glBegin(GL_QUADS); glVertex2i(526,160); glVertex2i(1006,160); glVertex2i(1006,320); glVertex2i(526,320); glEnd();	 	
+	
+//  int r,mx,my,mp,dof,side,pa; float vx,vy,rx,ry,ra,xo,yo,disV,disH,px,py; 
+ 
+//  px = map->player.x_coor;	
+//  py = map->player.y_coor;
+//  pa = map->player.rotation;
+
+//  ra=FixAng(pa+30);                                                              //ray set back 30 degrees
+ 
+//  for(r=0;r<60;r++)
+//  {
+//   //---Vertical--- 
+//   dof=0; side=0; disV=100000;
+//   float Tan=tan(degToRad(ra));
+//        if(cos(degToRad(ra))> 0.001){ rx=(((int)px>>6)<<6)+64;      ry=(px-rx)*Tan+py; xo= 64; yo=-xo*Tan;}//looking left
+//   else if(cos(degToRad(ra))<-0.001){ rx=(((int)px>>6)<<6) -0.0001; ry=(px-rx)*Tan+py; xo=-64; yo=-xo*Tan;}//looking right
+//   else { rx=px; ry=py; dof=8;}                                                  //looking up or down. no hit  
+
+//   while(dof<8) 
+//   { 
+//    mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*map->width+mx;                     
+//    if(mp>0 && mp<map->width*map->height && map->map_arr[mp/map->width][mp % map->width]=='1'){ dof=8; disV=cos(degToRad(ra))*(rx-px)-sin(degToRad(ra))*(ry-py);}//hit         
+//    else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
+//   } 
+//   vx=rx; vy=ry;
+
+//   //---Horizontal---
+//   dof=0; disH=100000;
+//   Tan=1.0/Tan; 
+//        if(sin(degToRad(ra))> 0.001){ ry=(((int)py>>6)<<6) -0.0001; rx=(py-ry)*Tan+px; yo=-64; xo=-yo*Tan;}//looking up 
+//   else if(sin(degToRad(ra))<-0.001){ ry=(((int)py>>6)<<6)+64;      rx=(py-ry)*Tan+px; yo= 64; xo=-yo*Tan;}//looking down
+//   else{ rx=px; ry=py; dof=8;}                                                   //looking straight left or right
+ 
+//   while(dof<8) 
+//   { 
+//    mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*map->width+mx;                          
+//    if(mp>0 && mp<map->width*map->height && map->map_arr[mp/map->width][mp % map->width]=='1'){ dof=8; disH=cos(degToRad(ra))*(rx-px)-sin(degToRad(ra))*(ry-py);}//hit         
+//    else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
+//   } 
+  
+//   //glColor3f(0,0.8,0);
+//   if(disV<disH){ rx=vx; ry=vy; disH=disV;} //glColor3f(0,0.6,0);}
+//   draw_line_new(map, px, py, rx, ry);    		           //horizontal hit first
+//   //glLineWidth(2); glBegin(GL_LINES); glVertex2i(px,py); glVertex2i(rx,ry); glEnd();//draw 2D ray
+    
+//   int ca=FixAng(pa-ra); disH=disH*cos(degToRad(ca));                            //fix fisheye 
+//   int lineH = ((TILE_RAD*2)*320)/(disH); if(lineH>320){ lineH=320;}                     //line height and limit
+//   //int lineOff = 160 - (lineH>>1);                                               //line offset
+  
+//   //glLineWidth(8);glBegin(GL_LINES);glVertex2i(r*8+530,lineOff);glVertex2i(r*8+530,lineOff+lineH);glEnd();//draw vertical wall  
+
+//   ra=FixAng(ra-1);                                                              //go to next ray
+//  }
+// }
+
 // float	distance(float ax, float ay, float bx, float by, float ang)
 // {
 // 	return (cos(degToRad(ang)) * (bx - ax) - sin(degToRad(ang)) * (by - ay));
@@ -99,7 +184,7 @@ static void	draw_ray(t_map *map)
 	printf("dist_v: %f, dist_h: %f\n", map->rays->dist_V, map->rays->dist_H);
 	printf("x_angle: %f, y_angle: %f", map->player.x_angle, map->player.y_angle);
 	printf("dof: %d", map->rays->dof);
-	exit(0);
+	//exit(0);
 }
 // 	// fix this!! 
 // 	if (map->rays->ray_x == map->player.x_coor)
@@ -191,4 +276,5 @@ void draw_rays(t_map *map)
 	side = 0;
 	map->rays->dist_V = 100000;
 	rays_hor(map);
+	
 }
