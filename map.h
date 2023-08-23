@@ -6,7 +6,11 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2023/08/22 15:05:40 by jbax          ########   odam.nl         */
+=======
+/*   Updated: 2023/08/22 14:53:43 by avon-ben      ########   odam.nl         */
+>>>>>>> 9797609bcf4a36911c94a9d5eb0a898319894456
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +131,7 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	mk_rel_vals(t_map *map);
 //void 	get_start_dir(t_map *map);
 void	init_direction(t_map *map);
+int 	FixAng(int a);
 
 // temp_tools.c
 void	streight_line(t_map *map, float dir_x, float dir_y);
