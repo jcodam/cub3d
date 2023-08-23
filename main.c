@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/10 18:27:04 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/22 16:18:01 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,19 @@ int	make_tiles(t_map *map)
 	return (1);
 }
 
+static void	remove_newline(char **s)
+{
+	char	*new;
+
+	new = ft_strtrim(*s, "\n");
+	free(*s);
+	*s = new;
+}
+
 void	test(char *addr)
 {
 	t_map	*map;
-	char	*temp;
+	// char	*temp;
 
 	fg_putstr_rgb_fd(addr, "45;255;45", 1);
 	write(1, "\n", 1);
@@ -121,12 +130,18 @@ void	test(char *addr)
 	fill_map(map, addr);
 	if (!make_tiles(map))
 		exit (1);
-	temp = map->color_floor;
-	map->color_floor = ft_strtrim(temp, "\n");
-	free(temp);
-	temp = map->color_ceiling;
-	map->color_ceiling = ft_strtrim(temp, "\n");
-	free(temp);
+	// temp = map->color_floor;
+	// map->color_floor = ft_strtrim(temp, "\n");
+	// free(temp);
+	remove_newline(&map->path_ea);
+	remove_newline(&map->path_we);
+	remove_newline(&map->path_so);
+	remove_newline(&map->path_no);
+	remove_newline(&map->color_floor);
+	remove_newline(&map->color_ceiling);
+	// temp = map->color_ceiling;
+	// map->color_ceiling = ft_strtrim(temp, "\n");
+	// free(temp);
 	ft_strrep(map->color_ceiling, ",.-", ';');
 	ft_strrep(map->color_floor, ",.-", ';');
 	map->color_ceiling = color_syntax(map->color_ceiling);

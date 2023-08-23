@@ -99,7 +99,7 @@ static void	draw_ray(t_map *map)
 	printf("dist_v: %f, dist_h: %f\n", map->rays->dist_V, map->rays->dist_H);
 	printf("x_angle: %f, y_angle: %f", map->player.x_angle, map->player.y_angle);
 	printf("dof: %d", map->rays->dof);
-	exit(0);
+	// exit(0);
 }
 // 	// fix this!! 
 // 	if (map->rays->ray_x == map->player.x_coor)

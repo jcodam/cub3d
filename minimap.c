@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/21 17:20:26 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/23 14:36:15 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	ft_draw_player(void *param)
 	float	start_y;
 
 	map = param;
+	draw_background(map);
 	x = get_mmap_centre_x();
 	y = get_mmap_centre_y();
 	start_x = x;
@@ -144,7 +145,7 @@ void	ft_draw_player(void *param)
 		x++;
 	}
 	draw_direction(map);
-	draw_rays(map);
+	// draw_rays(map);
 }
 
 int FixAng(int a)
@@ -212,11 +213,16 @@ void	ft_move_player(void *param)
 		map->player.x_angle = cos(degToRad(map->player.rotation));
 		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
+	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
+	{
+		exit(1);
+	}
 	ft_draw_player(map);
 }
 
 static void player_movement(mlx_t *mlx, t_map *map)
 {
+	usleep(100);
 	mlx_loop_hook(mlx, ft_move_player, map);
 	mlx_loop_hook(mlx, ft_draw_player, map);
 }
