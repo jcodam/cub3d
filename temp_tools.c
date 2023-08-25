@@ -13,8 +13,9 @@ void	print_tiles(t_map *map)
 	{
 		while (map->tiles[i][j])
 		{
-			printf("tile x: %d, tile y: %d", map->tiles[i][j]->x, \
+			printf("tile x: %d, tile y: %d\n", map->tiles[i][j]->x, \
 			map->tiles[i][j]->y);
+			printf("is wall: %d\n\n", map->tiles[i][j]->is_wall);
 			j++;
 		}
 		j = 0;

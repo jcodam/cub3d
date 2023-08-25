@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/22 14:53:43 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/24 14:17:09 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ typedef struct s_tile
 	float		y_coor;
 	float		rel_x;
 	float		rel_y;
-	int			is_open;
-	int			width;
-	int			depth;
+	int			is_wall;
 	int			height;
 	int			is_player;
 	int			not_map;
@@ -133,12 +131,12 @@ void	streight_line(t_map *map, float dir_x, float dir_y);
 void	print_tiles(t_map *map);
 
 // tools.c
-float	get_mmap_centre_x(void);
-float	get_mmap_centre_y(void);
-float	mini_rel_x(t_map *map, int i, int j);
-float	mini_rel_y(t_map *map, int i, int j);
-int		mini_x(float x);
-int		mini_y(float y);
+float		get_mmap_centre_x(void);
+float		get_mmap_centre_y(void);
+float		mini_rel_x(t_map *map, int i, int j);
+float		mini_rel_y(t_map *map, int i, int j);
+uint32_t	mini_x(t_map *map, float x);
+uint32_t	mini_y(t_map *map, float y);
 
 // mmap_init.c
 void	expand_walls(t_map *map, int i, int j);

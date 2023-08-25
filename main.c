@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/10 18:27:04 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/24 14:18:21 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,18 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 		exit (0);
 	tile->x = j;
 	tile->y = i;
-	tile->x_coor = 0;
-	tile->y_coor = 0;
+	tile->x_coor = tile->x * (TILE_RAD * 2);
+	tile->y_coor = tile->y * (TILE_RAD * 2);
 	tile->not_map = 0;
-	tile->width = TILE_RAD * 2;
-	tile->depth = TILE_RAD * 2;
 	tile->height = TILE_HEIGHT;
 	tile->is_player = 0;
-	if (!ft_strchr("ONSW10", map->map_arr[i][j]))
+	tile->is_wall = 0;
+	if (!ft_strchr("ENSW10", map->map_arr[i][j]))
 		tile->not_map = 1;
-	if (ft_strchr("ONSW", map->map_arr[i][j]))
+	if (ft_strchr("ENSW", map->map_arr[i][j]))
 		tile->is_player = 1;
-	if (map->map_arr[i][j] == '0' || tile->is_player)
-		tile->is_open = 1;
-	else
-		tile->is_open = 0;
+	if (map->map_arr[i][j] == '1')
+		tile->is_wall = 1;
 	map->height = get_map_height(map->map_arr);
 	map->width = get_map_width(map->map_arr);
 	return (tile);
