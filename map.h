@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/24 14:17:09 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/25 21:39:11 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		check_map_full(t_map *map);
 	number under 255 the max rgb value
 	and changes multiple separators to only one */
 char	*color_syntax(char *str);
+void	draw_background(t_map *map);
 
 // minimap.c
 float 	degToRad(int a);
