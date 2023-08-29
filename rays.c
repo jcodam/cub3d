@@ -33,14 +33,17 @@ static void	draw_ray(t_map *map)
 	dist_y = (map->rays->ray_y - map->player.y_coor);
 	int_x = dist_x / 100;
 	int_y = dist_y / 100;
-	if (dist_x == 0 && dist_y == 0)
+	// printf("dist_x: %f\n", dist_x);
+	// printf("dist_y: %f\n", dist_y);
+	if (dist_x == 0 || dist_y == 0)
 		return ;
 	if (map->rays->dist_H <= map->rays->dist_H)
 	{
 		if (dist_y > 0)
 		{
-			while (dist_y)
+			while (dist_y > 0)
 			{
+				//exit(0);
 				minimap_wrap_print(mini_x(map, draw_x), mini_y(map, draw_y), map, \
 				ft_pixel(0, 0, 255, 200));
 				draw_x += int_x;
@@ -48,7 +51,7 @@ static void	draw_ray(t_map *map)
 				dist_y -= int_y;
 			}
 		}
-		else
+		else if ((dist_y < 0))
 		{
 			while (dist_y < 0)
 			{
@@ -64,7 +67,7 @@ static void	draw_ray(t_map *map)
 	{
 		if (dist_x > 0)
 		{
-			while (dist_x)
+			while (dist_x > 0)
 			{
 				minimap_wrap_print(mini_x(map, draw_x), mini_y(map, draw_y), map, \
 				ft_pixel(0, 0, 255, 200));
@@ -73,7 +76,7 @@ static void	draw_ray(t_map *map)
 				dist_x -= int_x;
 			}
 		}
-		else
+		else if (dist_x < 0)
 		{
 			while (dist_x < 0)
 			{
@@ -107,19 +110,18 @@ int	rays_hor(t_map *map)
 		Tan = tan((degToRad(ray_angle)));
 		map->rays->dist_V = 100000;
 		// Vertical
-		//if (cos(degToRad(ray_angle)) > 0.001)
 		if (ray_angle < 90 || ray_angle > 270)
 		{ //right
-			printf("right\n");
-			ray_x = (((int)map->player.x_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) + (2 * TILE_RAD) + 0.1);
+			ray_x = (((int)map->player.x_coor / (2 * TILE_RAD)) * \
+			(2 * TILE_RAD) + (2 * TILE_RAD));
 			ray_y = (map->player.x_coor - ray_x) * Tan + map->player.y_coor;
 			x_offset = (2 * TILE_RAD);
-			y_offset = (x_offset * -1 ) * Tan;
+			y_offset = (x_offset * -1) * Tan;
 		}
-		if (ray_angle > 90 && ray_angle < 270)
+		else if (ray_angle > 90 && ray_angle < 270)
 		{ // left
-			printf ("left\n");
-			ray_x = (((int)map->player.x_coor / (2 * TILE_RAD)) * (2 * TILE_RAD)) - 0.0001;
+			ray_x = (((int)map->player.x_coor / (2 * TILE_RAD)) * \
+			(2 * TILE_RAD)) - 0.0001;
 			ray_y = (map->player.x_coor - ray_x) * Tan + map->player.y_coor;
 			x_offset = -1 * (2 * TILE_RAD);
 			y_offset = (x_offset * -1) * Tan;
@@ -132,7 +134,9 @@ int	rays_hor(t_map *map)
 		}
 		while (map->rays->dof < 8)
 		{
-			if (((int)ray_x / 64) <= 0 || ((int)ray_x / 64) >= (map->width - 1) || ((int)ray_y / 64) <= 0 || ((int)ray_y / 64) >= (map->height - 1) || map->tiles[((int)ray_y / 64)][((int)ray_x / 64)]->is_wall)
+			if (((int)ray_x / 64) <= 0 || ((int)ray_x / 64) >= (map->width) \
+			|| ((int)ray_y / 64) <= 0 || ((int)ray_y / 64) >= (map->height) \
+			|| map->tiles[((int)ray_y / 64)][((int)ray_x / 64)]->is_wall)
 			{
 				printf("hit_vert\n");
 				map->rays->dof = 8;
@@ -154,16 +158,16 @@ int	rays_hor(t_map *map)
 		map->rays->dof = 0;
 		map->rays->dist_H = 100000;
 		// Horizontal
-		if (sin(degToRad(ray_angle)) > 0.01)
+		if (sin(degToRad(ray_angle)) > 0.00001)
 		{ //up
-			ray_y = (((int)map->player.y_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) - 0.0001);
+			ray_y = (((int)map->player.y_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) - 0.001);
 			ray_x = (map->player.y_coor - ray_y) * (1.0 / Tan) + map->player.x_coor;
 			y_offset = -1 * (2 * TILE_RAD);
 			x_offset = (-1 * y_offset) * (1.0 / Tan);
 		}
-		else if (sin(degToRad(ray_angle)) < -0.01)
+		else if (sin(degToRad(ray_angle)) < 0.00001)
 		{ // down
-			ray_y = (((int)map->player.y_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) + (2 * TILE_RAD) + 0.1);
+			ray_y = (((int)map->player.y_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) + (2 * TILE_RAD));
 			ray_x = (map->player.y_coor - ray_y) * (1.0 / Tan) + map->player.x_coor;
 			y_offset = (2 * TILE_RAD);
 			x_offset = (-1 * y_offset) * (1.0 / Tan);
@@ -176,9 +180,10 @@ int	rays_hor(t_map *map)
 		}
 		while (map->rays->dof < 8)
 		{
-			if (((int)ray_x / 64) <= 0 || ((int)ray_x / 64) >= (map->width - 1) || ((int)ray_y / 64) <= 0 || ((int)ray_y / 64) >= (map->height - 1) || map->tiles[((int)ray_y / 64)][((int)ray_x / 64)]->is_wall)
+			if (((int)ray_x / 64) <= 0 || ((int)ray_x / 64) >= (map->width) \
+			|| ((int)ray_y / 64) <= 0 || ((int)ray_y / 64) >= (map->height) \
+			|| map->tiles[((int)ray_y / 64)][((int)ray_x / 64)]->is_wall)
 			{
-				printf("hit hor\n");
 				map->rays->dof = 8;
 				map->rays->dist_H = cos(degToRad(ray_angle)) * (ray_x \
 				- map->player.x_coor) - sin(degToRad(ray_angle)) * \
@@ -191,10 +196,10 @@ int	rays_hor(t_map *map)
 				map->rays->dof++;
 			}
 		}
-		printf("ray_x hor: %d\n", ((int)ray_x / 64));
-		printf("ray_y hor: %d\n", ((int)ray_y / 64));
-		printf ("dist_v: %f\n", map->rays->dist_V);
-		printf ("dist_h: %f\n", map->rays->dist_H);
+		// printf("ray_x hor: %d\n", ((int)ray_x / 64));
+		// printf("ray_y hor: %d\n", ((int)ray_y / 64));
+		// printf ("dist_v: %f\n", map->rays->dist_V);
+		// printf ("dist_h: %f\n", map->rays->dist_H);
 		if (map->rays->dist_V < map->rays->dist_H)
 		{
 			ray_x = vert_x;
@@ -212,7 +217,7 @@ int	rays_hor(t_map *map)
 	return (1);
 }
 
-void draw_rays(t_map *map)
+void	draw_rays(t_map *map)
 {
 	int		side;
 
