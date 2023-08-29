@@ -6,7 +6,7 @@
 #    By: jbax <jbax@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/08/22 15:06:46 by jbax          ########   odam.nl          #
+#    Updated: 2023/08/25 21:39:06 by avon-ben      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ VPATH= expander : executor : files : lexer : headers : nextline
 NAME= cub3D
 
 SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c minimap_tools.c \
-	rotation.c make_base_minimap.c drawing.c temp_tools.c tools.c mmap_init.c \
+	rotation.c drawing.c temp_tools.c tools.c mmap_init.c \
 	rays.c
 SRC+= background.c
 SRC+= get_next_line.c get_next_line_utils.c

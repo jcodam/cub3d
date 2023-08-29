@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/23 17:12:13 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/25 21:39:20 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	draw_minimap(t_map *map)
 	{
 		while (map->tiles[i][j])
 		{
-			if (!map->tiles[i][j]->is_open && !map->tiles[i][j]->not_map)
+			if (map->tiles[i][j]->is_wall)
 				expand_walls(map, i, j);
 			j++;
 		}
@@ -129,8 +129,8 @@ void	ft_draw_player(void *param)
 	draw_background(map);
 	x = get_mmap_centre_x();
 	y = get_mmap_centre_y();
-	start_x = x;
-	start_y = y;
+	start_x = x - PLAYER_RAD;
+	start_y = y - PLAYER_RAD;
 	draw_box(map);
 	draw_minimap(map);
 	while (x <= (start_x + (PLAYER_RAD * 2)))
@@ -152,7 +152,7 @@ int FixAng(int a)
 {
 	if (a > 359)
 		a -= 360;
-	if (a < 0)
+	if (a <= 0)
 		a += 360;
 	return (a);
 }
@@ -168,12 +168,12 @@ int	is_wall(t_map *map)
 	{
 		while (map->tiles[i][j])
 		{
-			if (!map->tiles[i][j]->is_open)
+			if (map->tiles[i][j]->is_wall)
 			{
-				if ((map->tiles[i][j]->x_coor - TILE_RAD) < (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->x_coor + TILE_RAD) > (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->y_coor - TILE_RAD) < (map->player.y_coor + (map->player.y_angle * 2)) \
-				&& (map->tiles[i][j]->y_coor + TILE_RAD) > (map->player.y_coor + (map->player.y_angle * 2)))
+				if ((map->tiles[i][j]->x_coor) < (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2)) > (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->y_coor) < (map->player.y_coor + (map->player.y_angle * 2)) \
+				&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2)) > (map->player.y_coor + (map->player.y_angle * 2)))
 					return (1);
 			}
 			j++;
@@ -257,6 +257,8 @@ int32_t	draw_map(t_map *map)
 		return (EXIT_FAILURE);
 	}
 	make_minimap(map, mlx, image);
+	// print_tiles(map);
+	// exit (0);
 	player_movement(mlx, map);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

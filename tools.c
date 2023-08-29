@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 19:01:18 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/13 18:16:27 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/22 17:10:32 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,18 @@ float	mini_rel_y(t_map *map, int i, int j)
 	return (map->tiles[i][j]->rel_y + get_mmap_centre_y());
 }
 
-int	mini_x(float x)
+uint32_t	mini_x(t_map *map, float x)
 {
-	return (x + MIN_X_MINIMAP);
+	float	rel;
+
+	rel = x - map->player.x_coor;
+	return (rel + get_mmap_centre_x());
 }
 
-int	mini_y(float y)
+uint32_t	mini_y(t_map *map, float y)
 {
-	return (y + MIN_Y_MINIMAP);
+	float	rel;
+
+	rel = y - map->player.y_coor;
+	return (rel + get_mmap_centre_y());
 }
