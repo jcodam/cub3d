@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/29 18:27:48 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/29 19:40:12 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	ft_draw_player(void *param)
 	map = param;
 	draw_background(map);
 	start_x = (get_mmap_centre_x() - PLAYER_RAD);
-	start_y = get_mmap_centre_y();
+	start_y = (get_mmap_centre_y() - PLAYER_RAD);
 	x = start_x;
 	y = start_y;
 	draw_box(map);
@@ -153,7 +153,49 @@ int FixAng(int a)
 	return (a);
 }
 
-int	is_wall(t_map *map)
+int check_bckwd(t_map *map, size_t i, size_t j)
+{
+	float	xc;
+	float	xa;
+	float	yc;
+	float	ya;
+
+	xc = map->player.x_coor;
+	xa = map->player.x_angle;
+	yc = map->player.y_coor;
+	ya = map->player.y_angle;
+	if ((map->tiles[i][j]->x_coor - 5) < (xc - (xa * 2))
+	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (xc - (xa * 2)) \
+	&& (map->tiles[i][j]->y_coor - 5) < (yc - (ya * 2) + 5) \
+	&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (yc - (ya * 2)))
+		return (1);
+	else
+		return (0);
+}
+
+
+
+int check_fwd(t_map *map, size_t i, size_t j)
+{
+	float	xc;
+	float	xa;
+	float	yc;
+	float	ya;
+
+	xc = map->player.x_coor;
+	xa = map->player.x_angle;
+	yc = map->player.y_coor;
+	ya = map->player.y_angle;
+	if ((map->tiles[i][j]->x_coor - 5) < (xc + (xa * 2))
+	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (xc + (xa * 2)) \
+	&& (map->tiles[i][j]->y_coor - 5) < (yc + (ya * 2) + 5) \
+	&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (yc + (ya * 2)))
+		return (1);
+	else
+		return (0);
+}
+
+int	is_wall(t_map *map, char dir)
 {
 	size_t	i;
 	size_t	j;
@@ -164,15 +206,12 @@ int	is_wall(t_map *map)
 	{
 		while (j < ft_strlen(map->map_arr[i]))
 		{
-			if (map->tiles[i][j]->is_wall)
-			{
-				if ((map->tiles[i][j]->x_coor - 5) < (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->y_coor - 5) < (map->player.y_coor + (map->player.y_angle * 2) + 5) \
-				&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (map->player.y_coor + (map->player.y_angle * 2)))
-					return (1);
-			}
-			j++;
+			if (dir == 'f' && map->tiles[i][j]->is_wall && check_fwd(map, i, j))
+				return (1);
+			else if (dir == 'b' && map->tiles[i][j]->is_wall && \
+			check_bckwd(map, i, j))
+				return (1);
+			j++;	
 		}
 		j = 0;
 		i++;
@@ -180,23 +219,64 @@ int	is_wall(t_map *map)
 	return (0);
 }
 
+void move_up(t_map *map)
+{
+	float	store;
+	if (!is_wall(map, 'f'))
+	{
+		map->player.x_coor += (map->player.x_angle * 2);
+		map->player.y_coor += (map->player.y_angle * 2);
+	}
+	else if (is_wall(map, 'f'))
+	{
+		store = map->player.x_angle;
+		map->player.x_angle = 0;
+		if (!is_wall(map, 'f'))
+		{
+			map->player.y_coor += map->player.y_angle * 2;
+		}
+		map->player.x_angle = store;
+		store = map->player.y_angle;
+		map->player.y_angle = 0;
+		if (!is_wall(map, 'f'))
+			map->player.x_coor += map->player.x_angle * 2;
+		map->player.y_angle = store;
+	}
+
+	mk_rel_vals(map);
+}
+
+void move_down(t_map *map)
+{
+	float	store;
+
+	if (is_wall(map, 'b'))
+	{
+		store = map->player.x_angle;
+		map->player.x_angle = 0;
+		if (!is_wall(map, 'b'))
+			map->player.y_coor -= map->player.y_angle * 2;
+		else
+			map->player.x_coor -= store * 2;
+		map->player.x_angle = store;
+	}
+	else
+	{
+		map->player.x_coor -= (map->player.x_angle * 2);
+		map->player.y_coor -= (map->player.y_angle * 2);
+	}
+	mk_rel_vals(map);
+}
+
 void	ft_move_player(void *param)
 {
 	t_map	*map;
 
 	map = param;
-	if (mlx_is_key_down(map->mlx, MLX_KEY_UP) && !is_wall(map))
-	{
-		map->player.x_coor += (map->player.x_angle * 2);
-		map->player.y_coor += (map->player.y_angle * 2);
-		mk_rel_vals(map);
-	}
-	if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN) && !is_wall(map))
-	{
-		map->player.x_coor -= (map->player.x_angle * 2);
-		map->player.y_coor -= (map->player.y_angle * 2);
-		mk_rel_vals(map);
-	}
+	if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
+		move_up(map);
+	if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))
+		move_down(map);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
 	{
 		map->player.rotation = FixAng(map->player.rotation + 2);

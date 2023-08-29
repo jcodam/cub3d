@@ -33,8 +33,6 @@ static void	draw_ray(t_map *map)
 	dist_y = (map->rays->ray_y - map->player.y_coor);
 	int_x = dist_x / 1000;
 	int_y = dist_y / 1000;
-	// printf("dist_x: %f\n", dist_x);
-	// printf("dist_y: %f\n", dist_y);
 	if (dist_x == 0 || dist_y == 0)
 		return ;
 	if (map->rays->dist_H <= map->rays->dist_H)
@@ -43,7 +41,6 @@ static void	draw_ray(t_map *map)
 		{
 			while (dist_y > 0)
 			{
-				//exit(0);
 				minimap_wrap_print(mini_x(map, draw_x), mini_y(map, draw_y), map, \
 				ft_pixel(0, 0, 255, 200));
 				draw_x += int_x;
