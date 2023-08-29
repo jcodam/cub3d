@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:32:11 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/25 16:11:48 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/28 20:08:09 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 # define TILE_HEIGHT 10
 # define PLAYER_RAD 6
 # define PI 3.14159265359
-# define FOV 5
+# define FOV 30
 
 #endif

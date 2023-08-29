@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/25 21:39:20 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/29 15:03:28 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void	draw_direction(t_map *map)
 	double		x;
 	double		y;
 
-	x = get_mmap_centre_x() + PLAYER_RAD;
-	y = get_mmap_centre_y() + PLAYER_RAD;
+	x = get_mmap_centre_x();
+	y = get_mmap_centre_y();
 	i = 0;
 	//while (pix_not_wall(map, x + map->player.x_angle, y + map->player.y_angle))
 	while (i < 20)
@@ -127,30 +127,26 @@ void	ft_draw_player(void *param)
 
 	map = param;
 	draw_background(map);
-	x = get_mmap_centre_x();
-	y = get_mmap_centre_y();
-	start_x = x - PLAYER_RAD;
-	start_y = y - PLAYER_RAD;
+	start_x = (get_mmap_centre_x() - PLAYER_RAD);
+	start_y = get_mmap_centre_y();
+	x = start_x;
+	y = start_y;
 	draw_box(map);
 	draw_minimap(map);
 	while (x <= (start_x + (PLAYER_RAD * 2)))
 	{
 		while (y <= (start_y + (PLAYER_RAD * 2)))
-		{
-			minimap_wrap_print(x, y, map, \
-			ft_pixel(0, 255, 0, 255));
-			y++;
-		}
+			minimap_wrap_print(x, ++y, map, ft_pixel(0, 255, 0, 255));
 		y = start_y;
-		x++;
+		++x;
 	}
-	draw_direction(map);
-	// draw_rays(map);
+	//draw_direction(map);
+	draw_rays(map);
 }
 
 int FixAng(int a)
 {
-	if (a > 359)
+	if (a > 360)
 		a -= 360;
 	if (a <= 0)
 		a += 360;
@@ -213,16 +209,11 @@ void	ft_move_player(void *param)
 		map->player.x_angle = cos(degToRad(map->player.rotation));
 		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
-	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
-	{
-		exit(1);
-	}
 	ft_draw_player(map);
 }
 
 static void player_movement(mlx_t *mlx, t_map *map)
 {
-	usleep(100);
 	mlx_loop_hook(mlx, ft_move_player, map);
 	mlx_loop_hook(mlx, ft_draw_player, map);
 }
