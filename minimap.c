@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/28 19:59:28 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/29 15:03:28 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	ft_draw_player(void *param)
 	float	start_y;
 
 	map = param;
+	draw_background(map);
 	start_x = (get_mmap_centre_x() - PLAYER_RAD);
 	start_y = get_mmap_centre_y();
 	x = start_x;

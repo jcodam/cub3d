@@ -138,7 +138,6 @@ int	rays_hor(t_map *map)
 			|| ((int)ray_y / 64) <= 0 || ((int)ray_y / 64) >= (map->height) \
 			|| map->tiles[((int)ray_y / 64)][((int)ray_x / 64)]->is_wall)
 			{
-				printf("hit_vert\n");
 				map->rays->dof = 8;
 				map->rays->dist_V = cos(degToRad(ray_angle)) * (ray_x \
 				- map->player.x_coor) - sin(degToRad(ray_angle)) * \
@@ -180,9 +179,9 @@ int	rays_hor(t_map *map)
 		}
 		while (map->rays->dof < 8)
 		{
-			if (((int)ray_x / 64) <= 0 || ((int)ray_x / 64) >= (map->width) \
-			|| ((int)ray_y / 64) <= 0 || ((int)ray_y / 64) >= (map->height) \
-			|| map->tiles[((int)ray_y / 64)][((int)ray_x / 64)]->is_wall)
+			if (((int)ray_x / (2 * TILE_RAD)) <= 0 || ((int)ray_x / (2 * TILE_RAD)) >= (map->width) \
+			|| ((int)ray_y / (2 * TILE_RAD)) <= 0 || ((int)ray_y / (2 * TILE_RAD)) >= (map->height) \
+			|| map->tiles[((int)ray_y / (2 * TILE_RAD))][((int)ray_x / (2 * TILE_RAD))]->is_wall)
 			{
 				map->rays->dof = 8;
 				map->rays->dist_H = cos(degToRad(ray_angle)) * (ray_x \
