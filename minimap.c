@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/29 15:03:28 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/29 18:27:48 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ float	degToRad(int a)
 
 static void	draw_minimap(t_map *map)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
 	while (map->tiles[i])
 	{
-		while (map->tiles[i][j])
+		while (j < ft_strlen(map->map_arr[i]))
 		{
 			if (map->tiles[i][j]->is_wall)
 				expand_walls(map, i, j);
@@ -49,10 +49,10 @@ static void	draw_minimap(t_map *map)
 
 void	mk_rel_vals(t_map *map)
 {
-	float	p_x;
-	float	p_y;
-	int		i;
-	int		j;
+	float		p_x;
+	float		p_y;
+	size_t		i;
+	size_t		j;
 
 	i = 0;
 	j = 0;
@@ -60,7 +60,7 @@ void	mk_rel_vals(t_map *map)
 	p_y = map->player.y_coor;
 	while (map->tiles[i])
 	{
-		while (map->tiles[i][j])
+		while (j < ft_strlen(map->map_arr[i]))
 		{
 			map->tiles[i][j]->rel_x = map->tiles[i][j]->x_coor - p_x;
 			map->tiles[i][j]->rel_y = map->tiles[i][j]->y_coor - p_y;
@@ -155,21 +155,21 @@ int FixAng(int a)
 
 int	is_wall(t_map *map)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
 	while (map->tiles[i])
 	{
-		while (map->tiles[i][j])
+		while (j < ft_strlen(map->map_arr[i]))
 		{
 			if (map->tiles[i][j]->is_wall)
 			{
-				if ((map->tiles[i][j]->x_coor) < (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2)) > (map->player.x_coor + (map->player.x_angle * 2)) \
-				&& (map->tiles[i][j]->y_coor) < (map->player.y_coor + (map->player.y_angle * 2)) \
-				&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2)) > (map->player.y_coor + (map->player.y_angle * 2)))
+				if ((map->tiles[i][j]->x_coor - 5) < (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (map->player.x_coor + (map->player.x_angle * 2)) \
+				&& (map->tiles[i][j]->y_coor - 5) < (map->player.y_coor + (map->player.y_angle * 2) + 5) \
+				&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (map->player.y_coor + (map->player.y_angle * 2)))
 					return (1);
 			}
 			j++;
@@ -248,8 +248,6 @@ int32_t	draw_map(t_map *map)
 		return (EXIT_FAILURE);
 	}
 	make_minimap(map, mlx, image);
-	// print_tiles(map);
-	// exit (0);
 	player_movement(mlx, map);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

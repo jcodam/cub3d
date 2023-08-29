@@ -6,12 +6,13 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 20:00:54 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/23 13:42:33 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/29 17:29:46 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 #include "defines.h"
+#include "libft/libft.h"
 
 void	expand_walls(t_map *map, int i, int j)
 {
@@ -38,18 +39,16 @@ void	expand_walls(t_map *map, int i, int j)
 
 void	convert_coordinates(t_map *map)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
 	while (map->tiles[i])
 	{
-		while (map->tiles[i][j])
+		while (j < ft_strlen(map->map_arr[i]))
 		{
-			map->tiles[i][j]->x_coor = ((j * (TILE_RAD * 2)));
-			map->tiles[i][j]->y_coor = ((i * (TILE_RAD * 2)));
-			if (map->tiles[i][j]->is_player)
+			if (map->tiles[i][j] && map->tiles[i][j]->is_player)
 			{
 				map->player.x_coor = map->tiles[i][j]->x_coor;
 				map->player.y_coor = map->tiles[i][j]->y_coor;

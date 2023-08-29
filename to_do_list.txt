@@ -14,3 +14,9 @@ map circle of 1
 map seg
 map no double 
 map syntax check
+
+
+# alex
+- add wall buffer;
+- walk along walls;
+- break up functions;
