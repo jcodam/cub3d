@@ -16,7 +16,7 @@ map syntax check
 
 
 # alex
-- add wall buffer;		(done)
-- walk along walls;   	(done)
+- add wall buffer;								(done)
+- walk along walls;   							(done)
 - break up functions;
 - fix streight vertical and horizontal rays
