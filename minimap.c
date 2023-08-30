@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/29 19:40:12 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/30 16:39:57 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,6 +289,8 @@ void	ft_move_player(void *param)
 		map->player.x_angle = cos(degToRad(map->player.rotation));
 		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
+	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
+		exit(0);
 	ft_draw_player(map);
 }
 
