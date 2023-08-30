@@ -31,10 +31,8 @@ static void	draw_ray(t_map *map)
 	draw_y = map->player.y_coor;
 	dist_x = (map->rays->ray_x - map->player.x_coor);
 	dist_y = (map->rays->ray_y - map->player.y_coor);
-	int_x = dist_x / 100;
-	int_y = dist_y / 100;
-	// printf("dist_x: %f\n", dist_x);
-	// printf("dist_y: %f\n", dist_y);
+	int_x = dist_x / 1000;
+	int_y = dist_y / 1000;
 	if (dist_x == 0 || dist_y == 0)
 		return ;
 	if (map->rays->dist_H <= map->rays->dist_H)
@@ -43,7 +41,6 @@ static void	draw_ray(t_map *map)
 		{
 			while (dist_y > 0)
 			{
-				//exit(0);
 				minimap_wrap_print(mini_x(map, draw_x), mini_y(map, draw_y), map, \
 				ft_pixel(0, 0, 255, 200));
 				draw_x += int_x;
@@ -90,20 +87,23 @@ static void	draw_ray(t_map *map)
 	}
 }
 
-int	rays_hor(t_map *map)
+int	cast_rays(t_map *map)
 {
 	float	ray_y;
 	float	ray_x;
 	float	y_offset;
 	float	x_offset;
 	float	Tan;
-	int 	ray_angle;
+	float 	ray_angle;
 	int		i;
 	float	vert_x;
 	float	vert_y;
 
 	i = 0;
 	ray_angle = map->player.rotation + FOV;
+	// map->rays->dof = 0;
+	// Tan = tan((degToRad(ray_angle)));
+	// map->rays->dist_V = 100000;
 	while (i < (FOV * 2))
 	{
 		map->rays->dof = 0;
@@ -150,21 +150,19 @@ int	rays_hor(t_map *map)
 				map->rays->dof++;
 			}
 		}
-		printf("ray_x vert: %d\n", ((int)ray_x / 64));
-		printf("ray_y vert: %d\n", ((int)ray_y / 64));
 		vert_x = ray_x;
 		vert_y = ray_y;
 		map->rays->dof = 0;
 		map->rays->dist_H = 100000;
-		// Horizontal
-		if (sin(degToRad(ray_angle)) > 0.00001)
+		// // Horizontal
+		if (sin(degToRad(ray_angle)) > 0.0001)
 		{ //up
-			ray_y = (((int)map->player.y_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) - 0.001);
+			ray_y = (((int)map->player.y_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) - 0.01);
 			ray_x = (map->player.y_coor - ray_y) * (1.0 / Tan) + map->player.x_coor;
 			y_offset = -1 * (2 * TILE_RAD);
 			x_offset = (-1 * y_offset) * (1.0 / Tan);
 		}
-		else if (sin(degToRad(ray_angle)) < 0.00001)
+		else if (sin(degToRad(ray_angle)) < 0.0001)
 		{ // down
 			ray_y = (((int)map->player.y_coor / (2 * TILE_RAD)) * (2 * TILE_RAD) + (2 * TILE_RAD));
 			ray_x = (map->player.y_coor - ray_y) * (1.0 / Tan) + map->player.x_coor;
@@ -178,10 +176,16 @@ int	rays_hor(t_map *map)
 			map->rays->dof = 8;
 		}
 		while (map->rays->dof < 8)
-		{
-			if (((int)ray_x / (2 * TILE_RAD)) <= 0 || ((int)ray_x / (2 * TILE_RAD)) >= (map->width) \
-			|| ((int)ray_y / (2 * TILE_RAD)) <= 0 || ((int)ray_y / (2 * TILE_RAD)) >= (map->height) \
-			|| map->tiles[((int)ray_y / (2 * TILE_RAD))][((int)ray_x / (2 * TILE_RAD))]->is_wall)
+		{	
+			if((int)ray_x < 0 || ((int)ray_x / (2 * TILE_RAD)) > (map->width - 1) || \
+			(int)ray_y < 0 || ((int)ray_y / (2 * TILE_RAD)) > (map->height - 1))
+			{
+				map->rays->dof = 8;
+				map->rays->dist_H = cos(degToRad(ray_angle)) * (ray_x \
+				- map->player.x_coor) - sin(degToRad(ray_angle)) * \
+				(ray_y - map->player.y_coor);
+			}
+			else if (map->tiles[((int)ray_y / (2 * TILE_RAD))][((int)ray_x / (2 * TILE_RAD))]->is_wall)
 			{
 				map->rays->dof = 8;
 				map->rays->dist_H = cos(degToRad(ray_angle)) * (ray_x \
@@ -190,15 +194,15 @@ int	rays_hor(t_map *map)
 			}
 			else
 			{
-				ray_x += x_offset;
-				ray_y += y_offset;
+				if (((int)ray_x + x_offset) > 0 && (((int)ray_x + x_offset) / (2 * TILE_RAD)) < (map->width) && \
+				((int)ray_y + y_offset) > 0 && (((int)ray_y + y_offset) / (2 * TILE_RAD)) < (map->height))
+				{
+					ray_x += x_offset;
+					ray_y += y_offset;
+				}
 				map->rays->dof++;
 			}
 		}
-		// printf("ray_x hor: %d\n", ((int)ray_x / 64));
-		// printf("ray_y hor: %d\n", ((int)ray_y / 64));
-		// printf ("dist_v: %f\n", map->rays->dist_V);
-		// printf ("dist_h: %f\n", map->rays->dist_H);
 		if (map->rays->dist_V < map->rays->dist_H)
 		{
 			ray_x = vert_x;
@@ -210,12 +214,9 @@ int	rays_hor(t_map *map)
 		map->rays->offset_x = x_offset;
 		map->rays->offset_y = y_offset;
 		draw_ray(map);
+		// draw beam on screen
 		i++;
-		ray_angle = FixAng(ray_angle - 1);
-		if (ray_x < ray_y)
-			wall_texture(map, map->rays->dist_H, i, (int)ray_x % (2 * TILE_RAD));
-		else
-			wall_texture(map, map->rays->dist_H, i, (int)ray_y % (2 * TILE_RAD));
+		ray_angle = FixAng(ray_angle - 0.5);
 	}
 	return (1);
 }
@@ -226,6 +227,6 @@ void	draw_rays(t_map *map)
 
 	map->rays->dof = 0;
 	side = 0;
-	rays_hor(map);
+	cast_rays(map);
 	//rays_ver(map);
 }

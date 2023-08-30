@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/29 17:11:54 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/30 16:39:45 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ void	minimap_wrap_print(float x, float y, t_map *map, int32_t colour);
 void	put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	mk_rel_vals(t_map *map);
-//void 	get_start_dir(t_map *map);
 void	init_direction(t_map *map);
 int 	FixAng(int a);
 

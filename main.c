@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/25 21:39:00 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/29 17:24:54 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 	tile = malloc(sizeof(t_tile));
 	if (!tile)
 		exit (0);
+	if (j > ft_strlen(map->map_arr[i]))
+	{
+		tile->not_map = 1;
+		return (tile);
+	}
 	tile->x = j;
 	tile->y = i;
 	tile->x_coor = tile->x * (TILE_RAD * 2);
@@ -58,7 +63,7 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 	tile->height = TILE_HEIGHT;
 	tile->is_player = 0;
 	tile->is_wall = 0;
-	if (!ft_strchr("ENSW10", map->map_arr[i][j]))
+	if (!map->map_arr[i][j] || !ft_strchr("ENSW10", map->map_arr[i][j]))
 		tile->not_map = 1;
 	if (ft_strchr("ENSW", map->map_arr[i][j]))
 		tile->is_player = 1;
@@ -74,31 +79,35 @@ int	make_tiles(t_map *map)
 	size_t	i;
 	size_t	j;
 	t_tile	***tiles;
+	size_t	width; 
+	size_t	height;
 
+	height = get_map_height(map->map_arr);
+	width = get_map_width(map->map_arr);
 	i = 0;
 	j = 0;
 	if (!map)
 		return (0);
-	tiles = malloc(sizeof(t_tile **) * (get_map_height(map->map_arr) + 1));
-	tiles[get_map_height(map->map_arr)] = NULL;
+	tiles = malloc(sizeof(t_tile **) * (height + 1));
+	tiles[height] = NULL;
 	if (!tiles)
 		return (0);
 	while (tiles[i])
 	{
-		tiles[i] = malloc(sizeof(t_tile *) * (ft_strlen(map->map_arr[i]) + 1));
+		tiles[i] = malloc(sizeof(t_tile *) * (width + 1));
 		if (!tiles[i])
 			return (0);
 		i++;
 	}
+	tiles[i] = NULL;
 	i = 0;
 	while (tiles[i])
 	{
-		while (j < (ft_strlen(map->map_arr[i])))
+		while (j < width)
 		{
-			tiles[i][j] = init_tile(i, j, map);
+				tiles[i][j] = init_tile(i, j, map);
 			j++;
 		}
-		tiles[i][ft_strlen(map->map_arr[i])] = NULL;
 		j = 0;
 		i++;
 	}
