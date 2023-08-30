@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 14:51:40 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/29 14:43:41 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/29 18:39:06 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,20 @@
 // {
 // }
 
-static void	texture_scale(mlx_image_t *img, mlx_texture_t *png, double width, double height)
+static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double point_png, double height)
 {
 	unsigned int	count;
 	double			count2;
 	double			count3;
 	unsigned int	iii;
 	double			www;
+	double 			width;
 	// double	hhh;
 	// int
 
-	(void)width;
+	width = png->width + WIDTH / (FOV * 2);
 	(void)height;
-	count = 0;
+	count = point_png;
 	www = ((width / png->width) * 1000);
 	www = ((int)www % 1000);
 	www = www / 1000;
@@ -41,34 +42,80 @@ static void	texture_scale(mlx_image_t *img, mlx_texture_t *png, double width, do
 	{
 		while (count < width)
 		{
-			ft_memcpy(img->pixels + (WIDTH * iii + count) * 4, png->pixels + \
-				(int)(png->width * (int)(iii * count3) + count * count2) * 4,
+			ft_memcpy(
+				img->pixels + (int)(WIDTH * ((HEIGHT / 2 - height / 2) + iii) + angle * (WIDTH / (FOV * 2)) + count) * 4,
+				png->pixels + (int)(png->width * (int)(iii * count3) + count * count2) * 4,
 				png->bytes_per_pixel);
 			count++;
 		}
-		count = 0;
+		count = point_png;
 		iii++;
 	}
 }
 
-static void	texture_test(t_map *map)
+void	wall_texture(t_map *map, double distence, int angle, double point_png)
 {
 	mlx_texture_t	*png;
-	// mlx_image_t		*img;
+	double			height = HEIGHT / distence;
 
-	ft_putnbr_fd(ft_strchr_set(map->path_no, "\n"), 1);
-	ft_putendl_fd(map->path_no + 2, 1);
+	(void)map;
+	(void)distence;
+	(void)angle;
+	(void)point_png;
 	png = mlx_load_png(map->path_no);
 	if (!png)
 		map_exit("error\npng didn't load\n");
-	texture_scale(map->img, png, 64 * 4, 64 * 6);
-	// img = mlx_texture_to_image(map->mlx, png);
-	// if (!img)
-	// 	map_exit("error\nimige didn't load\n");
-	// mlx_image_to_window(map->mlx, img, 0, 64);
-	// mlx_image_to_window(map->mlx, img, 64, 64);
-	// mlx_image_to_window(map->mlx, img, 64, 0);
+	texture_s(map->img, png, angle, point_png, height);
 }
+
+// static void	texture_scale(mlx_image_t *img, mlx_texture_t *png,
+// 	double width, double height)
+// {
+// 	unsigned int	count;
+// 	double			count2;
+// 	double			count3;
+// 	unsigned int	iii;
+// 	double			www;
+// 	// double	hhh;
+// 	// int
+
+// 	(void)width;
+// 	(void)height;
+// 	count = 0;
+// 	www = ((width / png->width) * 1000);
+// 	www = ((int)www % 1000);
+// 	www = www / 1000;
+// 	count2 = (double)png->width / width;
+// 	count3 = (double)png->height / height;
+// 	iii = 0;
+// 	while (iii < height)
+// 	{
+// 		while (count < width)
+// 		{
+// 			ft_memcpy(img->pixels + (int)(WIDTH * ((HEIGHT / 2 - height / 2) + iii) + count) * 4, png->pixels + \
+// 				(int)(png->width * (int)(iii * count3) + count * count2) * 4,
+// 				png->bytes_per_pixel);
+// 			count++;
+// 		}
+// 		count = 0;
+// 		iii++;
+// 	}
+// }
+
+// static void	texture_test(t_map *map)
+// {
+// 	mlx_texture_t	*png;
+
+// 	ft_putnbr_fd(ft_strchr_set(map->path_no, "\n"), 1);
+// 	ft_putendl_fd(map->path_no + 2, 1);
+// 	png = mlx_load_png(map->path_no);
+// 	if (!png)
+// 		map_exit("error\npng didn't load\n");
+// 	texture_scale(map->img, png, 64 * 12, 64 * 18);
+// 	// mlx_image_to_window(map->mlx, img, 0, 64);
+// 	// mlx_image_to_window(map->mlx, img, 64, 64);
+// 	// mlx_image_to_window(map->mlx, img, 64, 0);
+// }
 
 void	draw_background(t_map *map)
 {
@@ -86,7 +133,7 @@ void	draw_background(t_map *map)
 	{
 		while (pos_width != WIDTH)
 		{
-			if (pos_height <= HEIGHT / 2)
+			if (pos_height < HEIGHT / 2)
 				mlx_put_pixel(map->img, pos_width, pos_height, ceiling);
 			else
 				mlx_put_pixel(map->img, pos_width, pos_height, floor);
@@ -95,7 +142,7 @@ void	draw_background(t_map *map)
 		pos_width = 0;
 		pos_height++;
 	}
-	texture_test(map);
+	// texture_test(map);
 }
 
 	// static mlx_image_t		*img = NULL;

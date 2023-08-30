@@ -212,6 +212,10 @@ int	rays_hor(t_map *map)
 		draw_ray(map);
 		i++;
 		ray_angle = FixAng(ray_angle - 1);
+		if (ray_x < ray_y)
+			wall_texture(map, map->rays->dist_H, i, (int)ray_x % (2 * TILE_RAD));
+		else
+			wall_texture(map, map->rays->dist_H, i, (int)ray_y % (2 * TILE_RAD));
 	}
 	return (1);
 }

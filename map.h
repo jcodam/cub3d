@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/29 14:47:38 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/29 17:11:54 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int		check_map_full(t_map *map);
 	and changes multiple separators to only one */
 char	*color_syntax(char *str);
 void	draw_background(t_map *map);
+void	wall_texture(t_map *map, double distence, int angle, double point_png);
+
 
 // minimap.c
 float 	degToRad(int a);
