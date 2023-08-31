@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/30 16:39:57 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/31 17:01:06 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void	ft_draw_player(void *param)
 	}
 	//draw_direction(map);
 	draw_rays(map);
+	// wall_texture(map, 41.585236, 0, 0);
 }
 
 int FixAng(int a)

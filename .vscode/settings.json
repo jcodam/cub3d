@@ -2,6 +2,7 @@
 	"files.associations": {
 		"stdlib.h": "c",
 		"__tree": "c",
-		"bitset": "c"
+		"bitset": "c",
+		"map.h": "c"
 	}
 }
