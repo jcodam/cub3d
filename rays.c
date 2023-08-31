@@ -197,11 +197,10 @@ int	cast_rays(t_map *map)
 		map->rays->ray_angle = FixAng(map->rays->ray_angle - 0.5);
 		map->rays->dof = 0;
 		i++;
-		ray_angle = FixAng(ray_angle - 0.5);
-		if (ray_x < ray_y)
-			wall_texture(map, map->rays->dist_H, i, ((int)ray_x / (2 * TILE_RAD)));
+		if (map->rays->ray_x < map->rays->ray_y)
+			wall_texture(map, map->rays->dist_h, i, ((int)map->rays->ray_x / (2 * TILE_RAD)));
 		else
-			wall_texture(map, map->rays->dist_H, i, ((int)ray_y / (2 * TILE_RAD)));
+			wall_texture(map, map->rays->dist_h, i, ((int)map->rays->ray_y / (2 * TILE_RAD)));
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:32:11 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/30 18:55:00 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/08/31 18:48:38 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@
 # define PLAYER_RAD 6
 # define PI 3.14159265359
 # define FOV 30
+# define FOVTIMES 4
+/* 0 = max png width */
+# define RAY_X_PIXEL_WIDTH 10
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 14:51:40 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/31 17:46:59 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/31 18:46:35 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 
 	// angle = 0;
 	width = png->width;// + WIDTH / (FOV * 2);
+	if (RAY_X_PIXEL_WIDTH)
+		width = RAY_X_PIXEL_WIDTH;
 	(void)height;
 	count = point_png;
 	count = 0;
@@ -72,16 +74,12 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 	{
 		while ((height - HEIGHT) / 2 > iii)
 			iii++;
-		while (count < width &&  (angle * (WIDTH / (FOV * 2)) + count) < WIDTH)
+		while (count < width &&  (angle * (WIDTH / (FOV * FOVTIMES)) + count) < WIDTH)
 		{
 			ft_memcpy(
-				img->pixels + (int)(WIDTH * (int)(((HEIGHT - height) / 2) + iii) +( angle * (WIDTH / (FOV * 2)) - 0) + count) * 4, 
+				img->pixels + (int)(WIDTH * (int)(((HEIGHT - height) / 2) + iii) + (angle * (WIDTH / (FOV * FOVTIMES))) + count) * 4, 
 				png->pixels + (int)(png->width * (int)(iii * count3) + count * count2) * 4,
 				png->bytes_per_pixel);
-			// ft_memcpy(
-			// 	img->pixels + (int)(WIDTH * ((HEIGHT / 2 - height / 2) + iii) + count) * 4,
-			// 	png->pixels + (int)(png->width * (int)(iii * count3) + count * count2) * 4,
-			// 	png->bytes_per_pixel);
 			count++;
 		}
 		count = point_png;
@@ -103,7 +101,7 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	png = mlx_load_png(map->path_no);
 	if (!png)
 		map_exit("error\npng didn't load\n");
-	printf("t1 1; %f, 2; %d 3; %f, 4; %d\n", distence, angle, point_png, angle * (WIDTH / (FOV * 2)));
+	// printf("t1 1; %f, 2; %d 3; %f, 4; %d\n", distence, angle, point_png, angle * (WIDTH / (FOV * 2)));
 	// angle =
 	texture_s(map->img, png, angle - 1, 0, height);
 	// texture_scale(map->img, png, 64 * 0, 64 * 0);
