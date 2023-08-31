@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/30 16:39:45 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/30 19:31:07 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@ typedef struct s_rays
 {
 	int		mx;
 	int		my;
+	float	draw_x;
+	float	draw_y;
+	float	dist_x;
+	float	dist_y;
 	float	ray_x;
 	float	ray_y;
-	//float	vector_x;
-	//float	vector_y;
+	float	vert_x;
+	float	vert_y;
+	float	ray_angle;
 	float	offset_x;
 	float	offset_y;
-	float	dist_V;
-	float	dist_H;
+	float	dist_v;
+	float	dist_h;
 	int		dof;
 }	t_rays;
 
@@ -113,9 +118,8 @@ char	*color_syntax(char *str);
 void	draw_background(t_map *map);
 void	wall_texture(t_map *map, double distence, int angle, double point_png);
 
-
 // minimap.c
-float 	degToRad(int a);
+float 	degToRad(float a);
 int32_t	draw_map(t_map *map);
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
 int		check_mlx_error(mlx_t *mlx, t_map *map);
@@ -126,7 +130,7 @@ void	put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	mk_rel_vals(t_map *map);
 void	init_direction(t_map *map);
-int 	FixAng(int a);
+float 	FixAng(float a);
 
 // temp_tools.c
 void	streight_line(t_map *map, float dir_x, float dir_y);
@@ -147,6 +151,6 @@ void	shade_box(t_map *map);
 void	draw_box(t_map *map);
 
 // rays.c
-void	draw_rays(t_map *map);
+int		cast_rays(t_map *map);
 
 #endif

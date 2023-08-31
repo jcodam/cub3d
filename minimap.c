@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/31 17:01:06 by jbax          ########   odam.nl         */
+/*   Updated: 2023/08/31 17:53:45 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 // -----------------------------------------------------------------------------
 
-float	degToRad(int a)
+float	degToRad(float a)
 {
 	return (a * M_PI / 180.0);
 }
@@ -85,12 +85,29 @@ void	init_direction(t_map *map)
 	map->player.y_angle = -sin(degToRad(map->player.rotation));
 }
 
+void	init_rays(t_rays *rays)
+{
+	rays->mx = 0;
+	rays->my = 0;
+	rays->ray_x = 0;
+	rays->ray_y = 0;
+	rays->vert_x = 0;
+	rays->vert_y = 0;
+	rays->ray_angle = 0;
+	rays->offset_x = 0;
+	rays->offset_y = 0;
+	rays->dist_v = 0;
+	rays->dist_h = 0;
+	rays->dof = 0;
+}
+
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img)
 {
 	t_rays		*rays;
 
 	rays = malloc(sizeof(t_rays));
 	map->rays = rays;
+	init_rays(rays);
 	map->mlx = mlx;
 	map->img = img;
 	draw_box(map);
@@ -141,11 +158,10 @@ void	ft_draw_player(void *param)
 		++x;
 	}
 	//draw_direction(map);
-	draw_rays(map);
-	// wall_texture(map, 41.585236, 0, 0);
+	cast_rays(map);
 }
 
-int FixAng(int a)
+float FixAng(float a)
 {
 	if (a > 360)
 		a -= 360;
@@ -173,8 +189,6 @@ int check_bckwd(t_map *map, size_t i, size_t j)
 	else
 		return (0);
 }
-
-
 
 int check_fwd(t_map *map, size_t i, size_t j)
 {
@@ -212,7 +226,7 @@ int	is_wall(t_map *map, char dir)
 			else if (dir == 'b' && map->tiles[i][j]->is_wall && \
 			check_bckwd(map, i, j))
 				return (1);
-			j++;	
+			j++;
 		}
 		j = 0;
 		i++;

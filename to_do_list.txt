@@ -12,12 +12,11 @@ check if al is there 4 texture ceiling floor and a failed map
 check;
 map circle of 1
 map seg
-map no double 
 map syntax check
 
 
 # alex
-- add wall buffer;		(done)
-- walk along walls;   	(done)
+- add wall buffer;								(done)
+- walk along walls;   							(done)
 - break up functions;
 - fix streight vertical and horizontal rays
