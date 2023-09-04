@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/30 19:23:14 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/09/01 15:58:53 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,10 +181,11 @@ int check_bckwd(t_map *map, size_t i, size_t j)
 	xa = map->player.x_angle;
 	yc = map->player.y_coor;
 	ya = map->player.y_angle;
-	if ((map->tiles[i][j]->x_coor - 5) < (xc - (xa * 2))
-	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (xc - (xa * 2)) \
-	&& (map->tiles[i][j]->y_coor - 5) < (yc - (ya * 2) + 5) \
-	&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (yc - (ya * 2)))
+	if ((map->tiles[i][j]->x_coor - 5) < (xc - (xa * MOVSPEED))
+	&& (map->tiles[i][j]->x_coor + (TILE_RAD * MOVSPEED) + 5) > \
+	(xc - (xa * MOVSPEED)) && (map->tiles[i][j]->y_coor - 5) < \
+	(yc - (ya * MOVSPEED) + 5) && (map->tiles[i][j]->y_coor + \
+	(TILE_RAD * 2) + 5) > (yc - (ya * MOVSPEED)))
 		return (1);
 	else
 		return (0);
@@ -237,10 +238,11 @@ int	is_wall(t_map *map, char dir)
 void move_up(t_map *map)
 {
 	float	store;
+
 	if (!is_wall(map, 'f'))
 	{
-		map->player.x_coor += (map->player.x_angle * 2);
-		map->player.y_coor += (map->player.y_angle * 2);
+		map->player.x_coor += (map->player.x_angle * MOVSPEED);
+		map->player.y_coor += (map->player.y_angle * MOVSPEED);
 	}
 	else if (is_wall(map, 'f'))
 	{
@@ -248,16 +250,15 @@ void move_up(t_map *map)
 		map->player.x_angle = 0;
 		if (!is_wall(map, 'f'))
 		{
-			map->player.y_coor += map->player.y_angle * 2;
+			map->player.y_coor += map->player.y_angle * MOVSPEED;
 		}
 		map->player.x_angle = store;
 		store = map->player.y_angle;
 		map->player.y_angle = 0;
 		if (!is_wall(map, 'f'))
-			map->player.x_coor += map->player.x_angle * 2;
+			map->player.x_coor += map->player.x_angle * MOVSPEED;
 		map->player.y_angle = store;
 	}
-
 	mk_rel_vals(map);
 }
 
@@ -270,15 +271,15 @@ void move_down(t_map *map)
 		store = map->player.x_angle;
 		map->player.x_angle = 0;
 		if (!is_wall(map, 'b'))
-			map->player.y_coor -= map->player.y_angle * 2;
+			map->player.y_coor -= map->player.y_angle * MOVSPEED;
 		else
-			map->player.x_coor -= store * 2;
+			map->player.x_coor -= store * MOVSPEED;
 		map->player.x_angle = store;
 	}
 	else
 	{
-		map->player.x_coor -= (map->player.x_angle * 2);
-		map->player.y_coor -= (map->player.y_angle * 2);
+		map->player.x_coor -= (map->player.x_angle * MOVSPEED);
+		map->player.y_coor -= (map->player.y_angle * MOVSPEED);
 	}
 	mk_rel_vals(map);
 }
@@ -294,13 +295,13 @@ void	ft_move_player(void *param)
 		move_down(map);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
 	{
-		map->player.rotation = FixAng(map->player.rotation + 2);
+		map->player.rotation = FixAng(map->player.rotation + ROTSPEED);
 		map->player.x_angle = cos(degToRad(map->player.rotation));
 		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
 	if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
 	{
-		map->player.rotation = FixAng(map->player.rotation - 2);
+		map->player.rotation = FixAng(map->player.rotation - ROTSPEED);
 		map->player.x_angle = cos(degToRad(map->player.rotation));
 		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
