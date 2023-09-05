@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/09/01 15:58:53 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/09/05 14:10:20 by avon-ben      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ void	ft_draw_player(void *param)
 		y = start_y;
 		++x;
 	}
-	//draw_direction(map);
 	cast_rays(map);
+	draw_direction(map);
 }
 
 float FixAng(float a)
