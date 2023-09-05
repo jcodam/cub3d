@@ -38,8 +38,8 @@ static void	draw_ray(t_map *map)
 	map->rays->dist_y = (map->rays->ray_y - map->player.y_coor);
 	int_x = map->rays->dist_x / 1000;
 	int_y = map->rays->dist_y / 1000;
-	if (map->rays->dist_x == 0 || map->rays->dist_y == 0)
-		return ;
+	// if (map->rays->dist_x == 0 || map->rays->dist_y == 0)
+	// 	draw_streight_line(map);
 	if (map->rays->dist_h <= map->rays->dist_h)
 	{
 		if (map->rays->dist_y > 0)
@@ -57,13 +57,13 @@ static void	draw_ray(t_map *map)
 
 void	move_to_next_point_h(t_map *map)
 {
-	if (((int)map->rays->ray_x / 64) <= 0 || ((int)map->rays->ray_x/ 64) \
+	if (((int)map->rays->ray_x / 64) <= 0 || ((int)map->rays->ray_x / 64) \
 	>= (map->width) || ((int)map->rays->ray_y / 64) <= 0 || \
 	((int)map->rays->ray_y / 64) >= (map->height) || \
 	map->tiles[((int)map->rays->ray_y / 64)] \
 	[((int)map->rays->ray_x / 64)]->is_wall)
 	{
-		map->rays->dof = 8;
+		map->rays->dof = 20;
 		map->rays->dist_h = cos(degToRad(map->rays->ray_angle)) * \
 		(map->rays->ray_x - map->player.x_coor) - \
 		sin(degToRad(map->rays->ray_angle)) * \
@@ -85,7 +85,7 @@ void	move_to_next_point_v(t_map *map)
 	map->tiles[((int)map->rays->vert_y / 64)] \
 	[((int)map->rays->vert_x / 64)]->is_wall)
 	{
-		map->rays->dof = 8;
+		map->rays->dof = 20;
 		map->rays->dist_v = cos(degToRad(map->rays->ray_angle)) * \
 		(map->rays->vert_x - map->player.x_coor) - \
 		sin(degToRad(map->rays->ray_angle)) * \
@@ -101,9 +101,29 @@ void	move_to_next_point_v(t_map *map)
 
 void	set_streight_line(t_map *map)
 {
-	map->rays->vert_x = map->player.x_coor;
-	map->rays->vert_y = map->player.y_coor;
-	map->rays->dof = 8;
+	if (map->rays->ray_angle == 90)
+	{
+		map->rays->offset_x = 0;
+		map->rays->offset_y = 1;
+	}
+	else if (map->rays->ray_angle == 180)
+	{
+		map->rays->offset_x = -1;
+		map->rays->offset_y = 0;
+	}
+		if (map->rays->ray_angle == 270)
+	{
+		map->rays->offset_x = 0;
+		map->rays->offset_y = -1;
+	}
+		if (map->rays->ray_angle == 0)
+	{
+		map->rays->offset_x = 1;
+		map->rays->offset_y = 0;
+	}
+	// map->rays->vert_x = map->player.x_coor;
+	// map->rays->vert_y = map->player.y_coor;
+	map->rays->dof = 20;
 }
 
 void	vert_right(t_map *map, float Tan)
@@ -156,7 +176,7 @@ void rays_vertical(t_map *map, float Tan)
 		vert_left(map, Tan);
 	else
 		set_streight_line(map);
-	while (map->rays->dof < 8)
+	while (map->rays->dof < 20)
 		move_to_next_point_v(map);
 }
 
@@ -170,22 +190,46 @@ void rays_horizontal(t_map *map, float Tan)
 		hor_down(map, Tan);
 	else
 		set_streight_line(map);
-	while (map->rays->dof < 8)
+	while (map->rays->dof < 20)
 		move_to_next_point_h(map);
 }
 /* dist_v vertical < dist_h horizontal = vertical 
 	map[ray_y][ray_x]
 	((int)map->rays->ray_y / (2 * TILE_RAD))*/
+
+void draw_vert_line(t_map *map, int height, int width, int start_y, int pos)
+{
+	int	x;
+	int	y;
+	int	start_x;
+
+	x = pos;
+	start_x = x;
+	y = start_y;
+	while (x < (start_x + width) && x < WIDTH)
+	{
+		while (y < height)
+		{
+			put_pixel_wrap(map->img, x, y, ft_pixel(0, 255, 0, 150));
+			y++;
+		}
+		y = start_y;
+		x++;
+	}
+}
+
 int	cast_rays(t_map *map)
 {
 	float	tang;
 	int		i;
 	int		y_;
+	float	line_int;
 
+	line_int = (FOV * FOVTIMES * 1.0) / WIDTH;
 	i = 0;
 	y_ = 0;
 	map->rays->ray_angle = map->player.rotation + FOV;
-	while (i < (FOV * 4))
+	while (i < FOV * FOVTIMES)
 	{
 		tang = tan((degToRad(map->rays->ray_angle)));
 		rays_vertical(map, tang);
@@ -199,7 +243,10 @@ int	cast_rays(t_map *map)
 		}
 		draw_ray(map);
 		// draw beam on screen
-		map->rays->ray_angle = FixAng(map->rays->ray_angle - 0.5);
+		//lineH = ((TILE_RAD * 2) * HEIGHT) / (map->rays->dist_h);
+		//if(lineH>320){ lineH=320;}
+		//draw_vert_line(map, lineH, 1, 160, i);
+		map->rays->ray_angle = FixAng(map->rays->ray_angle - line_int);
 		map->rays->dof = 0;
 		i++;
 		if (map->rays->ray_x < map->rays->ray_y)
