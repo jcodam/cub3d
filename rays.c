@@ -225,11 +225,11 @@ int	cast_rays(t_map *map)
 	int		y_;
 	float	line_int;
 
-	line_int = (FOV * FOVTIMES * 1.0) / WIDTH;
+	line_int =  ((FOV * 1.0) / WIDTH);
 	i = 0;
 	y_ = 0;
-	map->rays->ray_angle = map->player.rotation + FOV;
-	while (i < FOV * FOVTIMES)
+	map->rays->ray_angle = map->player.rotation + (FOV / 2);
+	while (i < WIDTH)
 	{
 		tang = tan((degToRad(map->rays->ray_angle)));
 		rays_vertical(map, tang);

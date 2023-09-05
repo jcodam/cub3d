@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:32:11 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/09/04 17:08:07 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/09/05 14:31:19 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@
 # define MOVSPEED 3
 # define ROTSPEED 2
 /* 0 = max png width */
-# define RAY_X_PIXEL_WIDTH 10
+# define RAY_X_PIXEL_WIDTH 1
 
 #endif

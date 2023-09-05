@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 14:51:40 by jbax          #+#    #+#                 */
-/*   Updated: 2023/09/05 13:51:20 by jbax          ########   odam.nl         */
+/*   Updated: 2023/09/05 14:31:56 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 	{
 		while ((height - HEIGHT) / 2 > iii)
 			iii++;
-		while (count < width &&  (angle * (WIDTH / (FOV * FOVTIMES)) + count) < WIDTH)
+		while (count < width &&  (angle + count) < WIDTH)
 		{
 			ft_memcpy(
-				img->pixels + (int)(WIDTH * (int)(((HEIGHT - height) / 2) + iii) + (angle * (WIDTH / (FOV * FOVTIMES))) + count) * 4, 
+				img->pixels + (int)(WIDTH * (int)(((HEIGHT - height) / 2) + iii)
+				 + (angle ) + count) * 4, 
 				png->pixels + (int)(png->width * (int)(iii * count3) + count * count2) * 4,
 				png->bytes_per_pixel);
 			count++;
@@ -87,7 +88,7 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 		iii++;
 	}
 }
-//  + angle * (WIDTH / (FOV * 2))
+//  + angle * (WIDTH / (FOV * 2)) -- * ( (FOV * FOVTIMES) / WIDTH )
 void	wall_texture(t_map *map, double distence, int angle, double point_png)
 {
 	// mlx_texture_t	*png;
@@ -103,8 +104,8 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	// 	map_exit("error\npng didn't load\n");
 	// printf("t1 1; %f, 2; %d 3; %f, 4; %d\n", distence, angle, point_png, angle * (WIDTH / (FOV * 2)));
 	// angle =
-	// printf("%d--%f\n", angle, point_png);
-	if (angle % 2 == 1)
+	printf("%d--%f\n", angle, point_png);
+	if (point_png > 0)
 		texture_s(map->img, map->png->png_we, angle - 1, 0, height);
 	else
 		texture_s(map->img, map->png->png_no, angle - 1, 0, height);
