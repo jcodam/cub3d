@@ -4,11 +4,11 @@ SO ./pics/redbrick.png
 WE ./pics/mossy.png
 EA ./pics/colorstone.png
 
-C 128,83,11
+F 128,83,11
 
 floor color
 
-F 52,210,235
+C 52,210,235
 
 ceiling color
         1111111111111111111111111

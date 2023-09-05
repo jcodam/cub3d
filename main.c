@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/29 17:24:54 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/09/01 17:57:28 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,18 +136,12 @@ void	test(char *addr)
 	fill_map(map, addr);
 	if (!make_tiles(map))
 		exit (1);
-	// temp = map->color_floor;
-	// map->color_floor = ft_strtrim(temp, "\n");
-	// free(temp);
 	remove_newline(&map->path_ea);
 	remove_newline(&map->path_we);
 	remove_newline(&map->path_so);
 	remove_newline(&map->path_no);
 	remove_newline(&map->color_floor);
 	remove_newline(&map->color_ceiling);
-	// temp = map->color_ceiling;
-	// map->color_ceiling = ft_strtrim(temp, "\n");
-	// free(temp);
 	ft_strrep(map->color_ceiling, ",.-", ';');
 	ft_strrep(map->color_floor, ",.-", ';');
 	map->color_ceiling = color_syntax(map->color_ceiling);
@@ -155,10 +149,11 @@ void	test(char *addr)
 	fg_set_rgb_fd(map->color_ceiling, 1);
 	fg_set_rgb_fd(map->color_floor, 1);
 	check_map(map);
-	if (!map->map_arr)
-		map_exit("errr");
 	if (map)
 		write_map(map, 1);
+	mk_png(map);
+	printf("%d--%d--\n", map->png->color_ceiling, map->png->color_floor);
+	// system("leaks -q cub3D");
 	draw_map(map);
 	map = del_map(map);
 }

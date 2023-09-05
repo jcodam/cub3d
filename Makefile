@@ -6,7 +6,7 @@
 #    By: jbax <jbax@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/08/25 21:39:06 by avon-ben      ########   odam.nl          #
+#    Updated: 2023/09/05 13:51:37 by jbax          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME= cub3D
 SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c minimap_tools.c \
 	rotation.c drawing.c temp_tools.c tools.c mmap_init.c \
 	rays.c
-SRC+= background.c
+SRC+= background.c map_png.c
 SRC+= get_next_line.c get_next_line_utils.c
 
 OBF_DIR= OBF

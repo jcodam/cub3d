@@ -14,6 +14,11 @@ map circle of 1
 map seg
 map syntax check
 
+texture;
+- texture location
+- ray_angle + vert/hor = wich wall
+- get correct pixel line
+
 
 # alex
 - add wall buffer;								(done)

@@ -173,13 +173,17 @@ void rays_horizontal(t_map *map, float Tan)
 	while (map->rays->dof < 8)
 		move_to_next_point_h(map);
 }
-
+/* dist_v vertical < dist_h horizontal = vertical 
+	map[ray_y][ray_x]
+	((int)map->rays->ray_y / (2 * TILE_RAD))*/
 int	cast_rays(t_map *map)
 {
 	float	tang;
 	int		i;
+	int		y_;
 
 	i = 0;
+	y_ = 0;
 	map->rays->ray_angle = map->player.rotation + FOV;
 	while (i < (FOV * 4))
 	{
@@ -191,6 +195,7 @@ int	cast_rays(t_map *map)
 			map->rays->ray_x = map->rays->vert_x;
 			map->rays->ray_y = map->rays->vert_y;
 			map->rays->dist_h = map->rays->dist_v;
+			y_ = 1;
 		}
 		draw_ray(map);
 		// draw beam on screen
@@ -198,9 +203,9 @@ int	cast_rays(t_map *map)
 		map->rays->dof = 0;
 		i++;
 		if (map->rays->ray_x < map->rays->ray_y)
-			wall_texture(map, map->rays->dist_h, i, ((int)map->rays->ray_x / (2 * TILE_RAD)));
+			wall_texture(map, map->rays->dist_h, i, y_);
 		else
-			wall_texture(map, map->rays->dist_h, i, ((int)map->rays->ray_y / (2 * TILE_RAD)));
+			wall_texture(map, map->rays->dist_h, i, y_);
 	}
 	return (1);
 }

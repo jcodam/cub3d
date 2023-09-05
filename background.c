@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 14:51:40 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/31 18:46:35 by jbax          ########   odam.nl         */
+/*   Updated: 2023/09/05 13:51:20 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 //  + angle * (WIDTH / (FOV * 2))
 void	wall_texture(t_map *map, double distence, int angle, double point_png)
 {
-	mlx_texture_t	*png;
+	// mlx_texture_t	*png;
 	double			height;
 	
 	height = (map->height * HEIGHT / distence) * 2;
@@ -98,30 +98,19 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	(void)distence;
 	(void)angle;
 	(void)point_png;
-	png = mlx_load_png(map->path_no);
-	if (!png)
-		map_exit("error\npng didn't load\n");
+	// png = mlx_load_png(map->path_no);
+	// if (!png)
+	// 	map_exit("error\npng didn't load\n");
 	// printf("t1 1; %f, 2; %d 3; %f, 4; %d\n", distence, angle, point_png, angle * (WIDTH / (FOV * 2)));
 	// angle =
-	texture_s(map->img, png, angle - 1, 0, height);
+	// printf("%d--%f\n", angle, point_png);
+	if (angle % 2 == 1)
+		texture_s(map->img, map->png->png_we, angle - 1, 0, height);
+	else
+		texture_s(map->img, map->png->png_no, angle - 1, 0, height);
+	
 	// texture_scale(map->img, png, 64 * 0, 64 * 0);
 }
-
-
-// static void	texture_test(t_map *map)
-// {
-// 	mlx_texture_t	*png;
-
-// 	ft_putnbr_fd(ft_strchr_set(map->path_no, "\n"), 1);
-// 	ft_putendl_fd(map->path_no + 2, 1);
-// 	png = mlx_load_png(map->path_no);
-// 	if (!png)
-// 		map_exit("error\npng didn't load\n");
-// 	texture_scale(map->img, png, 64 * 12, 64 * 18);
-// 	// mlx_image_to_window(map->mlx, img, 0, 64);
-// 	// mlx_image_to_window(map->mlx, img, 64, 64);
-// 	// mlx_image_to_window(map->mlx, img, 64, 0);
-// }
 
 void	draw_background(t_map *map)
 {
@@ -130,8 +119,10 @@ void	draw_background(t_map *map)
 	int				floor;
 	int				ceiling;
 
-	ceiling = ft_pixel(52, 210, 240, 200);
-	floor = ft_pixel(128, 83, 11, 200);
+	// ceiling = ft_pixel(52, 210, 235, 200);
+	// floor = ft_pixel(128, 83, 11, 200);
+	ceiling = map->png->color_ceiling;
+	floor = map->png->color_floor;
 	pos_width = 0;
 	pos_height = 0;
 	// ft_putendl_fd(map->path_no + 2, 1);

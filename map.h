@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/30 19:31:07 by avon-ben      ########   odam.nl         */
+/*   Updated: 2023/09/01 17:28:04 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ typedef struct s_tile
 	int			not_map;
 }	t_tile;
 
+typedef struct s_png
+{
+	mlx_texture_t	*png_no;
+	mlx_texture_t	*png_so;
+	mlx_texture_t	*png_we;
+	mlx_texture_t	*png_ea;
+	int				color_ceiling;
+	int				color_floor;
+}	t_png;
+
 typedef struct s_map
 {
 	char		*path_no;
@@ -70,6 +80,7 @@ typedef struct s_map
 	char		*path_ea;
 	char		*color_ceiling;
 	char		*color_floor;
+	t_png		*png;
 	char		**map_arr;
 	t_player	player;
 	t_tile		***tiles;
@@ -117,6 +128,9 @@ int		check_map_full(t_map *map);
 char	*color_syntax(char *str);
 void	draw_background(t_map *map);
 void	wall_texture(t_map *map, double distence, int angle, double point_png);
+void	mk_png(t_map *map);
+int		check_png_full(t_map *map);
+t_map	*del_png_s(t_map *map);
 
 // minimap.c
 float 	degToRad(float a);
