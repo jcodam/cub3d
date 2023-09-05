@@ -36,8 +36,8 @@ static void	draw_ray(t_map *map)
 	map->rays->draw_y = map->player.y_coor;
 	map->rays->dist_x = (map->rays->ray_x - map->player.x_coor);
 	map->rays->dist_y = (map->rays->ray_y - map->player.y_coor);
-	int_x = map->rays->dist_x / 1000;
-	int_y = map->rays->dist_y / 1000;
+	int_x = map->rays->dist_x / 100;
+	int_y = map->rays->dist_y / 100;
 	// if (map->rays->dist_x == 0 || map->rays->dist_y == 0)
 	// 	draw_streight_line(map);
 	if (map->rays->dist_h <= map->rays->dist_h)
@@ -227,10 +227,10 @@ int	cast_rays(t_map *map)
 
 	line_int =  ((FOV * 1.0) / WIDTH);
 	i = 0;
-	y_ = 0;
 	map->rays->ray_angle = map->player.rotation + (FOV / 2);
 	while (i < WIDTH)
 	{
+		y_ = 0;
 		tang = tan((degToRad(map->rays->ray_angle)));
 		rays_vertical(map, tang);
 		rays_horizontal(map, tang);

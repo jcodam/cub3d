@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 14:51:40 by jbax          #+#    #+#                 */
-/*   Updated: 2023/09/05 14:31:56 by jbax          ########   odam.nl         */
+/*   Updated: 2023/09/05 16:19:45 by jbax          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft/libft.h"
 #include "defines.h"
 #include <math.h>
+#include <limits.h>
+#include <float.h>
 
 // static void	cpy_x_pixel(mlx_image_t *img, mlx_texture_t *png, unsigned int width, unsigned int height)
 // {
@@ -65,8 +67,8 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 	if (RAY_X_PIXEL_WIDTH)
 		width = RAY_X_PIXEL_WIDTH;
 	(void)height;
-	count = point_png;
 	count = 0;
+	count = point_png;
 	count2 = (double)png->width / width;
 	count3 = (double)png->height / height;
 	iii = 0;
@@ -83,16 +85,24 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 				png->bytes_per_pixel);
 			count++;
 		}
-		count = point_png;
 		count = 0;
+		count = point_png;
 		iii++;
 	}
 }
 //  + angle * (WIDTH / (FOV * 2)) -- * ( (FOV * FOVTIMES) / WIDTH )
+static double	modulo_dbl(double res, double mod)
+{
+	while (res >= mod)
+		res = res - mod;
+	return (res);
+}
+
 void	wall_texture(t_map *map, double distence, int angle, double point_png)
 {
 	// mlx_texture_t	*png;
 	double			height;
+	int				i;
 	
 	height = (map->height * HEIGHT / distence) * 2;
 	(void)map;
@@ -104,11 +114,23 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	// 	map_exit("error\npng didn't load\n");
 	// printf("t1 1; %f, 2; %d 3; %f, 4; %d\n", distence, angle, point_png, angle * (WIDTH / (FOV * 2)));
 	// angle =
-	printf("%d--%f\n", angle, point_png);
+	printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(angle , 10), map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
 	if (point_png > 0)
-		texture_s(map->img, map->png->png_we, angle - 1, 0, height);
+	{
+		i = map->rays->ray_y %;
+		i = 0;
+		if (map->rays->ray_angle < 90 || (int)map->rays->ray_angle > 270  )
+			texture_s(map->img, map->png->png_ea, angle - 1, i, height);
+		else
+			texture_s(map->img, map->png->png_we, angle - 1, 0, height);
+	}
 	else
-		texture_s(map->img, map->png->png_no, angle - 1, 0, height);
+	{
+		if (map->rays->ray_angle < 180 )
+			texture_s(map->img, map->png->png_no, angle - 1, 0, height);
+		else
+			texture_s(map->img, map->png->png_so, angle - 1, 0, height);
+	}
 	
 	// texture_scale(map->img, png, 64 * 0, 64 * 0);
 }
