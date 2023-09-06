@@ -117,7 +117,7 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(angle , 10), map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
 	if (point_png > 0)
 	{
-		i = map->rays->ray_y %;
+		//i = map->rays->ray_y ;
 		i = 0;
 		if (map->rays->ray_angle < 90 || (int)map->rays->ray_angle > 270  )
 			texture_s(map->img, map->png->png_ea, angle - 1, i, height);

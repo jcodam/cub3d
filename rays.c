@@ -99,30 +99,28 @@ void	move_to_next_point_v(t_map *map)
 	}
 }
 
-void	set_streight_line(t_map *map)
+void	set_streight_line(t_map *map, float Tan)
 {
 	if (map->rays->ray_angle == 90)
 	{
 		map->rays->offset_x = 0;
-		map->rays->offset_y = 1;
+		map->rays->offset_y = (2 * TILE_RAD);
 	}
 	else if (map->rays->ray_angle == 180)
 	{
-		map->rays->offset_x = -1;
+		map->rays->offset_x = -1 * (2 * TILE_RAD);
 		map->rays->offset_y = 0;
 	}
-		if (map->rays->ray_angle == 270)
+	else if (map->rays->ray_angle == 270)
 	{
 		map->rays->offset_x = 0;
-		map->rays->offset_y = -1;
+		map->rays->offset_y = -1 * (2 * TILE_RAD);
 	}
-		if (map->rays->ray_angle == 0)
+	else if (map->rays->ray_angle == 0)
 	{
-		map->rays->offset_x = 1;
+		map->rays->offset_x = (2 * TILE_RAD);
 		map->rays->offset_y = 0;
 	}
-	// map->rays->vert_x = map->player.x_coor;
-	// map->rays->vert_y = map->player.y_coor;
 	map->rays->dof = 20;
 }
 
@@ -175,7 +173,7 @@ void rays_vertical(t_map *map, float Tan)
 	else if (map->rays->ray_angle > 90 && map->rays->ray_angle < 270)
 		vert_left(map, Tan);
 	else
-		set_streight_line(map);
+		set_streight_line(map, Tan);
 	while (map->rays->dof < 20)
 		move_to_next_point_v(map);
 }
@@ -189,7 +187,7 @@ void rays_horizontal(t_map *map, float Tan)
 	else if (sin(degToRad(map->rays->ray_angle)) < 0.0001)
 		hor_down(map, Tan);
 	else
-		set_streight_line(map);
+		set_streight_line(map, Tan);
 	while (map->rays->dof < 20)
 		move_to_next_point_h(map);
 }

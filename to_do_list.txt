@@ -26,3 +26,5 @@ texture;
 - break up functions;							(done) (doublecheck)
 - fix streight vertical and horizontal rays		(done)
 - optimize for more efficiency					!
+- cannot get close to wall when reversing
+- memory leaks

@@ -123,7 +123,6 @@ void	draw_direction(t_map *map)
 	x = get_mmap_centre_x();
 	y = get_mmap_centre_y();
 	i = 0;
-	//while (pix_not_wall(map, x + map->player.x_angle, y + map->player.y_angle))
 	while (i < 20)
 	{
 		x += map->player.x_angle;
