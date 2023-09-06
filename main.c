@@ -155,6 +155,7 @@ void	test(char *addr)
 	printf("%d--%d--\n", map->png->color_ceiling, map->png->color_floor);
 	// system("leaks -q cub3D");
 	draw_map(map);
+	
 	map = del_map(map);
 }
 

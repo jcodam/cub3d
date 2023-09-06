@@ -60,7 +60,7 @@ $(lib):
 	$(MAKE) -C libft bonus
 
 # $(MLX):
-# 	@ $(MAKE) -C $(MLXDIR)
+# 	@ $(MAKE) -C $(MLXDIR) 
 
 tt:
 	bash get_mlx.sh

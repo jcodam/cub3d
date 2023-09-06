@@ -111,12 +111,12 @@ void	set_streight_line(t_map *map, float Tan)
 		map->rays->offset_x = -1 * (2 * TILE_RAD);
 		map->rays->offset_y = 0;
 	}
-	else if (map->rays->ray_angle == 270)
+	else if (map->rays->ray_angle > 269.75 && map->rays->ray_angle < 270.25)
 	{
 		map->rays->offset_x = 0;
 		map->rays->offset_y = -1 * (2 * TILE_RAD);
 	}
-	else if (map->rays->ray_angle == 0)
+	else if (map->rays->ray_angle > 359.75 && map->rays->ray_angle < 0.25)
 	{
 		map->rays->offset_x = (2 * TILE_RAD);
 		map->rays->offset_y = 0;
@@ -239,6 +239,8 @@ int	cast_rays(t_map *map)
 			map->rays->dist_h = map->rays->dist_v;
 			y_ = 1;
 		}
+		if (map->rays->ray_angle == 90)
+			printf("STREIGHT LINE!\n\n\n");
 		draw_ray(map);
 		// draw beam on screen
 		//lineH = ((TILE_RAD * 2) * HEIGHT) / (map->rays->dist_h);
