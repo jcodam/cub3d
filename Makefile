@@ -31,12 +31,13 @@ HEADER+= get_next_line.h color.h map.h defines.h
 lib=libft/libft.a
 
 MLX=mlx/build/libmlx42.a
-MLXINC= -Iinclude -lglfw3 \
-		-framework Cocoa -framework OpenGL -framework IOKit
+MLXINC= -Iinclude -lglfw3 -lm\
+		# -framework Cocoa -framework OpenGL -framework IOKit
 
 CC= gcc
 
-CFLAGS= -g -Wall -Wextra -Werror
+CFLAGS+= -g 
+# CFLAGS+= -Wall -Wextra -Werror
 CFLAGS+= $(SAN)
 # CFLAGS+= --coverage
 CFLAGS+= -o
@@ -54,7 +55,7 @@ $(NAME): $(OBF_DIR) $(OBF)
 	$(CC) $(CFLAGS) $@ $(OBF) $(RLINE) $(lib) $(MLX) $(MLXINC)
 
 $(OBF_DIR)/%o: %c $(HEADER) $(lib)
-	$(CC) -c $(CFLAGS) $@ $< -I ~/.brew/opt/readline/include/ -I $(lib)
+	$(CC) -c $(CFLAGS) $@ $< -I ~/.brew/opt/readline/include/
 
 $(lib):
 	$(MAKE) -C libft bonus

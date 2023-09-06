@@ -32,11 +32,9 @@ void	ft_strrep(char *src, char *set, char target)
 
 int	ft_strempty(char *src)
 {
-	int		n;
 	int		index;
 
 	index = 0;
-	n = 0;
 	while (src[index])
 	{
 		if (!ft_iswhite_space(src[index]))

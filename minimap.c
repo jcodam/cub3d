@@ -18,13 +18,13 @@
 #include "map.h"
 #include "libft/libft.h"
 #include "defines.h"
-#include "math.h"
+#include <math.h>
 
 // -----------------------------------------------------------------------------
 
 float	degToRad(float a)
 {
-	return (a * M_PI / 180.0);
+	return (a * PI / 180.0);
 }
 
 static void	draw_minimap(t_map *map)
