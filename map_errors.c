@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   map_errors.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jbax <jbax@student.codam.nl>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/10/18 17:40:36 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/15 15:43:13 by avon-ben      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   map_errors.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/18 17:40:36 by jbax              #+#    #+#             */
+/*   Updated: 2023/09/07 16:22:58 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,65 @@ int	check_map_full(t_map *map)
 	return (0);
 }
 
+
+static void free_tiles(t_map *map)
+{
+	int i;
+	int j;
+
+	i = 0; 
+	j = 0;
+	if (map)
+	{
+		if (map->tiles)
+		{
+			while (i < map->height)
+			{
+				if (map->tiles[i])
+				{
+					while (j < map->width)
+					{
+						if (map->tiles[i][j])
+						{
+							free(map->tiles[i][j]);
+						}
+						j++;
+					}
+				}
+				free(map->tiles[i]);
+				j = 0;
+				i++;
+			}
+		free (map->tiles);
+		}
+	}
+}
+
+static void free_map_arr(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	if (!map->map_arr)
+		return ;
+	if (map->map_arr)
+	{
+		while (map->map_arr[i])
+		{
+			if (map->map_arr[i])
+				free (map->map_arr[i]);
+			i++;
+		}
+		free(map->map_arr);
+	}
+}
+
 t_map	*del_map(t_map *map)
 {
+	printf("map->width: %d\n", map->width);
 	if (!map)
 		return (0);
+	printf("del_map\n\n\n");
 	if (map->color_ceiling)
 		free(map->color_ceiling);
 	if (map->color_floor)
@@ -104,6 +159,9 @@ t_map	*del_map(t_map *map)
 		free(map->path_so);
 	if (map->path_we)
 		free(map->path_we);
-	free(map);
+	free_tiles(map);
+	if (map->rays)
+		free(map->rays);
+	//free(map);
 	return (0);
 }

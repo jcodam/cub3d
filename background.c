@@ -54,7 +54,7 @@
 // 	}
 // }
 
-static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double point_png, double height)
+static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, int point_png, double height)
 {
 	unsigned int	count;
 	double			count2;
@@ -76,12 +76,13 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png, double angle, double
 	{
 		while ((height - HEIGHT) / 2 > iii)
 			iii++;
-		while (count < width &&  (angle + count) < WIDTH)
+		while (count - point_png < width &&  (angle + (count - point_png)) < WIDTH)
 		{
+			// printf("%d\n", count);
 			ft_memcpy(
 				img->pixels + (int)(WIDTH * (int)(((HEIGHT - height) / 2) + iii)
-				 + (angle ) + count) * 4, 
-				png->pixels + (int)(png->width * (int)(iii * count3) + count * count2) * 4,
+				 + (angle ) + count - point_png) * 4, 
+				png->pixels + (int)(png->width * (int)(iii * count3) + count) * 4,
 				png->bytes_per_pixel);
 			count++;
 		}
@@ -114,22 +115,23 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	// 	map_exit("error\npng didn't load\n");
 	// printf("t1 1; %f, 2; %d 3; %f, 4; %d\n", distence, angle, point_png, angle * (WIDTH / (FOV * 2)));
 	// angle =
-	printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(angle , 10), map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
+	//printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(map->rays->ray_y , 64), map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
 	if (point_png > 0)
 	{
-		//i = map->rays->ray_y ;
 		i = 0;
+		i = modulo_dbl(map->rays->ray_y, 64);
 		if (map->rays->ray_angle < 90 || (int)map->rays->ray_angle > 270  )
 			texture_s(map->img, map->png->png_ea, angle - 1, i, height);
 		else
-			texture_s(map->img, map->png->png_we, angle - 1, 0, height);
+			texture_s(map->img, map->png->png_we, angle - 1, i, height);
 	}
 	else
 	{
+		i = modulo_dbl(map->rays->ray_x, 64);
 		if (map->rays->ray_angle < 180 )
-			texture_s(map->img, map->png->png_no, angle - 1, 0, height);
+			texture_s(map->img, map->png->png_no, angle - 1, i, height);
 		else
-			texture_s(map->img, map->png->png_so, angle - 1, 0, height);
+			texture_s(map->img, map->png->png_so, angle - 1, i, height);
 	}
 	
 	// texture_scale(map->img, png, 64 * 0, 64 * 0);

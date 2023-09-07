@@ -38,8 +38,6 @@ static void	draw_ray(t_map *map)
 	map->rays->dist_y = (map->rays->ray_y - map->player.y_coor);
 	int_x = map->rays->dist_x / 100;
 	int_y = map->rays->dist_y / 100;
-	// if (map->rays->dist_x == 0 || map->rays->dist_y == 0)
-	// 	draw_streight_line(map);
 	if (map->rays->dist_h <= map->rays->dist_h)
 	{
 		if (map->rays->dist_y > 0)
@@ -99,6 +97,18 @@ void	move_to_next_point_v(t_map *map)
 	}
 }
 
+void	get_distance_vert(t_map *map)
+{
+	while(((int)map->rays->vert_x / 64) > 0 && ((int)map->rays->vert_x / 64) \
+	< (map->width) && !map->tiles[((int)map->rays->vert_y / 64)] \
+	[((int)map->rays->vert_x / 64)]->is_wall)
+	{
+		printf("map->rays->vert_x: %f, map->player.x_coor: %f\n", map->rays->vert_x, map->player.x_coor);
+		map->rays->vert_x += map->rays->offset_x;
+	}
+	map->rays->dist_v = map->rays->vert_x - map->player.x_coor;
+}
+
 void	set_streight_line(t_map *map, float Tan)
 {
 	if (map->rays->ray_angle == 90)
@@ -106,20 +116,26 @@ void	set_streight_line(t_map *map, float Tan)
 		map->rays->offset_x = 0;
 		map->rays->offset_y = (2 * TILE_RAD);
 	}
-	else if (map->rays->ray_angle == 180)
+	else if (map->rays->ray_angle > 179.75 && map->rays->ray_angle < 180.25)
 	{
+		map->rays->vert_x = (((int)map->player.x_coor / (2 * TILE_RAD)) * \
+		(2 * TILE_RAD)) - 0.0001;
 		map->rays->offset_x = -1 * (2 * TILE_RAD);
 		map->rays->offset_y = 0;
+		get_distance_vert(map);
 	}
-	else if (map->rays->ray_angle > 269.75 && map->rays->ray_angle < 270.25)
+	else if (map->rays->ray_angle == 270)
 	{
 		map->rays->offset_x = 0;
 		map->rays->offset_y = -1 * (2 * TILE_RAD);
 	}
 	else if (map->rays->ray_angle > 359.75 && map->rays->ray_angle < 0.25)
 	{
+		map->rays->vert_x = (((int)map->player.x_coor / (2 * TILE_RAD)) * \
+		(2 * TILE_RAD) + (2 * TILE_RAD));
 		map->rays->offset_x = (2 * TILE_RAD);
 		map->rays->offset_y = 0;
+		get_distance_vert(map);
 	}
 	map->rays->dof = 20;
 }
@@ -182,12 +198,15 @@ void rays_horizontal(t_map *map, float Tan)
 {
 	map->rays->dist_h = 100000;
 	map->rays->dof = 0;
-	if (sin(degToRad(map->rays->ray_angle)) > 0.0001)
+	if (map->rays->ray_angle > 0 && map->rays->ray_angle < 180)
 		hor_up(map, Tan);
-	else if (sin(degToRad(map->rays->ray_angle)) < 0.0001)
+	else if (map->rays->ray_angle > 180 && map->rays->ray_angle < 360)
 		hor_down(map, Tan);
 	else
+	{
 		set_streight_line(map, Tan);
+		return ;
+	}
 	while (map->rays->dof < 20)
 		move_to_next_point_h(map);
 }
@@ -239,8 +258,12 @@ int	cast_rays(t_map *map)
 			map->rays->dist_h = map->rays->dist_v;
 			y_ = 1;
 		}
-		if (map->rays->ray_angle == 90)
-			printf("STREIGHT LINE!\n\n\n");
+		if (FixAng(map->rays->ray_angle) > 359.975 || FixAng(map->rays->ray_angle) < 0.025)
+		{
+			printf("straight line right\n");
+			printf("ray angle: %f, distance: %f\n", FixAng(map->rays->ray_angle), map->rays->dist_h);
+			printf("x_coor: %f, ray_x: %f\n", map->player.x_coor, map->rays->vert_x);
+		}
 		draw_ray(map);
 		// draw beam on screen
 		//lineH = ((TILE_RAD * 2) * HEIGHT) / (map->rays->dist_h);

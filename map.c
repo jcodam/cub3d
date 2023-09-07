@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   map.c                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jbax <jbax@student.codam.nl>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/07/13 16:27:50 by jbax          #+#    #+#                 */
-/*   Updated: 2023/08/15 15:29:29 by avon-ben      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 16:27:50 by jbax              #+#    #+#             */
+/*   Updated: 2023/09/07 14:48:40 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_map	*mk_map(void)
 	map->player.map_x = 0;
 	map->player.map_y = 0;
 	map->tiles = NULL;
-	//map->minimap = malloc(sizeof(t_minimap *));
+	map->stop = 0;
 	return (map);
 }
 

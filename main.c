@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jbax <jbax@student.codam.nl>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/07/12 16:07:32 by jbax          #+#    #+#                 */
-/*   Updated: 2023/09/01 17:57:28 by jbax          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/12 16:07:32 by jbax              #+#    #+#             */
+/*   Updated: 2023/09/07 15:22:30 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ static void	remove_newline(char **s)
 void	test(char *addr)
 {
 	t_map	*map;
-	// char	*temp;
 
 	fg_putstr_rgb_fd(addr, "45;255;45", 1);
 	write(1, "\n", 1);
@@ -153,9 +152,8 @@ void	test(char *addr)
 		write_map(map, 1);
 	mk_png(map);
 	printf("%d--%d--\n", map->png->color_ceiling, map->png->color_floor);
-	// system("leaks -q cub3D");
 	draw_map(map);
-	
+	//map->png = del_png_s(map);
 	map = del_map(map);
 }
 
@@ -170,4 +168,3 @@ int	main(int argc, char *argv[])
 	test(argv[1]);
 	return (0);
 }
-	// system("leaks -q cub3D");

@@ -44,7 +44,7 @@ char	**ft_arrdup_c(char **arr, size_t len)
 	dest = malloc((len + 1) * sizeof(char *));
 	if (!dest)
 		return (NULL);
-	while (count < len && *arr[count] != '\0')
+	while (count < len && arr[count] != NULL)
 	{
 		dest[count] = ft_strdup(arr[count]);
 		if (!dest[count])

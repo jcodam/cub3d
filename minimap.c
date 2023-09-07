@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minimap.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/07/20 16:08:01 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/09/05 14:10:20 by avon-ben      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
+/*   Updated: 2023/09/07 16:22:32 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 #include "map.h"
 #include "libft/libft.h"
 #include "defines.h"
-#include "math.h"
+#include <math.h>
 
 // -----------------------------------------------------------------------------
 
 float	degToRad(float a)
 {
-	return (a * M_PI / 180.0);
+	return (a * PI / 180.0);
 }
 
 static void	draw_minimap(t_map *map)
@@ -72,7 +72,7 @@ void	mk_rel_vals(t_map *map)
 }
 
 void	init_direction(t_map *map)
-{	
+{
 	if (map->player.start_direction == 11)
 		map->player.rotation = 270;
 	else if (map->player.start_direction == 12)
@@ -163,9 +163,9 @@ void	ft_draw_player(void *param)
 float FixAng(float a)
 {
 	if (a > 360)
-		a -= 360;
-	if (a <= 0)
-		a += 360;
+		a -= 360.0;
+	if (a < 0)
+		a += 360.0;
 	return (a);
 }
 
@@ -201,10 +201,10 @@ int check_fwd(t_map *map, size_t i, size_t j)
 	xa = map->player.x_angle;
 	yc = map->player.y_coor;
 	ya = map->player.y_angle;
-	if ((map->tiles[i][j]->x_coor - 5) < (xc + (xa * 2))
-	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (xc + (xa * 2)) \
-	&& (map->tiles[i][j]->y_coor - 5) < (yc + (ya * 2) + 5) \
-	&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (yc + (ya * 2)))
+	if ((map->tiles[i][j]->x_coor - 5) < (xc + (xa * MOVSPEED))
+	&& (map->tiles[i][j]->x_coor + (TILE_RAD * MOVSPEED) + 5) > (xc + (xa * MOVSPEED)) \
+	&& (map->tiles[i][j]->y_coor - 5) < (yc + (ya * MOVSPEED) + 5) \
+	&& (map->tiles[i][j]->y_coor + (TILE_RAD * MOVSPEED) + 5) > (yc + (ya * MOVSPEED)))
 		return (1);
 	else
 		return (0);
@@ -305,15 +305,10 @@ void	ft_move_player(void *param)
 		map->player.y_angle = -sin(degToRad(map->player.rotation));
 	}
 	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
-		exit(0);
+		mlx_close_window(map->mlx);
 	ft_draw_player(map);
 }
 
-static void player_movement(mlx_t *mlx, t_map *map)
-{
-	mlx_loop_hook(mlx, ft_move_player, map);
-	mlx_loop_hook(mlx, ft_draw_player, map);
-}
 
 int32_t	draw_map(t_map *map)
 {
@@ -345,8 +340,10 @@ int32_t	draw_map(t_map *map)
 		return (EXIT_FAILURE);
 	}
 	make_minimap(map, mlx, image);
-	player_movement(mlx, map);
+	mlx_loop_hook(mlx, ft_move_player, map);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	free(map);
+	printf("end\n\n");
 	return (EXIT_SUCCESS);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   map.h                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jbax <jbax@student.codam.nl>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/07/13 15:58:00 by jbax          #+#    #+#                 */
-/*   Updated: 2023/09/01 17:28:04 by jbax          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   map.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
+/*   Updated: 2023/09/07 14:35:42 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_map
 	mlx_t		*mlx;
 	int			width;
 	int			height;
+	int			stop;
 }	t_map;
 
 enum	e_map
@@ -133,7 +134,7 @@ int		check_png_full(t_map *map);
 t_map	*del_png_s(t_map *map);
 
 // minimap.c
-float 	degToRad(float a);
+float	degToRad(float a);
 int32_t	draw_map(t_map *map);
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
 int		check_mlx_error(mlx_t *mlx, t_map *map);
@@ -144,7 +145,7 @@ void	put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	mk_rel_vals(t_map *map);
 void	init_direction(t_map *map);
-float 	FixAng(float a);
+float	FixAng(float a);
 
 // temp_tools.c
 void	streight_line(t_map *map, float dir_x, float dir_y);

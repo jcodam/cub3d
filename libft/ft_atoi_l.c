@@ -14,14 +14,12 @@
 
 static long int	ft_coreatoi(const char *str, int minus, int n)
 {
-	long int		loops;
 	long int		zeros;
 	long long int	test;
 	long			result;
 
 	result = 0;
 	zeros = 1;
-	loops = n;
 	test = result;
 	while ('0' <= str[n] && '9' >= str[n] && test == result)
 	{

@@ -14,7 +14,7 @@ VPATH= expander : executor : files : lexer : headers : nextline
 
 NAME= cub3D
 
-SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c minimap_tools.c \
+SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c \
 	rotation.c drawing.c temp_tools.c tools.c mmap_init.c \
 	rays.c
 SRC+= background.c map_png.c
@@ -31,13 +31,13 @@ HEADER+= get_next_line.h color.h map.h defines.h
 lib=libft/libft.a
 
 MLX=mlx/build/libmlx42.a
-MLXINC= -Iinclude -lglfw \
+MLXINC= -Iinclude -lglfw -lm\
 		# -framework Cocoa -framework OpenGL -framework IOKit
 
 CC= gcc
 
 # CFLAGS= -g -Wall -Wextra -Werror
-CFLAGS+= $(SAN) -lm
+CFLAGS+= $(SAN)
 # CFLAGS+= --coverage
 CFLAGS+= -o
 
@@ -54,7 +54,7 @@ $(NAME): $(OBF_DIR) $(OBF)
 	$(CC) $(CFLAGS) $@ $(OBF) $(RLINE) $(lib) $(MLX) $(MLXINC)
 
 $(OBF_DIR)/%o: %c $(HEADER) $(lib)
-	$(CC) -c $(CFLAGS) $@ $< -I ~/.brew/opt/readline/include/ $(lib)
+	$(CC) -c $(CFLAGS) $@ $< -I ~/.brew/opt/readline/include/
 
 $(lib):
 	$(MAKE) -C libft bonus
