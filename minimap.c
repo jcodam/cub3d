@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/08 18:05:29 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:41:15 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	ft_draw_player(void *param)
 		++x;
 	}
 	cast_rays(map);
-	draw_direction(map);
+	//draw_direction(map);
 }
 
 float FixAng(float a)
@@ -287,28 +287,6 @@ void move_down(t_map *map)
 	}
 	mk_rel_vals(map);
 }
-
-// void move_down(t_map *map)
-// {
-// 	float	store;
-
-// 	if (is_wall(map, 'b'))
-// 	{
-// 		store = map->player.x_angle;
-// 		map->player.x_angle = 0;
-// 		if (!is_wall(map, 'b'))
-// 			map->player.y_coor -= map->player.y_angle * MOVSPEED;
-// 		else
-// 			map->player.x_coor -= store * MOVSPEED;
-// 		map->player.x_angle = store;
-// 	}
-// 	else
-// 	{
-// 		map->player.x_coor -= (map->player.x_angle * MOVSPEED);
-// 		map->player.y_coor -= (map->player.y_angle * MOVSPEED);
-// 	}
-// 	mk_rel_vals(map);
-// }
 
 void	ft_move_player(void *param)
 {

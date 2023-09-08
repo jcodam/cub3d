@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:40:36 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/07 16:22:58 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:45:46 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ int	check_map_full(t_map *map)
 }
 
 
-static void free_tiles(t_map *map)
+static void	free_tiles(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
-	i = 0; 
+	i = 0;
 	j = 0;
 	if (map)
 	{
@@ -101,9 +101,7 @@ static void free_tiles(t_map *map)
 					while (j < map->width)
 					{
 						if (map->tiles[i][j])
-						{
 							free(map->tiles[i][j]);
-						}
 						j++;
 					}
 				}
@@ -111,29 +109,10 @@ static void free_tiles(t_map *map)
 				j = 0;
 				i++;
 			}
-		free (map->tiles);
+			free (map->tiles);
 		}
 	}
 }
-
-// static void free_map_arr(t_map *map)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!map->map_arr)
-// 		return ;
-// 	if (map->map_arr)
-// 	{
-// 		while (map->map_arr[i])
-// 		{
-// 			if (map->map_arr[i])
-// 				free (map->map_arr[i]);
-// 			i++;
-// 		}
-// 		free(map->map_arr);
-// 	}
-// }
 
 t_map	*del_map(t_map *map)
 {

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:32:11 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/08 18:29:44 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:42:31 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define FOVTIMES 4
 # define MOVSPEED 3
 # define ROTSPEED 2
+# define MINIMAP 1
+# define RAYS 1
 /* 0 = max png width */
 # define RAY_X_PIXEL_WIDTH 1
 
