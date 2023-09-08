@@ -92,9 +92,16 @@ t_map	*mk_map(void)
 	map->path_no = 0;
 	map->path_so = 0;
 	map->path_we = 0;
-	map->player.start_direction = EMPTY;
+	// map->player = malloc(sizeof(t_player));
+	map->player.start_direction = 0;
 	map->player.map_x = 0;
 	map->player.map_y = 0;
+	map->player.x_coor = 0;
+	map->player.y_coor = 0;
+	map->player.rotation = 0;
+	map->player.x_angle = 0;
+	map->player.y_angle = 0;
+	map->player.length = 0;
 	map->tiles = NULL;
 	map->stop = 0;
 	return (map);

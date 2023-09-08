@@ -66,7 +66,9 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 	if (!map->map_arr[i][j] || !ft_strchr("ENSW10", map->map_arr[i][j]))
 		tile->not_map = 1;
 	if (ft_strchr("ENSW", map->map_arr[i][j]))
+	{
 		tile->is_player = 1;
+	}
 	if (map->map_arr[i][j] == '1')
 		tile->is_wall = 1;
 	map->height = get_map_height(map->map_arr);
@@ -79,7 +81,7 @@ int	make_tiles(t_map *map)
 	size_t	i;
 	size_t	j;
 	t_tile	***tiles;
-	size_t	width; 
+	size_t	width;
 	size_t	height;
 
 	height = get_map_height(map->map_arr);
@@ -92,14 +94,13 @@ int	make_tiles(t_map *map)
 	tiles[height] = NULL;
 	if (!tiles)
 		return (0);
-	while (tiles[i])
+	while (i < height)
 	{
 		tiles[i] = malloc(sizeof(t_tile *) * (width + 1));
 		if (!tiles[i])
 			return (0);
 		i++;
 	}
-	tiles[i] = NULL;
 	i = 0;
 	while (tiles[i])
 	{
@@ -112,6 +113,7 @@ int	make_tiles(t_map *map)
 		i++;
 	}
 	map->tiles = tiles;
+	
 	return (1);
 }
 
@@ -134,7 +136,7 @@ void	test(char *addr)
 	map = mk_map();
 	fill_map(map, addr);
 	if (!make_tiles(map))
-		exit (1);
+		exit(1);
 	remove_newline(&map->path_ea);
 	remove_newline(&map->path_we);
 	remove_newline(&map->path_so);
@@ -148,10 +150,9 @@ void	test(char *addr)
 	fg_set_rgb_fd(map->color_ceiling, 1);
 	fg_set_rgb_fd(map->color_floor, 1);
 	check_map(map);
-	if (map)
-		write_map(map, 1);
+	// if (map)
+	// 	write_map(map, 1);
 	mk_png(map);
-	printf("%d--%d--\n", map->png->color_ceiling, map->png->color_floor);
 	draw_map(map);
 	map = del_png_s(map);
 	map = del_map(map);

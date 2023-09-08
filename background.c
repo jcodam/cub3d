@@ -58,41 +58,36 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png,
 	double angle, int point_png, double height)
 {
 	unsigned int	count;
-	// double			count2;
-	double			count3;
 	unsigned int	iii;
-	double 			width;
+	double			count3;
+	double			width;
 
-	// angle = 0;
-	width = png->width;// + WIDTH / (FOV * 2);
+	width = png->width;
 	if (RAY_X_PIXEL_WIDTH)
 		width = RAY_X_PIXEL_WIDTH;
 	(void)height;
-	count = 0;
 	count = point_png;
-	// count2 = (double)png->width / width;
 	count3 = (double)png->height / height;
 	iii = 0;
 	while (iii < height && iii < height - ((height - HEIGHT) / 2))
 	{
 		while ((height - HEIGHT) / 2 > iii)
 			iii++;
-		while (count - point_png < width &&  (angle + (count - point_png)) < WIDTH)
+		while (count - point_png < width && angle + (count - point_png) < WIDTH)
 		{
-			// printf("%d\n", count);
 			ft_memcpy(
 				img->pixels + (int)(WIDTH * (int)(((HEIGHT - height) / 2) + iii)
-				 + (angle ) + count - point_png) * 4, 
-				png->pixels + (int)(png->width * (int)(iii * count3) + count) * 4,
+					+ (angle) + count - point_png) * 4, png->pixels + \
+				(int)(png->width * (int)(iii * count3) + count) * 4,
 				png->bytes_per_pixel);
 			count++;
 		}
-		count = 0;
 		count = point_png;
 		iii++;
 	}
 }
 //  + angle * (WIDTH / (FOV * 2)) -- * ( (FOV * FOVTIMES) / WIDTH )
+/*2--16.924805--592.924805--1599.999878--119*/
 
 static double	modulo_dbl(double res, double mod)
 {
@@ -100,9 +95,13 @@ static double	modulo_dbl(double res, double mod)
 		res = res - mod;
 	return (res);
 }
+/*if (angle == 2)
+	{
+	printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(map->rays->ray_y , 64)
+	, map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
+	// exit(0);
+	}*/
 
-	//printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(map->rays->ray_y , 64)
-	//, map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
 void	wall_texture(t_map *map, double distence, int angle, double point_png)
 {
 	double			height;

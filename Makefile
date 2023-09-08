@@ -38,7 +38,10 @@ CC= gcc
 
 CFLAGS+= -g 
 CFLAGS+= -Wall -Wextra -Werror
+ifdef S
 CFLAGS+= $(SAN)
+endif
+
 # CFLAGS+= --coverage
 CFLAGS+= -o
 

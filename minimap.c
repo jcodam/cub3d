@@ -73,11 +73,11 @@ void	mk_rel_vals(t_map *map)
 
 void	init_direction(t_map *map)
 {
-	if (map->player.start_direction == 11)
+	if (map->player.start_direction == P_SOUTH)
 		map->player.rotation = 270;
-	else if (map->player.start_direction == 12)
+	else if (map->player.start_direction == P_WEST)
 		map->player.rotation = 180;
-	else if (map->player.start_direction == 13)
+	else if (map->player.start_direction == P_EAST)
 		map->player.rotation = 0;
 	else
 		map->player.rotation = 90;
