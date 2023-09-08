@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        ::::::::            */
-// /*   rays.c                                             :+:    :+:            */
-// /*                                                     +:+                    */
-// /*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
-// /*                                                   +#+                      */
-// /*   Created: 2023/08/14 19:05:55 by avon-ben      #+#    #+#                 */
-// /*   Updated: 2023/08/14 19:23:19 by avon-ben      ########   odam.nl         */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rays.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/14 19:05:55 by avon-ben          #+#    #+#             */
+/*   Updated: 2023/09/08 21:32:53 by avon-ben         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "map.h"
 #include "defines.h"
@@ -62,9 +62,9 @@ void	move_to_next_point_h(t_map *map)
 	[((int)map->rays->ray_x / 64)]->is_wall)
 	{
 		map->rays->dof = 20;
-		map->rays->dist_h = cos(degToRad(map->rays->ray_angle)) * \
+		map->rays->dist_h = cos(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->ray_x - map->player.x_coor) - \
-		sin(degToRad(map->rays->ray_angle)) * \
+		sin(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->ray_y - map->player.y_coor);
 	}
 	else
@@ -84,9 +84,9 @@ void	move_to_next_point_v(t_map *map)
 	[((int)map->rays->vert_x / 64)]->is_wall)
 	{
 		map->rays->dof = 20;
-		map->rays->dist_v = cos(degToRad(map->rays->ray_angle)) * \
+		map->rays->dist_v = cos(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->vert_x - map->player.x_coor) - \
-		sin(degToRad(map->rays->ray_angle)) * \
+		sin(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->vert_y - map->player.y_coor);
 	}
 	else
@@ -244,7 +244,7 @@ int	cast_rays(t_map *map)
 	{
 		map->rays->ray_angle = FixAng(map->rays->ray_angle - line_int);
 		y_ = 0;
-		tang = tan((degToRad(map->rays->ray_angle)));
+		tang = tan((degree_to_radian(map->rays->ray_angle)));
 		rays_vertical(map, tang);
 		rays_horizontal(map, tang);
 		if (map->rays->dist_v <= map->rays->dist_h)

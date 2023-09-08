@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   background.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jbax <jbax@student.codam.nl>                 +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/08/22 14:51:40 by jbax          #+#    #+#                 */
-/*   Updated: 2023/09/05 16:19:45 by jbax          ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   background.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/22 14:51:40 by jbax              #+#    #+#             */
+/*   Updated: 2023/09/08 21:27:38 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@
 // 	{
 // 		while (count < width)
 // 		{
-// 			ft_memcpy(img->pixels + (int)(WIDTH 
-				// * (int)((HEIGHT / 2 - height / 2)
-				// + iii) + count) * 4,
-				// png->pixels +
+// 			ft_memcpy(img->pixels + (int)(WIDTH * (int)((HEIGHT / 2 - height / 2) + iii) + count) * 4,
+// 				png->pixels +
 // 				(int)(png->width * (int)(iii * count3) + count * count2) * 4,
 // 				png->bytes_per_pixel);
 // 			count++;
@@ -151,6 +149,7 @@ void	draw_background(t_map *map)
 		pos_width = 0;
 		pos_height++;
 	}
+	// texture_scale(map->img, map->png->png_no, 640, 640);
 }
 
 	// static mlx_image_t		*img = NULL;

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/08 20:41:15 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:32:30 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 // -----------------------------------------------------------------------------
 
-float	degToRad(float a)
+float	degree_to_radian(float a)
 {
 	return (a * PI / 180.0);
 }
@@ -81,8 +81,8 @@ void	init_direction(t_map *map)
 		map->player.rotation = 0;
 	else
 		map->player.rotation = 90;
-	map->player.x_angle = cos(degToRad(map->player.rotation));
-	map->player.y_angle = -sin(degToRad(map->player.rotation));
+	map->player.x_angle = cos(degree_to_radian(map->player.rotation));
+	map->player.y_angle = -sin(degree_to_radian(map->player.rotation));
 }
 
 void	init_rays(t_rays *rays)
@@ -300,20 +300,19 @@ void	ft_move_player(void *param)
 	if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
 	{
 		map->player.rotation = FixAng(map->player.rotation + ROTSPEED);
-		map->player.x_angle = cos(degToRad(map->player.rotation));
-		map->player.y_angle = -sin(degToRad(map->player.rotation));
+		map->player.x_angle = cos(degree_to_radian(map->player.rotation));
+		map->player.y_angle = -sin(degree_to_radian(map->player.rotation));
 	}
 	if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
 	{
 		map->player.rotation = FixAng(map->player.rotation - ROTSPEED);
-		map->player.x_angle = cos(degToRad(map->player.rotation));
-		map->player.y_angle = -sin(degToRad(map->player.rotation));
+		map->player.x_angle = cos(degree_to_radian(map->player.rotation));
+		map->player.y_angle = -sin(degree_to_radian(map->player.rotation));
 	}
 	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(map->mlx);
 	ft_draw_player(map);
 }
-
 
 int32_t	draw_map(t_map *map)
 {

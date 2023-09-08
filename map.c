@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:27:50 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/07 14:48:40 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:50:05 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_map	*mk_map(void)
 	map->path_no = 0;
 	map->path_so = 0;
 	map->path_we = 0;
-	// map->player = malloc(sizeof(t_player));
 	map->player.start_direction = 0;
 	map->player.map_x = 0;
 	map->player.map_y = 0;

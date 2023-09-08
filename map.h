@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/07 14:35:42 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:32:04 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int		check_png_full(t_map *map);
 t_map	*del_png_s(t_map *map);
 
 // minimap.c
-float	degToRad(float a);
+float	degree_to_radian(float a);
 int32_t	draw_map(t_map *map);
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
 int		check_mlx_error(mlx_t *mlx, t_map *map);

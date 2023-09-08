@@ -6,15 +6,15 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:32:11 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/08 20:42:31 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:10:23 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# define WIDTH 1200
-# define HEIGHT 900
+# define WIDTH 2400
+# define HEIGHT 1800
 # define MIN_X_MINIMAP 400
 # define MAX_X_MINIMAP 800
 # define MIN_Y_MINIMAP 600
@@ -25,8 +25,8 @@
 # define PI 3.14159265359
 # define FOV 60
 # define FOVTIMES 4
-# define MOVSPEED 3
-# define ROTSPEED 2
+# define MOVSPEED 5
+# define ROTSPEED 4
 # define MINIMAP 1
 # define RAYS 1
 /* 0 = max png width */
