@@ -111,6 +111,7 @@ void	get_distance_vert(t_map *map)
 
 void	set_streight_line(t_map *map, float Tan)
 {
+	(void)Tan;
 	if (map->rays->ray_angle == 90)
 	{
 		map->rays->offset_x = 0;

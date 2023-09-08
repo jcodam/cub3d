@@ -24,7 +24,7 @@ OBF_DIR= OBF
 
 OBF= $(SRC:%.c=$(OBF_DIR)/%.o)
 
-HEADER= ./mlx/include
+# HEADER= ./mlx/include
 
 HEADER+= get_next_line.h color.h map.h defines.h 
 
@@ -36,7 +36,8 @@ MLXINC= -Iinclude -lglfw -lm\
 
 CC= gcc
 
-# CFLAGS= -g -Wall -Wextra -Werror
+CFLAGS+= -g 
+CFLAGS+= -Wall -Wextra -Werror
 CFLAGS+= $(SAN)
 # CFLAGS+= --coverage
 CFLAGS+= -o

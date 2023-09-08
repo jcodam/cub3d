@@ -153,7 +153,7 @@ void	test(char *addr)
 	mk_png(map);
 	printf("%d--%d--\n", map->png->color_ceiling, map->png->color_floor);
 	draw_map(map);
-	//map->png = del_png_s(map);
+	map = del_png_s(map);
 	map = del_map(map);
 }
 

@@ -22,10 +22,8 @@ void	map_exit(char *str)
 
 int	_cub(char *arg)
 {
-	int		i;
 	char	*str;
 
-	i = 0;
 	str = ".cub";
 	str = ft_strnstr(arg, ".cub", ft_strlen(arg));
 	if (!str)
@@ -118,30 +116,30 @@ static void free_tiles(t_map *map)
 	}
 }
 
-static void free_map_arr(t_map *map)
-{
-	int	i;
+// static void free_map_arr(t_map *map)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!map->map_arr)
-		return ;
-	if (map->map_arr)
-	{
-		while (map->map_arr[i])
-		{
-			if (map->map_arr[i])
-				free (map->map_arr[i]);
-			i++;
-		}
-		free(map->map_arr);
-	}
-}
+// 	i = 0;
+// 	if (!map->map_arr)
+// 		return ;
+// 	if (map->map_arr)
+// 	{
+// 		while (map->map_arr[i])
+// 		{
+// 			if (map->map_arr[i])
+// 				free (map->map_arr[i]);
+// 			i++;
+// 		}
+// 		free(map->map_arr);
+// 	}
+// }
 
 t_map	*del_map(t_map *map)
 {
-	printf("map->width: %d\n", map->width);
 	if (!map)
 		return (0);
+	printf("map->width: %d\n", map->width);
 	printf("del_map\n\n\n");
 	if (map->color_ceiling)
 		free(map->color_ceiling);

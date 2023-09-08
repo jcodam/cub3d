@@ -78,20 +78,23 @@ int	check_png_full(t_map *map)
 
 t_map	*del_png_s(t_map *map)
 {
+	if (!map)
+		return (0);	
 	if (!map->png)
-		return (0);
+		return (map);
 	// if (map->png->color_ceiling)
 	// 	free(map->png->color_ceiling);
 	// if (map->png->color_floor)
 	// 	free(map->png->color_floor);
 	if (map->png->png_ea)
-		free(map->png->png_ea);
+		mlx_delete_texture(map->png->png_ea);
 	if (map->png->png_no)
-		free(map->png->png_no);
+		mlx_delete_texture(map->png->png_no);
 	if (map->png->png_so)
-		free(map->png->png_so);
+		mlx_delete_texture(map->png->png_so);
 	if (map->png->png_we)
-		free(map->png->png_we);
+		mlx_delete_texture(map->png->png_we);
 	free(map->png);
-	return (0);
+	map->png = 0;
+	return (map);
 }

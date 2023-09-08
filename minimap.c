@@ -313,12 +313,8 @@ void	ft_move_player(void *param)
 int32_t	draw_map(t_map *map)
 {
 	mlx_t		*mlx;
-	int			i;
 	mlx_image_t	*image;
-	int			a;
 
-	a = 1;
-	i = MIN_X_MINIMAP;
 	mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 	if (!mlx)
 	{
@@ -343,7 +339,6 @@ int32_t	draw_map(t_map *map)
 	mlx_loop_hook(mlx, ft_move_player, map);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	free(map);
 	printf("end\n\n");
 	return (EXIT_SUCCESS);
 }
