@@ -88,12 +88,19 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png,
 }
 //  + angle * (WIDTH / (FOV * 2)) -- * ( (FOV * FOVTIMES) / WIDTH )
 /*2--16.924805--592.924805--1599.999878--119*/
+
 static double	modulo_dbl(double res, double mod)
 {
 	while (res >= mod)
 		res = res - mod;
 	return (res);
 }
+/*if (angle == 2)
+	{
+	printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(map->rays->ray_y , 64)
+	, map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
+	// exit(0);
+	}*/
 
 void	wall_texture(t_map *map, double distence, int angle, double point_png)
 {
@@ -101,12 +108,6 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	int				i;
 
 	height = (map->height * HEIGHT / distence) * 2;
-	if (angle == 2)
-	{
-	printf("%d--%f--%f--%f--%d\n", angle, modulo_dbl(map->rays->ray_y , 64)
-	, map->rays->ray_y, map->rays->ray_x, (int)map->rays->ray_angle );
-	// exit(0);
-	}
 	if (point_png > 0)
 	{
 		i = 0;

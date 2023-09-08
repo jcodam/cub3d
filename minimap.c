@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/07 16:22:32 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:05:29 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	mk_rel_vals(t_map *map)
 
 void	init_direction(t_map *map)
 {
-	printf("ff %d--%d--\n", map->player.start_direction, map->png->color_floor);
-
 	if (map->player.start_direction == P_SOUTH)
 		map->player.rotation = 270;
 	else if (map->player.start_direction == P_WEST)
@@ -183,7 +181,7 @@ int check_bckwd(t_map *map, size_t i, size_t j)
 	yc = map->player.y_coor;
 	ya = map->player.y_angle;
 	if ((map->tiles[i][j]->x_coor - 5) < (xc - (xa * MOVSPEED))
-	&& (map->tiles[i][j]->x_coor + (TILE_RAD * MOVSPEED) + 5) > \
+	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > \
 	(xc - (xa * MOVSPEED)) && (map->tiles[i][j]->y_coor - 5) < \
 	(yc - (ya * MOVSPEED) + 5) && (map->tiles[i][j]->y_coor + \
 	(TILE_RAD * 2) + 5) > (yc - (ya * MOVSPEED)))
@@ -204,9 +202,9 @@ int check_fwd(t_map *map, size_t i, size_t j)
 	yc = map->player.y_coor;
 	ya = map->player.y_angle;
 	if ((map->tiles[i][j]->x_coor - 5) < (xc + (xa * MOVSPEED))
-	&& (map->tiles[i][j]->x_coor + (TILE_RAD * MOVSPEED) + 5) > (xc + (xa * MOVSPEED)) \
+	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (xc + (xa * MOVSPEED)) \
 	&& (map->tiles[i][j]->y_coor - 5) < (yc + (ya * MOVSPEED) + 5) \
-	&& (map->tiles[i][j]->y_coor + (TILE_RAD * MOVSPEED) + 5) > (yc + (ya * MOVSPEED)))
+	&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (yc + (ya * MOVSPEED)))
 		return (1);
 	else
 		return (0);
@@ -267,23 +265,50 @@ void move_down(t_map *map)
 {
 	float	store;
 
-	if (is_wall(map, 'b'))
-	{
-		store = map->player.x_angle;
-		map->player.x_angle = 0;
-		if (!is_wall(map, 'b'))
-			map->player.y_coor -= map->player.y_angle * MOVSPEED;
-		else
-			map->player.x_coor -= store * MOVSPEED;
-		map->player.x_angle = store;
-	}
-	else
+	if (!is_wall(map, 'b'))
 	{
 		map->player.x_coor -= (map->player.x_angle * MOVSPEED);
 		map->player.y_coor -= (map->player.y_angle * MOVSPEED);
 	}
+	else if (is_wall(map, 'b'))
+	{
+		store = map->player.x_angle;
+		map->player.x_angle = 0;
+		if (!is_wall(map, 'b'))
+		{
+			map->player.y_coor -= map->player.y_angle * MOVSPEED;
+		}
+		map->player.x_angle = store;
+		store = map->player.y_angle;
+		map->player.y_angle = 0;
+		if (!is_wall(map, 'b'))
+			map->player.x_coor -= map->player.x_angle * MOVSPEED;
+		map->player.y_angle = store;
+	}
 	mk_rel_vals(map);
 }
+
+// void move_down(t_map *map)
+// {
+// 	float	store;
+
+// 	if (is_wall(map, 'b'))
+// 	{
+// 		store = map->player.x_angle;
+// 		map->player.x_angle = 0;
+// 		if (!is_wall(map, 'b'))
+// 			map->player.y_coor -= map->player.y_angle * MOVSPEED;
+// 		else
+// 			map->player.x_coor -= store * MOVSPEED;
+// 		map->player.x_angle = store;
+// 	}
+// 	else
+// 	{
+// 		map->player.x_coor -= (map->player.x_angle * MOVSPEED);
+// 		map->player.y_coor -= (map->player.y_angle * MOVSPEED);
+// 	}
+// 	mk_rel_vals(map);
+// }
 
 void	ft_move_player(void *param)
 {

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: jbax <jbax@student.codam.nl>                 +#+                      #
-#                                                    +#+                       #
-#    Created: 2023/01/17 18:03:37 by jbax          #+#    #+#                  #
-#    Updated: 2023/09/05 13:51:37 by jbax          ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/01/17 18:03:37 by jbax              #+#    #+#              #
+#    Updated: 2023/09/08 16:41:50 by avon-ben         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,10 @@ CC= gcc
 
 CFLAGS+= -g 
 CFLAGS+= -Wall -Wextra -Werror
+ifdef S
 CFLAGS+= $(SAN)
+endif
+
 # CFLAGS+= --coverage
 CFLAGS+= -o
 

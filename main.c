@@ -81,7 +81,7 @@ int	make_tiles(t_map *map)
 	size_t	i;
 	size_t	j;
 	t_tile	***tiles;
-	size_t	width; 
+	size_t	width;
 	size_t	height;
 
 	height = get_map_height(map->map_arr);
@@ -101,15 +101,12 @@ int	make_tiles(t_map *map)
 			return (0);
 		i++;
 	}
-	// tiles[i] = NULL;
-	printf("gooo %ld %p\n", i, tiles[1]);
 	i = 0;
 	while (tiles[i])
 	{
 		while (j < width)
 		{
 				tiles[i][j] = init_tile(i, j, map);
-	printf("ppp %d - %ld - %ld\n", tiles[i][j]->is_player, i, j);
 			j++;
 		}
 		j = 0;

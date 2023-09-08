@@ -99,13 +99,10 @@ void	move_to_next_point_v(t_map *map)
 
 void	get_distance_vert(t_map *map)
 {
-	while(((int)map->rays->vert_x / 64) > 0 && ((int)map->rays->vert_x / 64) \
-	< (map->width) && !map->tiles[((int)map->rays->vert_y / 64)] \
+	while(((int)map->rays->vert_x / 64) > 0 && ((int)map->rays->vert_x \
+	/ 64) < (map->width) && !map->tiles[((int)map->rays->vert_y / 64)] \
 	[((int)map->rays->vert_x / 64)]->is_wall)
-	{
-		printf("map->rays->vert_x: %f, map->player.x_coor: %f\n", map->rays->vert_x, map->player.x_coor);
 		map->rays->vert_x += map->rays->offset_x;
-	}
 	map->rays->dist_v = map->rays->vert_x - map->player.x_coor;
 }
 
@@ -211,9 +208,6 @@ void rays_horizontal(t_map *map, float Tan)
 	while (map->rays->dof < 20)
 		move_to_next_point_h(map);
 }
-/* dist_v vertical < dist_h horizontal = vertical 
-	map[ray_y][ray_x]
-	((int)map->rays->ray_y / (2 * TILE_RAD))*/
 
 void draw_vert_line(t_map *map, int height, int width, int start_y, int pos)
 {
@@ -243,47 +237,27 @@ int	cast_rays(t_map *map)
 	int		y_;
 	float	line_int;
 
-	line_int =  ((FOV * 1.0) / WIDTH);
+	line_int = ((FOV * 1.0) / WIDTH);
 	i = 0;
 	map->rays->ray_angle = map->player.rotation + (FOV / 2);
-	printf("tt - %f - %d\n", map->rays->ray_angle, map->player.rotation);
 	while (i < WIDTH)
 	{
+		map->rays->ray_angle = FixAng(map->rays->ray_angle - line_int);
 		y_ = 0;
 		tang = tan((degToRad(map->rays->ray_angle)));
 		rays_vertical(map, tang);
 		rays_horizontal(map, tang);
-		if (map->rays->dist_v < map->rays->dist_h)
+		if (map->rays->dist_v <= map->rays->dist_h)
 		{
 			map->rays->ray_x = map->rays->vert_x;
 			map->rays->ray_y = map->rays->vert_y;
 			map->rays->dist_h = map->rays->dist_v;
 			y_ = 1;
 		}
-		if (FixAng(map->rays->ray_angle) > 359.975 || FixAng(map->rays->ray_angle) < 0.025)
-		{
-			printf("straight line right\n");
-			printf("ray angle: %f, distance: %f\n", FixAng(map->rays->ray_angle), map->rays->dist_h);
-			printf("x_coor: %f, ray_x: %f\n", map->player.x_coor, map->rays->vert_x);
-		}
 		draw_ray(map);
-		// draw beam on screen
-		//lineH = ((TILE_RAD * 2) * HEIGHT) / (map->rays->dist_h);
-		//if(lineH>320){ lineH=320;}
-		//draw_vert_line(map, lineH, 1, 160, i);
-		map->rays->ray_angle = FixAng(map->rays->ray_angle - line_int);
-		map->rays->dof = 0;
-		// if (i == 0)
-		// {
-		// printf("%d--%f--%f--%f--%d\n", i, degToRad(map->rays->ray_angle)
-		// , sin(5), cos(5), (int)map->rays->ray_angle );
-		// // exit(0);
-		// }
 		i++;
-		if (map->rays->ray_x < map->rays->ray_y)
-			wall_texture(map, map->rays->dist_h, i, y_);
-		else
-			wall_texture(map, map->rays->dist_h, i, y_);
+		wall_texture(map, map->rays->dist_h, i, y_);
+		map->rays->dof = 0;
 	}
 	return (1);
 }
