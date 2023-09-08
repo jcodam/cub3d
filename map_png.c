@@ -23,9 +23,9 @@ static int	get_collors(char *collor)
 	temp = ft_split(collor, ';');
 	if (!temp)
 		map_exit("error\nmalloc error\n");
-	printf("%d--%d--%d\n",ft_atoi(temp[0]), ft_atoi(temp[1]), ft_atoi(temp[2]));
+	// printf("%d--%d--%d\n",ft_atoi(temp[0]), ft_atoi(temp[1]), ft_atoi(temp[2]));
 	value = ft_pixel(ft_atoi(temp[0]), ft_atoi(temp[1]), ft_atoi(temp[2]), 200);
-	printf("--%d-\n", value);
+	// printf("--%d-\n", value);
 	while (temp[count])
 	{
 		free(temp[count]);

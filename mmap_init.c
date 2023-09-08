@@ -50,6 +50,7 @@ void	convert_coordinates(t_map *map)
 		{
 			if (map->tiles[i][j] && map->tiles[i][j]->is_player)
 			{
+				printf("boo\n");
 				map->player.x_coor = map->tiles[i][j]->x_coor;
 				map->player.y_coor = map->tiles[i][j]->y_coor;
 				init_direction(map);

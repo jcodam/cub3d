@@ -246,6 +246,7 @@ int	cast_rays(t_map *map)
 	line_int =  ((FOV * 1.0) / WIDTH);
 	i = 0;
 	map->rays->ray_angle = map->player.rotation + (FOV / 2);
+	printf("tt - %f - %d\n", map->rays->ray_angle, map->player.rotation);
 	while (i < WIDTH)
 	{
 		y_ = 0;
@@ -272,6 +273,12 @@ int	cast_rays(t_map *map)
 		//draw_vert_line(map, lineH, 1, 160, i);
 		map->rays->ray_angle = FixAng(map->rays->ray_angle - line_int);
 		map->rays->dof = 0;
+		// if (i == 0)
+		// {
+		// printf("%d--%f--%f--%f--%d\n", i, degToRad(map->rays->ray_angle)
+		// , sin(5), cos(5), (int)map->rays->ray_angle );
+		// // exit(0);
+		// }
 		i++;
 		if (map->rays->ray_x < map->rays->ray_y)
 			wall_texture(map, map->rays->dist_h, i, y_);
