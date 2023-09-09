@@ -31,8 +31,16 @@ HEADER+= get_next_line.h color.h map.h defines.h
 lib=libft/libft.a
 
 MLX=mlx/build/libmlx42.a
-MLXINC= -Iinclude -lglfw -lm\
-		# -framework Cocoa -framework OpenGL -framework IOKit
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+CCFLAGS += -D LINUX
+MLXINC= -Iinclude -lglfw -lm
+endif
+ifeq ($(UNAME_S),Darwin)
+CCFLAGS += -D OSX
+MLXINC= -Iinclude -lglfw3 -lm \
+		-framework Cocoa -framework OpenGL -framework IOKit
+endif
 
 CC= gcc
 
@@ -47,7 +55,7 @@ CFLAGS+= -o
 
 # RLINE= -lreadline -L ~/.brew/opt/readline/lib/ $(lib)
 
-SAN= -fsanitize=address
+SAN=  -fsanitize=leak
 
 OO= -O3
 

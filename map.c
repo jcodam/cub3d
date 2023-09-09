@@ -13,8 +13,8 @@
 #include "map.h"
 #include "libft/libft.h"
 #include <fcntl.h>
-// #include "nextline/get_next_line.h"
-char	*get_next_line(int fd);
+#include "nextline/get_next_line.h"
+// char	*get_next_line(int fd);
 
 static char	**get_map(char **temp, int fd)
 {
@@ -25,7 +25,7 @@ static char	**get_map(char **temp, int fd)
 	{
 		arr = ft_arradd_index(arr, *temp, ft_arrlen_c(arr));
 		if (!arr)
-			map_exit("error\nmalloc error\n");
+			map_exit("Error\nmalloc error\n");
 		*temp = get_next_line(fd);
 	}
 	return (arr);
@@ -60,7 +60,7 @@ int	fill_map(t_map *map, char const *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 2)
-		map_exit("error\ncan't open the .cub, check address\n");
+		map_exit("Error\ncan't open the .cub, check address\n");
 	temp = get_next_line(fd);
 	while (temp)
 	{
@@ -73,7 +73,7 @@ int	fill_map(t_map *map, char const *path)
 		temp = get_next_line(fd);
 	}
 	if (check_map_full(map))
-		map_exit("error\ncouldn't fill map. necessary data are missing\n");
+		map_exit("Error\ncouldn't fill map. necessary data are missing\n");
 	close(fd);
 	return (1);
 }
@@ -92,7 +92,6 @@ t_map	*mk_map(void)
 	map->path_no = 0;
 	map->path_so = 0;
 	map->path_we = 0;
-	// map->player = malloc(sizeof(t_player));
 	map->player.start_direction = 0;
 	map->player.map_x = 0;
 	map->player.map_y = 0;

@@ -113,7 +113,6 @@ int	make_tiles(t_map *map)
 		i++;
 	}
 	map->tiles = tiles;
-	
 	return (1);
 }
 
@@ -126,7 +125,7 @@ static void	remove_newline(char **s)
 	*s = new;
 }
 
-void	test(char *addr)
+void	start_mapping(char *addr)
 {
 	t_map	*map;
 
@@ -150,8 +149,6 @@ void	test(char *addr)
 	fg_set_rgb_fd(map->color_ceiling, 1);
 	fg_set_rgb_fd(map->color_floor, 1);
 	check_map(map);
-	// if (map)
-	// 	write_map(map, 1);
 	mk_png(map);
 	draw_map(map);
 	map = del_png_s(map);
@@ -163,9 +160,9 @@ int	main(int argc, char *argv[])
 	if (argc < 2)
 	{
 		ft_putnbr_fd(argc, 1);
-		ft_putendl_fd(FG_RED"error\nyou forgot map input"FG_DEFAULT, 1);
+		ft_putendl_fd(FG_RED"Error\nyou forgot map input"FG_DEFAULT, 1);
 		return (1);
 	}
-	test(argv[1]);
+	start_mapping(argv[1]);
 	return (0);
 }

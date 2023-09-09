@@ -41,18 +41,18 @@ char	*color_syntax(char *str)
 	char	*dest;
 
 	if (!ft_strinset(str, "0987654321;\n"))
-		map_exit("error\na color value must consist only of numbers and ,.-\n");
+		map_exit("Error\na color value must consist only of numbers and ,.-\n");
 	temp = ft_split(str, ';');
 	if (!temp)
-		map_exit("error\nsplitting or malloc of colors failed\n");
+		map_exit("Error\nsplitting or malloc of colors failed\n");
 	if (ft_arrlen_c(temp) != 3)
-		map_exit("error\ncolor value has more or less than 3numbers\n");
+		map_exit("Error\ncolor value has more or less than 3numbers\n");
 	if (ft_atoi(temp[0]) > 255)
-		map_exit("error\ncolor value higher than 255 found\n");
+		map_exit("Error\ncolor value higher than 255 found\n");
 	if (ft_atoi(temp[1]) > 255)
-		map_exit("error\ncolor value higher than 255 found\n");
+		map_exit("Error\ncolor value higher than 255 found\n");
 	if (ft_atoi(temp[2]) > 255)
-		map_exit("error\ncolor value higher than 255 found\n");
+		map_exit("Error\ncolor value higher than 255 found\n");
 	dest = ft_strjoinx(5, temp[0], ";", temp[1], ";", temp[2]);
 	ft_arrclear_c(temp, ft_arrlen_c(temp));
 	free(str);
@@ -82,65 +82,39 @@ int	check_map_full(t_map *map)
 	return (0);
 }
 
-
-static void free_tiles(t_map *map)
+static int	free_tiles(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
-	i = 0; 
+	i = 0;
 	j = 0;
-	if (map)
+	if (!map)
+		return (0);
+	if (!map->tiles)
+		return (0);
+	while (i < map->height)
 	{
-		if (map->tiles)
+		while (map->tiles[i] && j < map->width)
 		{
-			while (i < map->height)
+			if (map->tiles[i][j])
 			{
-				if (map->tiles[i])
-				{
-					while (j < map->width)
-					{
-						if (map->tiles[i][j])
-						{
-							free(map->tiles[i][j]);
-						}
-						j++;
-					}
-				}
-				free(map->tiles[i]);
-				j = 0;
-				i++;
+				free(map->tiles[i][j]);
 			}
-		free (map->tiles);
+			j++;
 		}
+		free(map->tiles[i]);
+		j = 0;
+		i++;
 	}
+	free (map->tiles);
+	return (1);
 }
-
-// static void free_map_arr(t_map *map)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!map->map_arr)
-// 		return ;
-// 	if (map->map_arr)
-// 	{
-// 		while (map->map_arr[i])
-// 		{
-// 			if (map->map_arr[i])
-// 				free (map->map_arr[i]);
-// 			i++;
-// 		}
-// 		free(map->map_arr);
-// 	}
-// }
 
 t_map	*del_map(t_map *map)
 {
 	if (!map)
 		return (0);
-	printf("map->width: %d\n", map->width);
-	printf("del_map\n\n\n");
 	if (map->color_ceiling)
 		free(map->color_ceiling);
 	if (map->color_floor)
@@ -160,6 +134,6 @@ t_map	*del_map(t_map *map)
 	free_tiles(map);
 	if (map->rays)
 		free(map->rays);
-	//free(map);
-	return (0);
+	free(map);
+	return (map);
 }

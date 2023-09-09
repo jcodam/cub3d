@@ -65,7 +65,6 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png,
 	width = png->width;
 	if (RAY_X_PIXEL_WIDTH)
 		width = RAY_X_PIXEL_WIDTH;
-	(void)height;
 	count = point_png;
 	count3 = (double)png->height / height;
 	iii = 0;
@@ -152,9 +151,3 @@ void	draw_background(t_map *map)
 		pos_height++;
 	}
 }
-
-	// static mlx_image_t		*img = NULL;
-		// img = mlx_new_image(map->mlx, WIDTH, HEIGHT);
-	// mlx_
-	// mlx_image_to_window(map->mlx, img, 0, 0);
-	// mlx_image_to_window(map->mlx, map->img, 0, 0);

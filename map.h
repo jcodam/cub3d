@@ -106,50 +106,51 @@ enum	e_map
 };
 
 /*try's to fill te struct with all his data */
-int		fill_map(t_map *map, char const *path);
+int			fill_map(t_map *map, char const *path);
 /* make's the struct with malloc*/
-t_map	*mk_map(void);
+t_map		*mk_map(void);
 /* delete's all the malloc't data in map returns 0*/
-t_map	*del_map(t_map *map);
+t_map		*del_map(t_map *map);
 /* write's all map data */
-int		write_map(t_map *map, int fd);
+int			write_map(t_map *map, int fd);
 /* check's if map has walls where player can go and chars */
-void	check_map(t_map *map);
+void		check_map(t_map *map);
 /* writes string and exit function*/
-void	map_exit(char *str);
+void		map_exit(char *str);
 /* checks if file has .cub */
-int		_cub(char *arg);
+int			_cub(char *arg);
 /* return 0 if map is full 2 if only map is missing */
-int		check_map_full(t_map *map);
+int			check_map_full(t_map *map);
 /* checks the color string. checks
 	if only numbers
 	only 3 numbers
 	number under 255 the max rgb value
 	and changes multiple separators to only one */
-char	*color_syntax(char *str);
-void	draw_background(t_map *map);
-void	wall_texture(t_map *map, double distence, int angle, double point_png);
-void	mk_png(t_map *map);
-int		check_png_full(t_map *map);
-t_map	*del_png_s(t_map *map);
+char		*color_syntax(char *str);
+void		draw_background(t_map *map);
+void		wall_texture(t_map *map, double distence,
+				int angle, double point_png);
+void		mk_png(t_map *map);
+int			check_png_full(t_map *map);
+t_map		*del_png_s(t_map *map);
 
 // minimap.c
-float	degToRad(float a);
-int32_t	draw_map(t_map *map);
-void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
-int		check_mlx_error(mlx_t *mlx, t_map *map);
+float		degToRad(float a);
+int32_t		draw_map(t_map *map);
+void		make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
+int			check_mlx_error(mlx_t *mlx, t_map *map);
 
-void	draw_line(t_map *map, float dir_x, float dir_y);
-void	minimap_wrap_print(float x, float y, t_map *map, int32_t colour);
-void	put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
-int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void	mk_rel_vals(t_map *map);
-void	init_direction(t_map *map);
-float	FixAng(float a);
+void		draw_line(t_map *map, float dir_x, float dir_y);
+void		minimap_wrap_print(float x, float y, t_map *map, int32_t colour);
+void		put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
+int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void		mk_rel_vals(t_map *map);
+void		init_direction(t_map *map);
+float		FixAng(float a);
 
 // temp_tools.c
-void	streight_line(t_map *map, float dir_x, float dir_y);
-void	print_tiles(t_map *map);
+void		streight_line(t_map *map, float dir_x, float dir_y);
+void		print_tiles(t_map *map);
 
 // tools.c
 float		get_mmap_centre_x(void);
@@ -160,12 +161,12 @@ uint32_t	mini_x(t_map *map, float x);
 uint32_t	mini_y(t_map *map, float y);
 
 // mmap_init.c
-void	expand_walls(t_map *map, int i, int j);
-void	convert_coordinates(t_map *map);
-void	shade_box(t_map *map);
-void	draw_box(t_map *map);
+void		expand_walls(t_map *map, int i, int j);
+void		convert_coordinates(t_map *map);
+void		shade_box(t_map *map);
+void		draw_box(t_map *map);
 
 // rays.c
-int		cast_rays(t_map *map);
+int			cast_rays(t_map *map);
 
 #endif
