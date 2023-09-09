@@ -259,6 +259,6 @@ int		ft_strchr_set(char *src, char *set);
 	0 if false */
 int		ft_strempty(char *src);
 /* returns the index of the first non whitespace or null */
-int	ft_skip_whitespace(char *str);
+int		ft_skip_whitespace(char *str);
 
 #endif

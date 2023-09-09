@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/08 21:32:04 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/09 17:15:41 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,10 @@ void		wall_texture(t_map *map, double distence,
 void		mk_png(t_map *map);
 int			check_png_full(t_map *map);
 t_map		*del_png_s(t_map *map);
+/* copys the png image pixeldata to img pixeldata 
+on pixel position y x and are proteckted from going over or under screen size*/
+void		image_to_image(mlx_image_t *img, mlx_image_t *png, int y, int x);
+void		prep_map_syntax(t_map *map);
 
 // minimap.c
 float		degree_to_radian(float a);

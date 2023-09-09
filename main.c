@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:07:32 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/07 15:22:30 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/09 17:11:21 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,38 +116,15 @@ int	make_tiles(t_map *map)
 	return (1);
 }
 
-static void	remove_newline(char **s)
-{
-	char	*new;
-
-	new = ft_strtrim(*s, "\n");
-	free(*s);
-	*s = new;
-}
-
 void	start_mapping(char *addr)
 {
 	t_map	*map;
 
-	fg_putstr_rgb_fd(addr, "45;255;45", 1);
-	write(1, "\n", 1);
-	_cub(addr);
 	map = mk_map();
 	fill_map(map, addr);
 	if (!make_tiles(map))
 		exit(1);
-	remove_newline(&map->path_ea);
-	remove_newline(&map->path_we);
-	remove_newline(&map->path_so);
-	remove_newline(&map->path_no);
-	remove_newline(&map->color_floor);
-	remove_newline(&map->color_ceiling);
-	ft_strrep(map->color_ceiling, ",.-", ';');
-	ft_strrep(map->color_floor, ",.-", ';');
-	map->color_ceiling = color_syntax(map->color_ceiling);
-	map->color_floor = color_syntax(map->color_floor);
-	fg_set_rgb_fd(map->color_ceiling, 1);
-	fg_set_rgb_fd(map->color_floor, 1);
+	prep_map_syntax(map);
 	check_map(map);
 	mk_png(map);
 	draw_map(map);
@@ -163,6 +140,9 @@ int	main(int argc, char *argv[])
 		ft_putendl_fd(FG_RED"Error\nyou forgot map input"FG_DEFAULT, 1);
 		return (1);
 	}
+	fg_putstr_rgb_fd(argv[1], "45;255;45", 1);
+	write(1, "\n", 1);
+	_cub(argv[1]);
 	start_mapping(argv[1]);
 	return (0);
 }

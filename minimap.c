@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/08 21:32:30 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/09 16:03:09 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,6 +343,5 @@ int32_t	draw_map(t_map *map)
 	mlx_loop_hook(mlx, ft_move_player, map);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	printf("end\n\n");
 	return (EXIT_SUCCESS);
 }

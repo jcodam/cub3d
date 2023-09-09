@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map_errors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 17:40:36 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/08 20:45:46 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/09 16:19:19 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "color.h"
 #include "map.h"
-
-void	map_exit(char *str)
-{
-	fg_putstr_rgb_fd(str, "200;0;0", 1);
-	exit(0);
-}
 
 int	_cub(char *arg)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+         #
+#    By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 18:03:37 by jbax              #+#    #+#              #
-#    Updated: 2023/09/08 16:41:50 by avon-ben         ###   ########.fr        #
+#    Updated: 2023/09/09 16:15:19 by jbax             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME= cub3D
 SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c \
 	rotation.c drawing.c temp_tools.c tools.c mmap_init.c \
 	rays.c
-SRC+= background.c map_png.c
+SRC+= background.c map_png.c put_textures.c
 SRC+= get_next_line.c get_next_line_utils.c
 
 OBF_DIR= OBF
@@ -54,8 +54,8 @@ endif
 CFLAGS+= -o
 
 # RLINE= -lreadline -L ~/.brew/opt/readline/lib/ $(lib)
-
-SAN=  -fsanitize=leak
+SAN+= -fsanitize=address
+# SAN+= -fsanitize=leak
 
 OO= -O3
 
