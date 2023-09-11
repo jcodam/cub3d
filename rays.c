@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:05:55 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/08 21:32:53 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:10:43 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void draw_vert_line(t_map *map, int height, int width, int start_y, int pos)
 	{
 		while (y < height)
 		{
-			put_pixel_wrap(map->img, x, y, ft_pixel(0, 255, 0, 150));
+			put_pixel_wrap(map->mini, x, y, ft_pixel(0, 255, 0, 150));
 			y++;
 		}
 		y = start_y;

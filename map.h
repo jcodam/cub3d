@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/09 17:15:41 by jbax             ###   ########.fr       */
+/*   Updated: 2023/09/11 13:17:00 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_map
 	t_tile		***tiles;
 	t_rays		*rays;
 	mlx_image_t	*img;
+	mlx_image_t	*mini;
+	int			is_mini;
 	mlx_t		*mlx;
 	int			width;
 	int			height;

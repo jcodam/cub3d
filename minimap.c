@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/09 16:03:09 by jbax             ###   ########.fr       */
+/*   Updated: 2023/09/11 13:48:42 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,20 @@ void	init_rays(t_rays *rays)
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img)
 {
 	t_rays		*rays;
+	mlx_image_t	*image;
 
 	rays = malloc(sizeof(t_rays));
 	map->rays = rays;
 	init_rays(rays);
 	map->mlx = mlx;
 	map->img = img;
+	image = mlx_new_image(map->mlx, MAX_X_MINIMAP - MIN_X_MINIMAP, MAX_Y_MINIMAP - MIN_Y_MINIMAP);
+	map->mini = image;
+	if (!map->mini)
+	{
+		puts(mlx_strerror(mlx_errno));
+		map_exit("Error\nmalloc Error\n");
+	}
 	draw_box(map);
 	convert_coordinates(map);
 }
@@ -127,7 +135,7 @@ void	draw_direction(t_map *map)
 	{
 		x += map->player.x_angle;
 		y += map->player.y_angle;
-		put_pixel_wrap(map->img, (uint32_t)x, (uint32_t)y, \
+		put_pixel_wrap(map->mini, (uint32_t)x, (uint32_t)y, \
 		ft_pixel(0, 255, 0, 100));
 		i++;
 	}
@@ -157,6 +165,8 @@ void	ft_draw_player(void *param)
 		++x;
 	}
 	cast_rays(map);
+	if (map->is_mini > 0)
+		image_to_image(map->img, map->mini, 0, 0);
 	//draw_direction(map);
 }
 
@@ -288,6 +298,14 @@ void move_down(t_map *map)
 	mk_rel_vals(map);
 }
 
+void mini_display(mlx_key_data_t keycode, void *param)
+{
+
+	// if (mlx_is_key_down(map->mlx, MLX_KEY_M))
+	if (keycode.action == MLX_PRESS&& keycode.key == MLX_KEY_M)
+		*(int*)param *= -1;
+}
+
 void	ft_move_player(void *param)
 {
 	t_map	*map;
@@ -311,8 +329,11 @@ void	ft_move_player(void *param)
 	}
 	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(map->mlx);
+	mlx_key_hook(map->mlx, &mini_display, &map->is_mini);
 	ft_draw_player(map);
 }
+
+// void	get_mini(t_map)
 
 int32_t	draw_map(t_map *map)
 {

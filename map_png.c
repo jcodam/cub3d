@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map_png.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 16:05:36 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/07 15:21:01 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:16:45 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 #include "libft/libft.h"
+#include "defines.h"
 
 static int	get_collors(char *collor)
 {
@@ -35,6 +36,7 @@ static int	get_collors(char *collor)
 
 void	mk_png(t_map *map)
 {
+	map->is_mini = -1;
 	map->png = malloc(sizeof(t_png));
 	if (!map->png)
 		map_exit("Error\nmalloc Error\n");
@@ -77,6 +79,8 @@ t_map	*del_png_s(t_map *map)
 {
 	if (!map)
 		return (0);
+	if (map->mini)
+		mlx_delete_image(map->mlx, map->mini);
 	if (!map->png)
 		return (map);
 	if (map->png->png_ea)

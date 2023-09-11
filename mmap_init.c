@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   mmap_init.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: avon-ben <avon-ben@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/08/11 20:00:54 by avon-ben      #+#    #+#                 */
-/*   Updated: 2023/08/29 17:29:46 by avon-ben      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   mmap_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/11 20:00:54 by avon-ben          #+#    #+#             */
+/*   Updated: 2023/09/11 13:10:09 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	shade_box(t_map *map)
 	{
 		while (y < MAX_Y_MINIMAP)
 		{
-			put_pixel_wrap(map->img, x, y, \
+			put_pixel_wrap(map->mini, x, y, \
 			ft_pixel(255, 255, 255, 100));
 			y++;
 		}
@@ -92,16 +92,16 @@ void	draw_box(t_map *map)
 	y = (MIN_Y_MINIMAP);
 	while (y < MAX_Y_MINIMAP)
 	{
-		put_pixel_wrap(map->img, x, y, ft_pixel(0, 0, 0, 255));
-		put_pixel_wrap(map->img, (x + (MAX_X_MINIMAP - \
+		put_pixel_wrap(map->mini, x, y, ft_pixel(0, 0, 0, 255));
+		put_pixel_wrap(map->mini, (x + (MAX_X_MINIMAP - \
 		MIN_X_MINIMAP)), y, ft_pixel(0, 0, 0, 255));
 		y++;
 	}
 	y = (MIN_Y_MINIMAP);
 	while (x < MAX_X_MINIMAP)
 	{
-		put_pixel_wrap(map->img, x, y, ft_pixel(0, 0, 0, 255));
-		put_pixel_wrap(map->img, x, (y + (MAX_Y_MINIMAP - \
+		put_pixel_wrap(map->mini, x, y, ft_pixel(0, 0, 0, 255));
+		put_pixel_wrap(map->mini, x, (y + (MAX_Y_MINIMAP - \
 		MIN_Y_MINIMAP)), ft_pixel(0, 0, 0, 255));
 		x++;
 	}
