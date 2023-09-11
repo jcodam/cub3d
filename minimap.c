@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/11 13:48:42 by jbax             ###   ########.fr       */
+/*   Updated: 2023/09/11 16:59:59 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img)
 	init_rays(rays);
 	map->mlx = mlx;
 	map->img = img;
-	image = mlx_new_image(map->mlx, MAX_X_MINIMAP - MIN_X_MINIMAP, MAX_Y_MINIMAP - MIN_Y_MINIMAP);
+	image = mlx_new_image(map->mlx, MAX_X_MINIMAP - MIN_X_MINIMAP, \
+		MAX_Y_MINIMAP - MIN_Y_MINIMAP);
 	map->mini = image;
 	if (!map->mini)
 	{
@@ -302,7 +303,7 @@ void mini_display(mlx_key_data_t keycode, void *param)
 {
 
 	// if (mlx_is_key_down(map->mlx, MLX_KEY_M))
-	if (keycode.action == MLX_PRESS&& keycode.key == MLX_KEY_M)
+	if (keycode.action == MLX_PRESS && keycode.key == MLX_KEY_M)
 		*(int*)param *= -1;
 }
 
@@ -327,10 +328,10 @@ void	ft_move_player(void *param)
 		map->player.x_angle = cos(degree_to_radian(map->player.rotation));
 		map->player.y_angle = -sin(degree_to_radian(map->player.rotation));
 	}
-	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(map->mlx);
 	mlx_key_hook(map->mlx, &mini_display, &map->is_mini);
 	ft_draw_player(map);
+	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(map->mlx);
 }
 
 // void	get_mini(t_map)

@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/11 13:17:00 by jbax             ###   ########.fr       */
+/*   Updated: 2023/09/11 17:11:04 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,5 +174,8 @@ void		draw_box(t_map *map);
 
 // rays.c
 int			cast_rays(t_map *map);
+
+// map_tiles.c
+int			make_tiles(t_map *map);
 
 #endif

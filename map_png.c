@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 16:05:36 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/11 13:16:45 by jbax             ###   ########.fr       */
+/*   Updated: 2023/09/11 16:30:19 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ t_map	*del_png_s(t_map *map)
 {
 	if (!map)
 		return (0);
-	if (map->mini)
-		mlx_delete_image(map->mlx, map->mini);
 	if (!map->png)
 		return (map);
 	if (map->png->png_ea)
