@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:00:54 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/11 13:10:09 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/03 14:07:38 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	convert_coordinates(t_map *map)
 		{
 			if (map->tiles[i][j] && map->tiles[i][j]->is_player)
 			{
-				map->player.x_coor = map->tiles[i][j]->x_coor;
-				map->player.y_coor = map->tiles[i][j]->y_coor;
+				map->player.x_coor = map->tiles[i][j]->x_coor + TILE_RAD;
+				map->player.y_coor = map->tiles[i][j]->y_coor + TILE_RAD;
 				init_direction(map);
 			}
 			j++;
