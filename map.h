@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/11 17:11:04 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/03 15:46:34 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_rays
 	float	offset_y;
 	float	dist_v;
 	float	dist_h;
-	int		dof;
 }	t_rays;
 
 typedef struct s_player

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:05:55 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/11 13:10:43 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/03 16:16:37 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	draw_ray(t_map *map)
 	}
 }
 
-void	move_to_next_point_h(t_map *map)
+int	move_to_next_point_h(t_map *map)
 {
 	if (((int)map->rays->ray_x / 64) <= 0 || ((int)map->rays->ray_x / 64) \
 	>= (map->width) || ((int)map->rays->ray_y / 64) <= 0 || \
@@ -61,21 +61,21 @@ void	move_to_next_point_h(t_map *map)
 	map->tiles[((int)map->rays->ray_y / 64)] \
 	[((int)map->rays->ray_x / 64)]->is_wall)
 	{
-		map->rays->dof = 20;
 		map->rays->dist_h = cos(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->ray_x - map->player.x_coor) - \
 		sin(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->ray_y - map->player.y_coor);
+		return (1);
 	}
 	else
 	{
 		map->rays->ray_x += map->rays->offset_x;
 		map->rays->ray_y += map->rays->offset_y;
-		map->rays->dof++;
+		return (0);
 	}
 }
 
-void	move_to_next_point_v(t_map *map)
+int	move_to_next_point_v(t_map *map)
 {
 	if (((int)map->rays->vert_x / 64) <= 0 || ((int)map->rays->vert_x / 64) \
 	>= (map->width) || ((int)map->rays->vert_y / 64) <= 0 || \
@@ -83,17 +83,17 @@ void	move_to_next_point_v(t_map *map)
 	map->tiles[((int)map->rays->vert_y / 64)] \
 	[((int)map->rays->vert_x / 64)]->is_wall)
 	{
-		map->rays->dof = 20;
 		map->rays->dist_v = cos(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->vert_x - map->player.x_coor) - \
 		sin(degree_to_radian(map->rays->ray_angle)) * \
 		(map->rays->vert_y - map->player.y_coor);
+		return (1);
 	}
 	else
 	{
 		map->rays->vert_x += map->rays->offset_x;
 		map->rays->vert_y += map->rays->offset_y;
-		map->rays->dof++;
+		return (0);
 	}
 }
 
@@ -135,7 +135,6 @@ void	set_streight_line(t_map *map, float Tan)
 		map->rays->offset_y = 0;
 		get_distance_vert(map);
 	}
-	map->rays->dof = 20;
 }
 
 void	vert_right(t_map *map, float Tan)
@@ -180,22 +179,29 @@ void hor_down(t_map *map, float Tan)
 
 void rays_vertical(t_map *map, float Tan)
 {
-	map->rays->dof = 0;
+	int	i;
+
+	i = 0;
 	map->rays->dist_v = 100000;
 	if (map->rays->ray_angle < 90 || map->rays->ray_angle > 270)
 		vert_right(map, Tan);
 	else if (map->rays->ray_angle > 90 && map->rays->ray_angle < 270)
 		vert_left(map, Tan);
 	else
+	{
 		set_streight_line(map, Tan);
-	while (map->rays->dof < 20)
-		move_to_next_point_v(map);
+		return ;
+	}
+	while (!i)
+		i = move_to_next_point_v(map);
 }
 
 void rays_horizontal(t_map *map, float Tan)
 {
+	int	i;
+
+	i = 0;
 	map->rays->dist_h = 100000;
-	map->rays->dof = 0;
 	if (map->rays->ray_angle > 0 && map->rays->ray_angle < 180)
 		hor_up(map, Tan);
 	else if (map->rays->ray_angle > 180 && map->rays->ray_angle < 360)
@@ -205,8 +211,8 @@ void rays_horizontal(t_map *map, float Tan)
 		set_streight_line(map, Tan);
 		return ;
 	}
-	while (map->rays->dof < 20)
-		move_to_next_point_h(map);
+	while (!i)
+		i = move_to_next_point_h(map);
 }
 
 void draw_vert_line(t_map *map, int height, int width, int start_y, int pos)
@@ -233,10 +239,12 @@ void draw_vert_line(t_map *map, int height, int width, int start_y, int pos)
 int	cast_rays(t_map *map)
 {
 	float	tang;
+	int		no_of_rays;
 	int		i;
 	int		y_;
 	float	line_int;
 
+	no_of_rays = 0;
 	line_int = ((FOV * 1.0) / WIDTH);
 	i = 0;
 	map->rays->ray_angle = map->player.rotation + (FOV / 2);
@@ -254,10 +262,12 @@ int	cast_rays(t_map *map)
 			map->rays->dist_h = map->rays->dist_v;
 			y_ = 1;
 		}
+		no_of_rays++;
 		draw_ray(map);
 		i++;
+		//correct_ray(map);
 		wall_texture(map, map->rays->dist_h, i, y_);
-		map->rays->dof = 0;
 	}
+	printf("no of rays: %d\n", no_of_rays);
 	return (1);
 }

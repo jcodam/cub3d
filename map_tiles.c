@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_tiles.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:07:48 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/11 17:37:22 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/03 15:59:46 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 	tile->x_coor = tile->x * (TILE_RAD * 2);
 	tile->y_coor = tile->y * (TILE_RAD * 2);
 	tile->not_map = 0;
-	tile->height = TILE_HEIGHT;
 	tile->is_player = 0;
 	tile->is_wall = 0;
 	if (!map->map_arr[i][j] || !ft_strchr("ENSW10", map->map_arr[i][j]))

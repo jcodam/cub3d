@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/11 16:59:59 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/03 15:57:53 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	init_rays(t_rays *rays)
 	rays->offset_y = 0;
 	rays->dist_v = 0;
 	rays->dist_h = 0;
-	rays->dof = 0;
 }
 
 void	make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img)
@@ -168,7 +167,7 @@ void	ft_draw_player(void *param)
 	cast_rays(map);
 	if (map->is_mini > 0)
 		image_to_image(map->img, map->mini, 0, 0);
-	//draw_direction(map);
+	draw_direction(map);
 }
 
 float FixAng(float a)
@@ -301,7 +300,6 @@ void move_down(t_map *map)
 
 void mini_display(mlx_key_data_t keycode, void *param)
 {
-
 	// if (mlx_is_key_down(map->mlx, MLX_KEY_M))
 	if (keycode.action == MLX_PRESS && keycode.key == MLX_KEY_M)
 		*(int*)param *= -1;
