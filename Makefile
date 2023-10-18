@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+         #
+#    By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 18:03:37 by jbax              #+#    #+#              #
-#    Updated: 2023/09/11 17:09:07 by jbax             ###   ########.fr        #
+#    Updated: 2023/10/18 13:29:51 by avon-ben         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME= cub3D
 
 SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c \
 	rotation.c drawing.c temp_tools.c tools.c mmap_init.c \
-	rays.c map_tiles.c
+	rays.c map_tiles.c movement.c
 SRC+= background.c map_png.c put_textures.c
 SRC+= get_next_line.c get_next_line_utils.c
 
@@ -44,11 +44,11 @@ endif
 
 CC= gcc
 
-CFLAGS+= -Wall -Wextra -Werror
-ifdef S
+# CFLAGS+= -Wall -Wextra -Werror
+#ifdef S
 CFLAGS+= -g 
 CFLAGS+= $(SAN)
-endif
+#endif
 
 # CFLAGS+= --coverage
 CFLAGS+= -o
@@ -95,7 +95,10 @@ r:$(NAME)
 	# ./$(NAME) map/example.c
 	# ./$(NAME) map/example.cub.cub
 	# ./$(NAME) map/example.cub
-	./$(NAME) map/test.cub
+	./$(NAME) map/bigmap.cub
+	# ./$(NAME) map/smallmap.cub
+	# ./$(NAME) map/smallishmap.cub
+	# ./$(NAME) map/NotAsBigmap.cub
 re:
 	@$(MAKE) fclean
 	@$(MAKE) all

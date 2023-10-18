@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:32:11 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/03 15:59:50 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:47:46 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 # define MIN_Y_MINIMAP 600
 # define MAX_Y_MINIMAP 899
 # define TILE_RAD 32
+# define TD 64
 # define PLAYER_RAD 6
 # define PI 3.14159265359
-# define FOV 60
+# define FOV 5
 # define FOVTIMES 4
-# define MOVSPEED 5
-# define ROTSPEED 4
+# define MOVSPEED 16
+# define ROTSPEED 8
 # define MINIMAP 1
 # define RAYS 1
 /* 0 = max png width */

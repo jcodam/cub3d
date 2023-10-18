@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:27:50 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/08 20:50:05 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:33:47 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_map	*mk_map(void)
 	map->player.map_y = 0;
 	map->player.x_coor = 0;
 	map->player.y_coor = 0;
-	map->player.rotation = 0;
+	map->player.rot = 0;
 	map->player.x_angle = 0;
 	map->player.y_angle = 0;
 	map->player.length = 0;

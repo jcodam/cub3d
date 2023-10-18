@@ -1,0 +1,29 @@
+NO ./pics/purplestone.png
+
+SO ./pics/redbrick.png
+WE ./pics/mossy.png
+EA ./pics/colorstone.png
+
+F 128,83,11
+
+floor color
+
+C 52,210,235
+
+ceiling color
+11111
+10001
+10N01
+10001
+11111
+
+barrel.png
+bluestone.png
+
+eagle.png
+greenlight.png
+greystone.png
+
+pillar.png
+
+wood.png

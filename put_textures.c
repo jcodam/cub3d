@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_textures.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:51:39 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/09 16:13:45 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/16 14:21:44 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,17 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	height[1] = angle - 1;
 	if (point_png > 0)
 	{
-		i = modulo_dbl(map->rays->ray_y, 64);
-		if (map->rays->ray_angle < 90 || (int)map->rays->ray_angle > 270)
+		i = modulo_dbl(map->rays->ray_y, TD);
+		if (map->rays->ray_angle < (.5 * PI) \
+		|| (int)map->rays->ray_angle > (1.5 * PI))
 			texture_s(map->img, map->png->png_ea, i, height);
 		else
 			texture_s(map->img, map->png->png_we, i, height);
 	}
 	else
 	{
-		i = modulo_dbl(map->rays->ray_x, 64);
-		if (map->rays->ray_angle < 180)
+		i = modulo_dbl(map->rays->ray_x, TD);
+		if (map->rays->ray_angle < PI)
 			texture_s(map->img, map->png->png_no, i, height);
 		else
 			texture_s(map->img, map->png->png_so, i, height);

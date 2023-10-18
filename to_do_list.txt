@@ -24,7 +24,7 @@ texture;
 - add wall buffer;								(done)
 - walk along walls;   							(done)
 - break up functions;							(done) (doublecheck)
-- fix streight vertical and horizontal rays		(done)
+- fix straight vertical and horizontal rays		(done)
 - optimize for more efficiency					?
 - cannot get close eastern an southern wals     !
 - memory leaks

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/03 15:46:34 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:31:00 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,42 @@
 
 typedef struct s_rays
 {
-	int		mx;
-	int		my;
-	float	draw_x;
-	float	draw_y;
-	float	dist_x;
-	float	dist_y;
-	float	ray_x;
-	float	ray_y;
-	float	vert_x;
-	float	vert_y;
-	float	ray_angle;
-	float	offset_x;
-	float	offset_y;
-	float	dist_v;
-	float	dist_h;
+	double	draw_x;
+	double	draw_y;
+	double	dist_x;
+	double	dist_y;
+	double	ray_x;
+	double	ray_y;
+	double	vert_x;
+	double	vert_y;
+	double	ray_angle;
+	double	offset_x;
+	double	offset_y;
+	double	dist_v;
+	double	dist_h;
 }	t_rays;
 
 typedef struct s_player
 {
 	int		map_x;
 	int		map_y;
-	float	x_coor;
-	float	y_coor;
-	int		rotation;
+	double	x_coor;
+	double	y_coor;
+	double	rot;
 	int		start_direction;
-	float	x_angle;
-	float	y_angle;
-	float	length;
+	double	x_angle;
+	double	y_angle;
+	double	length;
 }	t_player;
 
 typedef struct s_tile
 {
 	int			x;
 	int			y;
-	float		x_coor;
-	float		y_coor;
-	float		rel_x;
-	float		rel_y;
+	double		x_coor;
+	double		y_coor;
+	double		rel_x;
+	double		rel_y;
 	int			is_wall;
 	int			height;
 	int			is_player;
@@ -140,30 +138,30 @@ void		image_to_image(mlx_image_t *img, mlx_image_t *png, int y, int x);
 void		prep_map_syntax(t_map *map);
 
 // minimap.c
-float		degree_to_radian(float a);
+double		degree_to_radian(double a);
 int32_t		draw_map(t_map *map);
 void		make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
 int			check_mlx_error(mlx_t *mlx, t_map *map);
-
-void		draw_line(t_map *map, float dir_x, float dir_y);
-void		minimap_wrap_print(float x, float y, t_map *map, int32_t colour);
+int			is_wall(t_map *map, double dir);
+void		draw_line(t_map *map, double dir_x, double dir_y, int col);
+void		minimap_wrap_print(double x, double y, t_map *map, int32_t colour);
 void		put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
 int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void		mk_rel_vals(t_map *map);
 void		init_direction(t_map *map);
-float		FixAng(float a);
+double		FixAng(double a);
 
 // temp_tools.c
-void		streight_line(t_map *map, float dir_x, float dir_y);
+void		straight_line(t_map *map, double dir_x, double dir_y);
 void		print_tiles(t_map *map);
 
 // tools.c
-float		get_mmap_centre_x(void);
-float		get_mmap_centre_y(void);
-float		mini_rel_x(t_map *map, int i, int j);
-float		mini_rel_y(t_map *map, int i, int j);
-uint32_t	mini_x(t_map *map, float x);
-uint32_t	mini_y(t_map *map, float y);
+double		get_mmap_centre_x(void);
+double		get_mmap_centre_y(void);
+double		mini_rel_x(t_map *map, int i, int j);
+double		mini_rel_y(t_map *map, int i, int j);
+uint32_t	mini_x(t_map *map, double x);
+uint32_t	mini_y(t_map *map, double y);
 
 // mmap_init.c
 void		expand_walls(t_map *map, int i, int j);
@@ -176,5 +174,10 @@ int			cast_rays(t_map *map);
 
 // map_tiles.c
 int			make_tiles(t_map *map);
+
+// movement.c
+void		ft_move_player(void *param);
+void		move(t_map *map, double dir);
+
 
 #endif

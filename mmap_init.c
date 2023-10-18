@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mmap_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:00:54 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/03 14:07:38 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/12 19:44:46 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 void	expand_walls(t_map *map, int i, int j)
 {
-	float	x;
-	float	y;
-	float	start_x;
-	float	start_y;
+	double	x;
+	double	y;
+	double	start_x;
+	double	start_y;
 
 	x = mini_rel_x(map, i, j);
 	y = mini_rel_y(map, i, j);

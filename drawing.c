@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 19:37:50 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/09/11 17:04:40 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/12 19:46:01 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void	minimap_wrap_print(float x, float y, t_map *map, int32_t colour)
+void	minimap_wrap_print(double x, double y, t_map *map, int32_t colour)
 {
 	if ((int)x < MAX_X_MINIMAP && (int)x > MIN_X_MINIMAP && \
 	(int)y < MAX_Y_MINIMAP && (int)y > MIN_Y_MINIMAP)
 		put_pixel_wrap(map->mini, (int)x, (int)y, colour);
 }
 
-uint32_t	mini_y(t_map *map, float y)
+uint32_t	mini_y(t_map *map, double y)
 {
-	float	rel;
+	double	rel;
 
 	rel = y - map->player.y_coor;
 	return (rel + get_mmap_centre_y());
