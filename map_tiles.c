@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_tiles.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:07:48 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/11 10:52:56 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:40:34 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	make_tiles(t_map *map)
 
 	height = get_map_height(map->map_arr);
 	width = get_map_width(map->map_arr);
-	printf("width: %ld, height: %ld\n", width, height);
+	// printf("width: %ld, height: %ld\n", width, height);
 	i = 0;
 	j = 0;
 	if (!map)

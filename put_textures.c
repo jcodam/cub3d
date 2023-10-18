@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_textures.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:51:39 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/16 14:21:44 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:07:22 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,22 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png,
 	int point_png, double *height)
 {
 	unsigned int	iii;
+	unsigned int	les_load;
 	double			count3;
+	int				les_l;
 
+	les_l = ((HEIGHT - height[0]) / 2);
+	les_load = height[0] - ((height[0] - HEIGHT) / 2);
 	count3 = (double)png->height / height[0];
 	iii = 0;
-	while (iii < height[0] && iii < height[0] - ((height[0] - HEIGHT) / 2))
+	if (iii < (height[0] - HEIGHT) / 2)
+		iii = (height[0] - HEIGHT) / 2;
+	while (iii < height[0] && iii < les_load)
 	{
-		while ((height[0] - HEIGHT) / 2 > iii)
-			iii++;
 		if (height[1] < WIDTH)
 		{
 			ft_memcpy(
-				img->pixels + (int)(WIDTH * (int)(((HEIGHT - height[0]) / 2)
+				img->pixels + (int)(WIDTH * (int)(les_l
 						+ iii) + height[1])*4, png->pixels + \
 				(int)(png->width * (int)(iii * count3) + point_png) * 4,
 				png->bytes_per_pixel);
@@ -56,18 +60,18 @@ static double	modulo_dbl(double res, double mod)
 	// exit(0);
 	}*/
 
-void	wall_texture(t_map *map, double distence, int angle, double point_png)
+void	wall_texture(t_map *map, double distence, int i_value, double point_png)
 {
 	double			height[2];
 	int				i;
 
-	height[0] = (map->height * HEIGHT / distence) * 2;
-	height[1] = angle - 1;
+	height[0] = (25 * HEIGHT / distence) * 2;
+	height[1] = i_value;
 	if (point_png > 0)
 	{
 		i = modulo_dbl(map->rays->ray_y, TD);
-		if (map->rays->ray_angle < (.5 * PI) \
-		|| (int)map->rays->ray_angle > (1.5 * PI))
+		if (map->rays->ray_angle <= (PI * 0.5) \
+		|| map->rays->ray_angle >= (PI * 1.5))
 			texture_s(map->img, map->png->png_ea, i, height);
 		else
 			texture_s(map->img, map->png->png_we, i, height);

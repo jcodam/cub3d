@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+         #
+#    By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 18:03:37 by jbax              #+#    #+#              #
-#    Updated: 2023/10/18 13:29:51 by avon-ben         ###   ########.fr        #
+#    Updated: 2023/10/18 18:01:35 by jbax             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ endif
 
 CC= gcc
 
-# CFLAGS+= -Wall -Wextra -Werror
+CFLAGS+= -Wall -Wextra -Werror
 #ifdef S
 CFLAGS+= -g 
 CFLAGS+= $(SAN)
