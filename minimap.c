@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:08:01 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/18 14:31:47 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:31:45 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@
 
 // -----------------------------------------------------------------------------
 
-// double	degree_to_radian(double a)
-// {
-// 	return (a * PI / 180.0);
-// }
 
 static void	draw_minimap(t_map *map)
 {
@@ -177,27 +173,6 @@ double FixAng(double a)
 	return (a);
 }
 
-// int check_bckwd(t_map *map, size_t i, size_t j)
-// {
-// 	double	xc;
-// 	double	xa;
-// 	double	yc;
-// 	double	ya;
-
-// 	xc = map->player.x_coor;
-// 	xa = map->player.x_angle;
-// 	yc = map->player.y_coor;
-// 	ya = map->player.y_angle;
-// 	if ((map->tiles[i][j]->x_coor - 5) < (xc - (xa * MOVSPEED))
-// 	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > \
-// 	(xc - (xa * MOVSPEED)) && (map->tiles[i][j]->y_coor - 5) < \
-// 	(yc - (ya * MOVSPEED) + 5) && (map->tiles[i][j]->y_coor + \
-// 	(TILE_RAD * 2) + 5) > (yc - (ya * MOVSPEED)))
-// 		return (1);
-// 	else
-// 		return (0);
-// }
-
 int check_dir(t_map *map, size_t i, size_t j, double dir)
 {
 	double	xc;
@@ -206,9 +181,9 @@ int check_dir(t_map *map, size_t i, size_t j, double dir)
 	double	ya;
 
 	xc = map->player.x_coor;
-	xa = cos(map->player.rot + dir);
+	xa = cos(FixAng(map->player.rot + dir));
 	yc = map->player.y_coor;
-	ya = -sin(map->player.rot + dir);
+	ya = -sin(FixAng(map->player.rot + dir));
 	if ((map->tiles[i][j]->x_coor - 5) < (xc + (xa * MOVSPEED))
 	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (xc + (xa * MOVSPEED)) \
 	&& (map->tiles[i][j]->y_coor - 5) < (yc + (ya * MOVSPEED) + 5) \
@@ -217,26 +192,6 @@ int check_dir(t_map *map, size_t i, size_t j, double dir)
 	else
 		return (0);
 }
-
-// int check_fwd(t_map *map, size_t i, size_t j)
-// {
-// 	double	xc;
-// 	double	xa;
-// 	double	yc;
-// 	double	ya;
-
-// 	xc = map->player.x_coor;
-// 	xa = map->player.x_angle;
-// 	yc = map->player.y_coor;
-// 	ya = map->player.y_angle;
-// 	if ((map->tiles[i][j]->x_coor - 5) < (xc + (xa * MOVSPEED))
-// 	&& (map->tiles[i][j]->x_coor + (TILE_RAD * 2) + 5) > (xc + (xa * MOVSPEED)) \
-// 	&& (map->tiles[i][j]->y_coor - 5) < (yc + (ya * MOVSPEED) + 5) \
-// 	&& (map->tiles[i][j]->y_coor + (TILE_RAD * 2) + 5) > (yc + (ya * MOVSPEED)))
-// 		return (1);
-// 	else
-// 		return (0);
-// }
 
 int	is_wall(t_map *map, double dir)
 {
@@ -262,59 +217,39 @@ int	is_wall(t_map *map, double dir)
 	return (0);
 }
 
+void slide(t_map *map, double dir)
+{
+	double store;
 
+	store = map->player.x_angle;
+	map->player.x_angle = 0;
+	if (!is_wall(map, dir))
+		map->player.y_coor += FixAng(map->player.y_angle * MOVSPEED);
+	map->player.x_angle = store;
+	store = map->player.y_angle;
+	map->player.y_angle = 0;
+	if (!is_wall(map, dir))
+		map->player.x_coor += map->player.x_angle * MOVSPEED;
+	map->player.y_angle = store;
+}
 
 void	move(t_map *map, double dir)
 {
 	double	store;
+	double	x_angle;
+	double	y_angle;
+	
+
+	x_angle = cos(FixAng(map->player.rot + dir));
+	y_angle = -sin(FixAng(map->player.rot + dir));
 
 	if (!is_wall(map, dir))
 	{
-		map->player.x_coor += (map->player.x_angle * MOVSPEED);
-		map->player.y_coor += (map->player.y_angle * MOVSPEED);
+		map->player.x_coor += (x_angle * MOVSPEED);
+		map->player.y_coor += (y_angle * MOVSPEED);
 	}
 	else if (is_wall(map, dir))
-	{
-		store = map->player.x_angle;
-		map->player.x_angle = 0;
-		if (!is_wall(map, dir))
-		{
-			map->player.y_coor += map->player.y_angle * MOVSPEED;
-		}
-		map->player.x_angle = store;
-		store = map->player.y_angle;
-		map->player.y_angle = 0;
-		if (!is_wall(map, dir))
-			map->player.x_coor += map->player.x_angle * MOVSPEED;
-		map->player.y_angle = store;
-	}
-	mk_rel_vals(map);
-}
-
-void	move_down(t_map *map)
-{
-	double	store;
-
-	if (!is_wall(map, PI))
-	{
-		map->player.x_coor -= (map->player.x_angle * MOVSPEED);
-		map->player.y_coor -= (map->player.y_angle * MOVSPEED);
-	}
-	else if (is_wall(map, PI))
-	{
-		store = map->player.x_angle;
-		map->player.x_angle = 0;
-		if (!is_wall(map, PI))
-		{
-			map->player.y_coor -= map->player.y_angle * MOVSPEED;
-		}
-		map->player.x_angle = store;
-		store = map->player.y_angle;
-		map->player.y_angle = 0;
-		if (!is_wall(map, PI))
-			map->player.x_coor -= map->player.x_angle * MOVSPEED;
-		map->player.y_angle = store;
-	}
+		slide(map, dir);
 	mk_rel_vals(map);
 }
 
@@ -344,25 +279,19 @@ void	ft_move_player(void *param)
 	if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
 		move(map, 0);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))
-		move_down(map);
+		move(map, PI);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_LEFT))
-	{
 		map->player.rot = FixAng(map->player.rot + (ROTSPEED * (PI / 180)));
-		map->player.x_angle = cos(map->player.rot);
-		map->player.y_angle = -sin(map->player.rot);
-	}
 	if (mlx_is_key_down(map->mlx, MLX_KEY_RIGHT))
-	{
 		map->player.rot = FixAng(map->player.rot - (ROTSPEED * (PI / 180)));
-		map->player.x_angle = cos(map->player.rot);
-		map->player.y_angle = -sin(map->player.rot);
-	}
 	mlx_key_hook(map->mlx, &mini_display, &map->is_mini);
 	ft_draw_player(map);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(map->mlx);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_A) || mlx_is_key_down(map->mlx, MLX_KEY_D))
 		printf("a or d\n");
+	map->player.x_angle = cos(map->player.rot);
+	map->player.y_angle = -sin(map->player.rot);
 }
 
 // void	get_mini(t_map)

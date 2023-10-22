@@ -6,7 +6,7 @@
 #    By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 18:03:37 by jbax              #+#    #+#              #
-#    Updated: 2023/10/18 13:29:51 by avon-ben         ###   ########.fr        #
+#    Updated: 2023/10/18 16:12:56 by avon-ben         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,8 +94,8 @@ r:$(NAME)
 	# ./$(NAME) map/example.cub.txt
 	# ./$(NAME) map/example.c
 	# ./$(NAME) map/example.cub.cub
-	# ./$(NAME) map/example.cub
-	./$(NAME) map/bigmap.cub
+	./$(NAME) map/example.cub
+	# ./$(NAME) map/bigmap.cub
 	# ./$(NAME) map/smallmap.cub
 	# ./$(NAME) map/smallishmap.cub
 	# ./$(NAME) map/NotAsBigmap.cub

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 16:32:11 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/15 22:47:46 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:50:10 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define PLAYER_RAD 6
 # define PI 3.14159265359
 # define FOV 5
-# define FOVTIMES 4
+//# define FOVTIMES 4
 # define MOVSPEED 16
 # define ROTSPEED 8
 # define MINIMAP 1

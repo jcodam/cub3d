@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:05:55 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/18 13:19:34 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:46:51 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,8 +211,8 @@ void hor_down(t_map *map, double Tan)
 {
 	map->rays->ray_y = (((int)map->player.y_coor / TD) * \
 	TD + TD);
-	map->rays->ray_x = (map->player.y_coor - map->rays->ray_y) * \
-	(1.0 / Tan) + map->player.x_coor;
+	map->rays->ray_x = (map->player.y_coor - map->rays->ray_y) * (1.0 / Tan) + \
+	map->player.x_coor;
 	map->rays->offset_y = TD;
 	map->rays->offset_x = (-1 * map->rays->offset_y) * (1.0 / Tan);
 }
@@ -313,7 +313,8 @@ int	cast_rays(t_map *map)
 		draw_ray(map, 0);
 		//offset_cosine(map);
 		//map->rays->dist_h = map->rays->dist_h * cos(map->rays->ray_angle);
-		wall_texture(map, map->rays->dist_h, i++, y_);
+		//wall_texture(map, map->rays->dist_h, i++, y_);
+		i++;
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:51:39 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/16 14:21:44 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:36:19 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	wall_texture(t_map *map, double distence, int angle, double point_png)
 	double			height[2];
 	int				i;
 
-	height[0] = (map->height * HEIGHT / distence) * 2;
+	height[0] = (25 * HEIGHT / distence) * 2;
 	height[1] = angle - 1;
 	if (point_png > 0)
 	{
