@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:07:32 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/08 16:19:16 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:37:18 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	start_mapping(char *addr)
 	check_map(map);
 	mk_png(map);
 	draw_map(map);
-	print_tiles(map);
 	map = del_png_s(map);
 	map = del_map(map);
 }

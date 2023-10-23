@@ -27,4 +27,4 @@ texture;
 - fix straight vertical and horizontal rays		(done)
 - optimize for more efficiency					?
 - cannot get close eastern an southern wals     !
-- memory leaks
+- memory leaks									

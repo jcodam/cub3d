@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:58:00 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/18 15:04:43 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:36:33 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,22 +137,31 @@ on pixel position y x and are proteckted from going over or under screen size*/
 void		image_to_image(mlx_image_t *img, mlx_image_t *png, int y, int x);
 void		prep_map_syntax(t_map *map);
 
-// minimap.c
-double		degree_to_radian(double a);
-int32_t		draw_map(t_map *map);
-void		make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
-int			check_mlx_error(mlx_t *mlx, t_map *map);
-int			is_wall(t_map *map, double dir);
-void		draw_line(t_map *map, double dir_x, double dir_y, int col);
-void		minimap_wrap_print(double x, double y, t_map *map, int32_t colour);
+// drawing.c
 void		put_pixel_wrap(mlx_image_t *image, int x, int y, uint32_t color);
 int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void		minimap_wrap_print(double x, double y, t_map *map, int32_t colour);
+uint32_t	mini_y(t_map *map, double y);
+
+//map_tiles.c
+t_tile		*init_tile(size_t i, size_t j, t_map *map);
+t_tile		***init_tiles(t_map *map, size_t j, size_t width, t_tile ***tiles);
+int			make_tiles(t_map *map);
+
+// minimap.c
+void		draw_minimap(t_map *map);
 void		mk_rel_vals(t_map *map);
 void		init_direction(t_map *map);
-double		FixAng(double a);
+void		make_minimap(t_map *map, mlx_t *mlx, mlx_image_t *img);
+int32_t		draw_map(t_map *map);
+
+// minimap_tools.c
+void		ft_draw_player(void *param);
+double		fixang(double a);
+void		init_rays(t_rays *rays);
+int			close_mlx(mlx_t *mlx);
 
 // temp_tools.c
-void		straight_line(t_map *map, double dir_x, double dir_y);
 void		print_tiles(t_map *map);
 
 // tools.c
@@ -161,23 +170,38 @@ double		get_mmap_centre_y(void);
 double		mini_rel_x(t_map *map, int i, int j);
 double		mini_rel_y(t_map *map, int i, int j);
 uint32_t	mini_x(t_map *map, double x);
-uint32_t	mini_y(t_map *map, double y);
 
 // mmap_init.c
 void		expand_walls(t_map *map, int i, int j);
 void		convert_coordinates(t_map *map);
 void		shade_box(t_map *map);
 void		draw_box(t_map *map);
+void		init_tile_part(t_tile *tile, size_t i, size_t j);
 
 // rays.c
+void		draw_line(t_map *map, double int_x, double int_y, int col);
 int			cast_rays(t_map *map);
+
+// rays_tools.c
+int			move_to_next_point_h(t_map *map, int len);
+int			move_to_next_point_v(t_map *map, int len);
+void		set_straight_line(t_map *map, double Tan);
+int			set_rays(t_map *map);
+
+// rays_directions.c
+void		vert_right(t_map *map, double Tan);
+void		vert_left(t_map *map, double Tan);
+void		hor_up(t_map *map, double Tan);
+void		hor_down(t_map *map, double Tan);
 
 // map_tiles.c
 int			make_tiles(t_map *map);
 
 // movement.c
+void		mini_display(mlx_key_data_t keycode, void *param);
 void		ft_move_player(void *param);
+int			check_dir(t_map *map, size_t i, size_t j, double dir);
+int			check_wall_pos(t_map *map, size_t pos_x, size_t pos_y);
 void		move(t_map *map, double dir);
-
 
 #endif

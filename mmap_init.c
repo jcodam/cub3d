@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:00:54 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/12 19:44:46 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:32:04 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,15 @@ void	draw_box(t_map *map)
 		MIN_Y_MINIMAP)), ft_pixel(0, 0, 0, 255));
 		x++;
 	}
+}
+
+void	init_tile_part(t_tile *tile, size_t i, size_t j)
+{
+	tile->x = j;
+	tile->y = i;
+	tile->x_coor = tile->x * (TILE_RAD * 2);
+	tile->y_coor = tile->y * (TILE_RAD * 2);
+	tile->not_map = 0;
+	tile->is_player = 0;
+	tile->is_wall = 0;
 }

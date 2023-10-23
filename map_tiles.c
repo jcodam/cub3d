@@ -6,7 +6,7 @@
 /*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 17:07:48 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/11 10:52:56 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:34:21 by avon-ben         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "map.h"
 #include "defines.h"
 
-int	get_map_height(char **map_arr)
+static size_t	get_map_height(char **map_arr)
 {
-	int	i;
+	size_t	i;
 
 	if (!map_arr)
 		map_exit("test");
@@ -26,7 +26,7 @@ int	get_map_height(char **map_arr)
 	return (i);
 }
 
-size_t	get_map_width(char **map_arr)
+static size_t	get_map_width(char **map_arr)
 {
 	size_t	len;
 	int		i;
@@ -54,13 +54,7 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 		tile->not_map = 1;
 		return (tile);
 	}
-	tile->x = j;
-	tile->y = i;
-	tile->x_coor = tile->x * (TILE_RAD * 2);
-	tile->y_coor = tile->y * (TILE_RAD * 2);
-	tile->not_map = 0;
-	tile->is_player = 0;
-	tile->is_wall = 0;
+	init_tile_part(tile, i, j);
 	if (!map->map_arr[i][j] || !ft_strchr("ENSW10", map->map_arr[i][j]))
 		tile->not_map = 1;
 	if (ft_strchr("ENSW", map->map_arr[i][j]))
@@ -70,6 +64,25 @@ t_tile	*init_tile(size_t i, size_t j, t_map *map)
 	map->height = get_map_height(map->map_arr);
 	map->width = get_map_width(map->map_arr);
 	return (tile);
+}
+
+t_tile	***init_tiles(t_map *map, size_t j, size_t width, t_tile ***tiles)
+{
+	int	i;
+
+	i = 0;
+	while (tiles[i])
+	{
+		while (j < width)
+		{
+			tiles[i][j] = init_tile(i, j, map);
+			j++;
+		}
+		tiles[i][width] = NULL;
+		j = 0;
+		i++;
+	}
+	return (tiles);
 }
 
 int	make_tiles(t_map *map)
@@ -82,7 +95,6 @@ int	make_tiles(t_map *map)
 
 	height = get_map_height(map->map_arr);
 	width = get_map_width(map->map_arr);
-	printf("width: %ld, height: %ld\n", width, height);
 	i = 0;
 	j = 0;
 	if (!map)
@@ -98,18 +110,6 @@ int	make_tiles(t_map *map)
 			return (0);
 		i++;
 	}
-	i = 0;
-	while (tiles[i])
-	{
-		while (j < width)
-		{
-			tiles[i][j] = init_tile(i, j, map);
-			j++;
-		}
-		tiles[i][width] = NULL;
-		j = 0;
-		i++;
-	}
-	map->tiles = tiles;
+	map->tiles = init_tiles(map, j, width, tiles);
 	return (1);
 }

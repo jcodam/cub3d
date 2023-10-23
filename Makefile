@@ -6,7 +6,7 @@
 #    By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 18:03:37 by jbax              #+#    #+#              #
-#    Updated: 2023/10/18 16:12:56 by avon-ben         ###   ########.fr        #
+#    Updated: 2023/10/23 18:39:21 by avon-ben         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ VPATH= expander : executor : files : lexer : headers : nextline
 NAME= cub3D
 
 SRC= main.c color.c map.c map_checks.c map_errors.c minimap.c \
-	rotation.c drawing.c temp_tools.c tools.c mmap_init.c \
-	rays.c map_tiles.c movement.c
+	drawing.c tools.c mmap_init.c rays_directions.c \
+	rays.c map_tiles.c movement.c minimap_tools.c rays_tools.c
 SRC+= background.c map_png.c put_textures.c
 SRC+= get_next_line.c get_next_line_utils.c
 
@@ -44,7 +44,7 @@ endif
 
 CC= gcc
 
-# CFLAGS+= -Wall -Wextra -Werror
+CFLAGS+= -Wall -Wextra -Werror
 #ifdef S
 CFLAGS+= -g 
 CFLAGS+= $(SAN)
