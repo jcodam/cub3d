@@ -6,7 +6,7 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:51:40 by jbax              #+#    #+#             */
-/*   Updated: 2023/09/09 17:11:41 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/25 18:38:57 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 // 	{
 // 		while (count < width)
 // 		{
-// 			ft_memcpy(img->pixels + (int)(WIDTH * iii + count) * 4,
+// 			ft_memcpy(img->pixels + (int)(map->img->width * iii + count) * 4,
 // 				png->pixels + 
 // 				(int)(png->width * (int)(iii * count3) + count * count2) * 4,
 // 				png->bytes_per_pixel);
@@ -79,10 +79,10 @@ void	image_to_image(mlx_image_t *img, mlx_image_t *png, int y, int x)
 	unsigned int	count;
 	unsigned int	iii;
 
-	if (x + png->width > WIDTH)
-		x = WIDTH - png->width;
-	if (y + png->height > HEIGHT)
-		y = HEIGHT - png->height;
+	if (x + png->width > img->width)
+		x = img->width - png->width;
+	if (y + png->height > img->height)
+		y = img->height - png->height;
 	if (x < 0)
 		x = 0;
 	if (y < 0)
@@ -93,8 +93,8 @@ void	image_to_image(mlx_image_t *img, mlx_image_t *png, int y, int x)
 		count = 0;
 		while (count < png->width)
 		{
-			ft_memcpy(img->pixels + (int)(WIDTH * (iii + y) + x + count)*4,
-				png->pixels + \
+			ft_memcpy(img->pixels + (int)(img->width * (iii + y) + x + count)
+				* 4, png->pixels + \
 				(int)(png->width * (int)(iii) + count) * 4,
 				4);
 			count++;
@@ -120,11 +120,11 @@ void	draw_background(t_map *map)
 	floor = map->png->color_floor;
 	pos_width = 0;
 	pos_height = 0;
-	while (pos_height != HEIGHT)
+	while ((unsigned)pos_height != map->img->height)
 	{
-		while (pos_width != WIDTH)
+		while ((unsigned)pos_width != map->img->width)
 		{
-			if (pos_height < HEIGHT / 2)
+			if ((unsigned)pos_height < map->img->height / 2)
 				mlx_put_pixel(map->img, pos_width, pos_height, ceiling);
 			else
 				mlx_put_pixel(map->img, pos_width, pos_height, floor);

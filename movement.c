@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 18:16:25 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/23 18:37:57 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:43:19 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	ft_move_player(void *param)
 	t_map	*map;
 
 	map = param;
+	if ((const uint32_t)map->mlx->height != map->img->height || \
+		(const uint32_t)map->mlx->width != map->img->width)
+		mlx_resize_image(map->img, map->mlx->width, map->mlx->height);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_UP))
 		move(map, 0);
 	if (mlx_is_key_down(map->mlx, MLX_KEY_DOWN))

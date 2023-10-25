@@ -6,13 +6,12 @@
 /*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:51:39 by jbax              #+#    #+#             */
-/*   Updated: 2023/10/25 16:20:16 by jbax             ###   ########.fr       */
+/*   Updated: 2023/10/25 18:45:17 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <limits.h>
-#include <unistd.h>
 // #include <float.h>
 #include "map.h"
 #include "libft/libft.h"
@@ -26,25 +25,27 @@ static void	texture_s(mlx_image_t *img, mlx_texture_t *png,
 	double			count3;
 	int				les_l;
 
-	les_l = ((HEIGHT - height[0]) / 2);
-	les_load = height[0] - ((height[0] - HEIGHT) / 2);
+	les_l = ((img->height - height[0]) / 2);
+	les_load = height[0] - ((height[0] - img->height) / 2);
 	count3 = (double)png->height / height[0];
 	iii = 0;
-	if (iii < (height[0] - HEIGHT) / 2)
-		iii = (height[0] - HEIGHT) / 2;
+	if (iii < (height[0] - img->height) / 2)
+		iii = (height[0] - img->height) / 2;
 	while (iii < height[0] && iii < les_load)
 	{
-		if (height[1] < WIDTH)
+		if (height[1] < img->width)
 		{
 			ft_memcpy(
-				img->pixels + (int)(WIDTH * (int)(les_l + iii) + height[1]
-					)*4, png->pixels + (int)(png->width * (int)(iii * \
-						count3) + (png->width / 64 * point_png)) * 4, 4);
+				img->pixels + (int)(img->width * (int)(les_l
+						+ iii) + height[1]) * 4, png->pixels + \
+				(int)(png->width * (int)(iii * count3)
+					+ (png->width / 64 * point_png)) * 4,
+				png->bytes_per_pixel);
 		}
 		iii++;
 	}
 }
-//  + angle * (WIDTH / (FOV * 2)) -- * ( (FOV * FOVTIMES) / WIDTH )
+//  + angle * (img->width / (FOV * 2)) -- * ( (FOV * FOVTIMES) / img->width )
 /*2--16.924805--592.924805--1599.999878--119*/
 
 static double	modulo_dbl(double res, double mod)
@@ -66,7 +67,7 @@ void	wall_texture(t_map *map, double distence, int i_value, double point_png)
 	double			i;
 
 	height[0] = (25 * HEIGHT / distence) * 2;
-	height[1] = (WIDTH - i_value) - 1;
+	height[1] = (map->img->width - i_value) - 1;
 	if (point_png > 0)
 	{
 		i = modulo_dbl(map->rays->ray_y, TD);

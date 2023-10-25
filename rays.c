@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avon-ben <avon-ben@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 19:05:55 by avon-ben          #+#    #+#             */
-/*   Updated: 2023/10/23 18:24:28 by avon-ben         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:37:26 by jbax             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,11 @@ int	cast_rays(t_map *map)
 	int		y_;
 
 	i = 0;
-	while (i < WIDTH)
+	while ((unsigned)i < map->img->width)
 	{
-		map->rays->ray_angle = fixang(map->player.rot + atan((i - WIDTH / 2) \
-		* (0.0174533 * FOV) / WIDTH));
+		map->rays->ray_angle = fixang(map->player.rot + atan(
+					(i - (const int)map->img->width / 2) \
+		* (0.0174533 * FOV) / (const int)map->img->width));
 		y_ = 0;
 		tang = tan(map->rays->ray_angle);
 		rays_vertical(map, tang);
