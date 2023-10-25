@@ -4,7 +4,10 @@ then
 
 fi
 cd mlx
-cmake -B build
+if [ ! -d build ]
+then
+	cmake -B build
+fi
 if [ -d build ]
 then
 	cd build

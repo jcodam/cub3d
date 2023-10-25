@@ -6,11 +6,11 @@
 #    By: jbax <jbax@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 18:03:37 by jbax              #+#    #+#              #
-#    Updated: 2023/10/25 15:45:21 by jbax             ###   ########.fr        #
+#    Updated: 2023/10/25 19:31:11 by jbax             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-VPATH= expander : executor : files : lexer : headers : nextline
+VPATH= nextline
 
 NAME= cub3D
 
@@ -60,9 +60,10 @@ SAN+= -fsanitize=address
 OO= -O3
 
 all:
-	@$(MAKE) $(NAME) -j
+	@$(MAKE) mlx --no-print-directory
+	@$(MAKE) $(NAME) -j --no-print-directory
 
-$(NAME): $(OBF_DIR) $(OBF) 
+$(NAME): $(OBF_DIR) $(OBF)
 	$(CC) $(CFLAGS) $@ $(OBF) $(RLINE) $(lib) $(MLX) $(MLXINC)
 
 $(OBF_DIR)/%o: %c $(HEADER) $(lib)
@@ -74,8 +75,8 @@ $(lib):
 # $(MLX):
 # 	@ $(MAKE) -C $(MLXDIR) 
 
-tt:
-	bash get_mlx.sh
+mlx:
+	@bash get_mlx.sh --no-print-directory
 
 $(OBF_DIR):
 	mkdir $(OBF_DIR)
@@ -106,4 +107,4 @@ re:
 norm: $(SRC) $(HEADER)
 	norminette $^
 
-.PHONY: all re fclean clean f norm r
+.PHONY: all re fclean clean f norm r mlx
